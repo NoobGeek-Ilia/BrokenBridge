@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public class SPlayerMovement : MonoBehaviour
 {
     private bool isRunning;
     private bool isGrounded;
+    private bool isMovingToSide;
     private byte jumpCount;
     private Rigidbody rb;
     Vector3 customGravity = new Vector3(0, -25f, 0);
@@ -17,6 +19,7 @@ public class SPlayerMovement : MonoBehaviour
     private Animator animator;
     public SCamera mainCamera;
     public StateMonitor monitor;
+    public SwipeController swpController;
 
     private void Start()
     {
@@ -26,7 +29,7 @@ public class SPlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log($"jumpcount {jumpCount}");
+        Debug.Log(swpController.pos);
         Jumping();
         Fighting();
         if (mainCamera.cameraBehindPlayer && monitor.timer < 1)
@@ -44,16 +47,28 @@ public class SPlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Movement(isRunning);
+        SideMovement();
+        Running(isRunning);
     }
-    void Movement(bool running)
+
+    void SideMovement()
+    {
+        float speed = 5f;
+        Vector3 newPos = new Vector3(transform.position.x, transform.position.y, swpController.pos);
+        if (!isMovingToSide)
+        {
+
+        }
+        transform.position = Vector3.MoveTowards(transform.position, newPos, speed * Time.deltaTime);
+    }
+
+    void Running(bool running)
     {
         float speed = 0.15f;
         if (running)
         {
             //running
-            float moveStraight = -Input.GetAxis("Horizontal");
-            Vector3 movement = new Vector3(1, 0f, moveStraight);
+            Vector3 movement = new Vector3(1, 0f, 0);
             transform.position += movement * speed;
             if (isGrounded)
             {
@@ -71,7 +86,7 @@ public class SPlayerMovement : MonoBehaviour
         {
             animator.SetBool("DoubleJump", false);
         }
-        if (Input.GetButtonDown("Jump"))
+        if (swpController.jump)
         {
             if (jumpCount < 2)
             {
@@ -83,14 +98,16 @@ public class SPlayerMovement : MonoBehaviour
             }
             if (jumpCount > 1)
                 animator.SetBool("DoubleJump", true);
+            swpController.jump = false;
         }
     }
 
     void Fighting()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (swpController.hit)
         {
             animator.SetTrigger("isHitting");
+            swpController.hit = false;
         }
 
     }
@@ -100,6 +117,7 @@ public class SPlayerMovement : MonoBehaviour
         float newX = firstElevator.transform.position.x;
         float newY = firstElevator.transform.position.y + 0.5f;
         float newZ = firstElevator.transform.position.z;
+        swpController.pos = 2.47f;
         transform.position = new Vector3(newX, newY, newZ);
         
     }

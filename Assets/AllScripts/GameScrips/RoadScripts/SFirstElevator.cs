@@ -8,13 +8,18 @@ public class SFirstElevator : MonoBehaviour
     public StateMonitor monitor;
     public SRoad road;
     bool isMoving = true;
-    float speed = 7f; // Скорость движения объекта
+    float speed = 4f; // Скорость движения объекта
     private Rigidbody rb;
     public SPlatform platform;
     protected internal bool elevatorOnPlatform;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+    }
+    private void FixedUpdate()
+    {
+        if (isMoving)
+            LowerPlatform();
     }
     void Update()
     {
@@ -27,7 +32,6 @@ public class SFirstElevator : MonoBehaviour
             }
             else
                 elevatorOnPlatform = false;
-            LowerPlatform();
         }
     }
     void LowerPlatform()

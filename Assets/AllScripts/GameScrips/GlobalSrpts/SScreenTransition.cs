@@ -10,6 +10,11 @@ public class SScreenTransition : MonoBehaviour
     public SLastElevator lastElevator;
     public StateMonitor monitor;
 
+    private void Awake()
+    {
+        Application.targetFrameRate = 500;
+    }
+
     private void Update()
     {
         if (playerMovement.playerOnTargetPlatform)

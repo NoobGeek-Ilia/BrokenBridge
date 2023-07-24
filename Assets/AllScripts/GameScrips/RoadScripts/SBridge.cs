@@ -31,10 +31,14 @@ public class SBridge : MonoBehaviour
         newTopBridge = 0;
 
     }
+
+    private void FixedUpdate()
+    {
+        LowerBridge();
+    }
     void Update()
     {
         //Debug.Log(platform.currentIndexPlatform + 1);
-        LowerBridge();
         ApplyFadeEffect();
     }
 

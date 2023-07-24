@@ -12,13 +12,21 @@ public class SCoins : MonoBehaviour
     private bool coinsInstalled;
     int groupNum;
     float startPosY;
-    const int rotateSpeed = 1;
+    const int rotateSpeed = 3;
+
+    private void FixedUpdate()
+    {
+        if (allCoins != null)
+        {
+            RotateCoins();
+        }
+    }
     private void Update()
     {
         CreateCoinWay();
         if (allCoins != null)
         {
-            RotateCoins();
+            
             foreach (GameObject go in allCoins)
             {
                 if (go.GetComponent<SCollideCoin>() == null)

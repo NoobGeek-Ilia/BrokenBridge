@@ -141,7 +141,6 @@ public class StateMonitor : MonoBehaviour
     public TextMeshProUGUI RunTimerTxt;
     void ShowRunTimer(bool setTimer)
     {
-        Debug.Log($"road complite: {road.roadComplite}");
         if (setTimer && timer < 1)
             timer = 3;
         if (RunTimer() > 0)

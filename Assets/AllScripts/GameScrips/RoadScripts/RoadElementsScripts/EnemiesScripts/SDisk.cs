@@ -20,7 +20,7 @@ public class SDisk : MonoBehaviour
         pointA = platform.GetRender_zPos - 0.5f;
         pointB = pointA - 3f;
     }
-    void Update()
+    private void FixedUpdate()
     {
         transform.Rotate(Vector3.down, spinSpeed * Time.deltaTime);
         MovingDisk();
