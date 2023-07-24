@@ -19,7 +19,7 @@ public class SCamera : MonoBehaviour
     public SRoad road;
     public SFirstElevator firstElevator;
     public SLastElevator lastElevator;
-    CameraPosition cp = CameraPosition.Start;
+    public CameraPosition cp = CameraPosition.Start;
 
 
     private void Start()
@@ -67,6 +67,7 @@ public class SCamera : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(cp);
         ChengeCameraPos(cp);
     }
     void ChengeCameraPos(CameraPosition cp)
@@ -114,7 +115,7 @@ public class SCamera : MonoBehaviour
 
         isMoving = false;
     }
-    enum CameraPosition
+    public enum CameraPosition
     {
         Start,
         Build,

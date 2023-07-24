@@ -19,7 +19,7 @@ public class SPlayerMovement : MonoBehaviour
     private Animator animator;
     public SCamera mainCamera;
     public StateMonitor monitor;
-    public SwipeController swpController;
+    public SPlayerTouchController playerTC;
 
     private void Start()
     {
@@ -29,7 +29,7 @@ public class SPlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(swpController.pos);
+        Debug.Log(playerTC.pos);
         Jumping();
         Fighting();
         if (mainCamera.cameraBehindPlayer && monitor.timer < 1)
@@ -54,7 +54,7 @@ public class SPlayerMovement : MonoBehaviour
     void SideMovement()
     {
         float speed = 5f;
-        Vector3 newPos = new Vector3(transform.position.x, transform.position.y, swpController.pos);
+        Vector3 newPos = new Vector3(transform.position.x, transform.position.y, playerTC.pos);
         if (!isMovingToSide)
         {
 
@@ -86,7 +86,7 @@ public class SPlayerMovement : MonoBehaviour
         {
             animator.SetBool("DoubleJump", false);
         }
-        if (swpController.jump)
+        if (playerTC.jump)
         {
             if (jumpCount < 2)
             {
@@ -98,16 +98,16 @@ public class SPlayerMovement : MonoBehaviour
             }
             if (jumpCount > 1)
                 animator.SetBool("DoubleJump", true);
-            swpController.jump = false;
+            playerTC.jump = false;
         }
     }
 
     void Fighting()
     {
-        if (swpController.hit)
+        if (playerTC.hit)
         {
             animator.SetTrigger("isHitting");
-            swpController.hit = false;
+            playerTC.hit = false;
         }
 
     }
@@ -117,7 +117,7 @@ public class SPlayerMovement : MonoBehaviour
         float newX = firstElevator.transform.position.x;
         float newY = firstElevator.transform.position.y + 0.5f;
         float newZ = firstElevator.transform.position.z;
-        swpController.pos = 2.47f;
+        playerTC.pos = 2.47f;
         transform.position = new Vector3(newX, newY, newZ);
         
     }

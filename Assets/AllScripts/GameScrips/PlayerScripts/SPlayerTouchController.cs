@@ -1,5 +1,5 @@
 using UnityEngine;
-public class SwipeController : MonoBehaviour
+public class SPlayerTouchController : MonoBehaviour
 {
     public float swipeThreshold = 50f;
     public float doubleTapTimeThreshold = 0.2f; // ћаксимальный интервал между двойными нажати€ми

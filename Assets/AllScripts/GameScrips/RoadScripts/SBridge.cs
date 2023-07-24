@@ -18,7 +18,8 @@ public class SBridge : MonoBehaviour
     bool bridgeCollided = false;
     float fadeStartTime;
 
-
+    private float timerBuildBridge = 0f;
+    private float intervalBuilding = 0.05f;
 
 
     private void Start()
@@ -38,7 +39,6 @@ public class SBridge : MonoBehaviour
     }
     void Update()
     {
-        //Debug.Log(platform.currentIndexPlatform + 1);
         ApplyFadeEffect();
     }
 
@@ -52,26 +52,30 @@ public class SBridge : MonoBehaviour
     }
     public void BuildBringe()
     {
-        //button Bridge
-        for (int i = newTopBridge; i < newTopBridge + heightBridge; i++)
+        timerBuildBridge += Time.deltaTime;
+        if (timerBuildBridge >= intervalBuilding)
         {
-            for (int j = 0; j < widthBridge; j++)
+            for (int i = newTopBridge; i < newTopBridge + heightBridge; i++)
             {
-                float newPartPos_x = transform.position.x + (bridgeParticle.transform.localScale.x / 2);
-                float newPartPos_y = (platform.GetRender_yPos + (bridgeParticle.transform.localScale.y / 2))
-                    + (i * bridgeParticle.transform.localScale.y);
-                float newPartPos_z = (platform.GetRender_zPos - (bridgeParticle.transform.localScale.z / 2)) - (j * bridgeParticle.transform.localScale.z);
+                for (int j = 0; j < widthBridge; j++)
+                {
+                    float newPartPos_x = transform.position.x + (bridgeParticle.transform.localScale.x / 2);
+                    float newPartPos_y = (platform.GetRender_yPos + (bridgeParticle.transform.localScale.y / 2))
+                        + (i * bridgeParticle.transform.localScale.y);
+                    float newPartPos_z = (platform.GetRender_zPos - (bridgeParticle.transform.localScale.z / 2)) - (j * bridgeParticle.transform.localScale.z);
 
-                Vector3 newStartPosBridgeParticle = new Vector3(newPartPos_x, newPartPos_y, newPartPos_z);
-                copyBridgeParticle.Add(Instantiate(bridgeParticle, newStartPosBridgeParticle, Quaternion.identity));
+                    Vector3 newStartPosBridgeParticle = new Vector3(newPartPos_x, newPartPos_y, newPartPos_z);
+                    copyBridgeParticle.Add(Instantiate(bridgeParticle, newStartPosBridgeParticle, Quaternion.identity));
+                }
             }
+            for (int i = 0; i < copyBridgeParticle.Count; i++)
+            {
+                copyBridgeParticle[i].transform.SetParent(bridgeBodyTransform, true);
+            }
+            newTopBridge += heightBridge;
+            particleOnPlatform.Add(false);
+            timerBuildBridge = 0;
         }
-        for (int i = 0; i < copyBridgeParticle.Count; i++)
-        {
-            copyBridgeParticle[i].transform.SetParent(bridgeBodyTransform, true);
-        }
-        newTopBridge += heightBridge;
-        particleOnPlatform.Add(false);
     }
     public void PushBridgeBody()
     {
@@ -109,7 +113,6 @@ public class SBridge : MonoBehaviour
     }
     void CutBridgeResetList()
     {
-        //int[] brokenParts = { 3, 5, 7, 10 };
         double platformMaxPos_x = platform.copyPlatform[platform.currentIndexPlatform + 1].transform.position.x +
             platform.transform.localScale.x;
         double platformMinPos_x = platform.copyPlatform[platform.currentIndexPlatform + 1].transform.position.x - platform.transform.localScale.x;
@@ -131,10 +134,7 @@ public class SBridge : MonoBehaviour
         {
             copyBridgeParticle.Remove(part);
             Rigidbody rb = part.GetComponent<Rigidbody>();
-            // Разрешить позицию по всем осям
             rb.constraints &= ~RigidbodyConstraints.FreezePosition;
-
-            // Разрешить вращение по всем осям
             rb.constraints &= ~RigidbodyConstraints.FreezeRotation;
 
             rb.useGravity = false;
@@ -147,16 +147,6 @@ public class SBridge : MonoBehaviour
             Vector3 force = new Vector3(0f, forceAmount, forceAmount);
             rb.AddForce(force);
         }
-/*        for (int i = 0; i < brokenParts.Length; i++)
-        {
-            copyBridgeParticle[brokenParts[i]].AddComponent<Rigidbody>();
-            Rigidbody rb = copyBridgeParticle[brokenParts[i]].GetComponent<Rigidbody>();
-            // Разрешить позицию по всем осям
-            rb.constraints &= ~RigidbodyConstraints.FreezePosition;
-
-            // Разрешить вращение по всем осям
-            rb.constraints &= ~RigidbodyConstraints.FreezeRotation;
-        }*/
         bridgeSpawner.brideComplite = true;
         transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, -90f);
     }
