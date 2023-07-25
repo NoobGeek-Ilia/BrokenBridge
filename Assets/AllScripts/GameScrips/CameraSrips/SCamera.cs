@@ -67,7 +67,6 @@ public class SCamera : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(cp);
         ChengeCameraPos(cp);
     }
     void ChengeCameraPos(CameraPosition cp)

@@ -29,7 +29,6 @@ public class SPlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(playerTC.pos);
         Jumping();
         Fighting();
         if (mainCamera.cameraBehindPlayer && monitor.timer < 1)
