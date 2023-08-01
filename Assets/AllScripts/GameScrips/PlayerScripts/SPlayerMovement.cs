@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SPlayerMovement : MonoBehaviour
@@ -52,13 +48,12 @@ public class SPlayerMovement : MonoBehaviour
 
     void SideMovement()
     {
-        float speed = 5f;
+        float speed = 10f;
         Vector3 newPos = new Vector3(transform.position.x, transform.position.y, playerTC.pos);
-        if (!isMovingToSide)
+        if (newPos.x >= transform.position.x) // Проверка на движение только вперед
         {
-
+            transform.position = Vector3.MoveTowards(transform.position, newPos, speed * Time.deltaTime);
         }
-        transform.position = Vector3.MoveTowards(transform.position, newPos, speed * Time.deltaTime);
     }
 
     void Running(bool running)
@@ -71,7 +66,6 @@ public class SPlayerMovement : MonoBehaviour
             transform.position += movement * speed;
             if (isGrounded)
             {
-                jumpCount = 0;
                 animator.SetBool("isRunning", true);
             }
             else
@@ -90,7 +84,6 @@ public class SPlayerMovement : MonoBehaviour
             if (jumpCount < 2)
             {
                 animator.SetBool("isJumping", true);
-                
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
                 isGrounded = false;
                 jumpCount++;
@@ -116,6 +109,7 @@ public class SPlayerMovement : MonoBehaviour
         float newX = firstElevator.transform.position.x;
         float newY = firstElevator.transform.position.y + 0.5f;
         float newZ = firstElevator.transform.position.z;
+        rb.velocity = Vector3.zero;
         playerTC.pos = 2.47f;
         transform.position = new Vector3(newX, newY, newZ);
         
@@ -126,6 +120,7 @@ public class SPlayerMovement : MonoBehaviour
         {
             isGrounded = true;
             animator.SetBool("isJumping", false);
+            jumpCount = 0;
         }
     }
 }

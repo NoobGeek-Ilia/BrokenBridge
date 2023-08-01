@@ -17,6 +17,7 @@ public class SCameraBody : MonoBehaviour
 
     private void Update()
     {
+        MoveCameraToSide();
         if (bridgeSpawner.brideComplite && !road.roadComplite)
         {
             moveToNextPlatform = true;
@@ -28,11 +29,6 @@ public class SCameraBody : MonoBehaviour
         if (lastElevator.playerTakenToNextLevel)
             transform.position = initPos;
     }
-    private void FixedUpdate()
-    {
-        MoveCameraToSide();
-    }
-
     void MoveCameraToSide()
     {
         if (transform.position.x > platform.copyPlatform[platform.currentIndexPlatform].transform.position.x - 20)
@@ -42,9 +38,9 @@ public class SCameraBody : MonoBehaviour
 
         if (moveToNextPlatform && !road.roadComplite)
         {
-            const float speed = 0.5f;
-            Vector2 dir = new Vector2(1, 0);
-            transform.Translate(dir * speed);
+            const float speed = 30f; // Измените скорость по вашему усмотрению
+            Vector2 dir = new Vector2(1, 0) * speed * Time.deltaTime;
+            transform.Translate(dir);
         }
     }
     void FollowPlayer()

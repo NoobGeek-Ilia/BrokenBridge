@@ -19,8 +19,8 @@ public class SBridgeSpawner : MonoBehaviour
             GameObject emptyObject = new GameObject($"Bridge{currBridge}");
             emptyObject.AddComponent<SBridge>();
             emptyObject.transform.SetParent(SBS.transform, true);
-            emptyObject.transform.position = new Vector3(platform.copyPlatform[platform.currentIndexPlatform + 1].transform.position.x + platform.copyPlatform[platform.currentIndexPlatform].transform.localScale.x, 
-                platform.GetRender_yPos, platform.GetRender_zPos);
+            emptyObject.transform.position = new Vector3(platform.copyPlatform[platform.currentIndexPlatform + 1].transform.position.x + 
+                platform.copyPlatform[platform.currentIndexPlatform + 1].transform.localScale.x, platform.GetRender_yPos, platform.GetRender_zPos);
             currBridge++;
             bridges.Add(emptyObject);
         }

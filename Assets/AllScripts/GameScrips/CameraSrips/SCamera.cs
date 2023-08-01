@@ -24,10 +24,10 @@ public class SCamera : MonoBehaviour
 
     private void Start()
     {
-        initialPosition = new Vector3(platform.copyPlatform[0].transform.position.x - 6f,
-                                      platform.GetRender_yPos + 4, platform.copyPlatform[0].transform.position.z);
+        initialPosition = new Vector3(platform.copyPlatform[0].transform.position.x - 5.5f,
+                                      platform.GetRender_yPos + 4.5f, platform.copyPlatform[0].transform.position.z);
 
-        initialRotation = Quaternion.Euler(15.5f, 90.11f, 0.067f);
+        initialRotation = Quaternion.Euler(25.5f, 90.11f, 0.067f);
 
         targetPosition1 = new Vector3(-23, 30, -47);
         targetRotation1 = Quaternion.Euler(8.7f, 29f, 1.8f);

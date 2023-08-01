@@ -1,7 +1,7 @@
 using UnityEngine;
 public class SPlayerTouchController : MonoBehaviour
 {
-    public float swipeThreshold = 50f;
+    public float swipeThreshold = 20f;
     public float doubleTapTimeThreshold = 0.2f; // ћаксимальный интервал между двойными нажати€ми
 
     private Vector2 fingerDownPosition;
