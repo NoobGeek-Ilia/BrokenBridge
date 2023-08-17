@@ -21,7 +21,6 @@ public class SBridge : MonoBehaviour
     private float timerBuildBridge = 0f;
     private float intervalBuilding = 0.05f;
 
-
     private void Start()
     {
         bridgeSpawner = FindObjectOfType<SBridgeSpawner>();
@@ -40,7 +39,7 @@ public class SBridge : MonoBehaviour
         timerBuildBridge += Time.deltaTime;
         if (timerBuildBridge >= intervalBuilding)
         {
-            Vector3 bridgeParticleSize = bridgeParticle.GetComponent<MeshRenderer>().bounds.size;
+            Vector3 bridgeParticleSize = bridgeParticle.GetComponent<Renderer>().bounds.size;
             float bridgeParticleWidth = bridgeParticleSize.x;
             float bridgeParticleHeight = bridgeParticleSize.y;
             float bridgeParticleDepth = bridgeParticleSize.z;
@@ -49,9 +48,9 @@ public class SBridge : MonoBehaviour
             {
                 for (int j = 0; j < widthBridge; j++)
                 {
-                    float newPartPos_x = transform.position.x;
-                    float newPartPos_y = platform.GetRender_yPos + (bridgeParticleHeight / 2) + (i * bridgeParticleHeight);
-                    float newPartPos_z = (platform.GetRender_zPos - (j * bridgeParticleDepth)) - (bridgeParticleDepth / 2);
+                    float newPartPos_x = transform.position.x + (bridgeParticleWidth / 2);
+                    float newPartPos_y = transform.position.y + (bridgeParticleHeight / 2) + (i * bridgeParticleHeight);
+                    float newPartPos_z = (transform.position.z - (j * bridgeParticleDepth)) - (bridgeParticleDepth / 2);
 
                     Vector3 newStartPosBridgeParticle = new Vector3(newPartPos_x, newPartPos_y, newPartPos_z);
                     copyBridgeParticle.Add(Instantiate(bridgeParticle, newStartPosBridgeParticle, bridgeParticle.transform.rotation));
@@ -65,6 +64,7 @@ public class SBridge : MonoBehaviour
 
             newTopBridge += heightBridge;
             timerBuildBridge = 0;
+            //Debug.Log();
         }
     }
 
@@ -89,16 +89,14 @@ public class SBridge : MonoBehaviour
 
     public void CheckBridgeColl()
     {
+        Renderer render = copyBridgeParticle[copyBridgeParticle.Count - 1].GetComponent<Renderer>();
         
-        double lastParticleMaxPos_x = copyBridgeParticle[copyBridgeParticle.Count - 1].transform.position.x + 
-            copyBridgeParticle[copyBridgeParticle.Count - 1].transform.localScale.x + 1;
-        double lastParticleMinPos_x = copyBridgeParticle[copyBridgeParticle.Count - 1].transform.position.x - 
-            copyBridgeParticle[copyBridgeParticle.Count - 1].transform.localScale.x - 1;
-        double platformMaxPos_x = platform.copyPlatform[platform.currentIndexPlatform + 1].transform.position.x +
-            (platform.transform.localScale.x / 2);
-        double platformMinPos_x = platformMaxPos_x - platform.transform.localScale.x;
+        float lastParticleMaxPos_x = render.bounds.max.x;
+        float lastParticleMinPos_x = render.bounds.min.x;
+        float nextPlatformMaxPos_x = platform.GetRenderPlatformInfo(platform.currentIndexPlatform + 1).bounds.max.x;
+        float nextPformMinPos_x = platform.GetRenderPlatformInfo(platform.currentIndexPlatform + 1).bounds.min.x;
 
-        if (lastParticleMinPos_x > platformMaxPos_x || lastParticleMaxPos_x < platformMinPos_x)
+        if (lastParticleMinPos_x > nextPlatformMaxPos_x || lastParticleMaxPos_x < nextPformMinPos_x)
             SplitBringe();
         else
             CutBridgeResetList();
@@ -120,15 +118,12 @@ public class SBridge : MonoBehaviour
     }
     void CutBridgeResetList()
     {
-        double platformMaxPos_x = platform.copyPlatform[platform.currentIndexPlatform + 1].transform.position.x +
-            platform.transform.localScale.x;
-        double platformMinPos_x = platform.copyPlatform[platform.currentIndexPlatform + 1].transform.position.x - 
-            platform.transform.localScale.x;
-
+        float nextPformMinPos_x = platform.GetRenderPlatformInfo(platform.currentIndexPlatform + 1).bounds.min.x;
         foreach (GameObject part in copyBridgeParticle)
         {
-            double currParticleMaxPos = part.transform.position.x;
-            if (currParticleMaxPos < platformMaxPos_x && currParticleMaxPos > platformMinPos_x)
+            Renderer render = part.GetComponent<Renderer>();
+            float currParticleMinPos_x = render.bounds.min.x + 0.1f;
+            if (currParticleMinPos_x > nextPformMinPos_x)
                 brokenBridgePart.Add(part);
         }
         foreach (GameObject part in brokenBridgePart)

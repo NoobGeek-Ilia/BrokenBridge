@@ -10,27 +10,32 @@ public class SBridgeSpawner : MonoBehaviour
     public int currBridge;
     public bool brideComplite;
     public List<GameObject> bridges = new List<GameObject>();
-    void Start() => CreateFirstBridge();
+    void Start()
+    {
+        CreateFirstBridge();
+    }
 
     void Update()
     {
         if (brideComplite)
         {
+            Vector3 getBoundsNextPlatform = platform.GetRenderPlatformInfo(platform.currentIndexPlatform + 1).bounds.max;
             GameObject emptyObject = new GameObject($"Bridge{currBridge}");
             emptyObject.AddComponent<SBridge>();
             emptyObject.transform.SetParent(SBS.transform, true);
-            emptyObject.transform.position = new Vector3(platform.copyPlatform[platform.currentIndexPlatform + 1].transform.position.x + 
-                platform.copyPlatform[platform.currentIndexPlatform + 1].transform.localScale.x, platform.GetRender_yPos, platform.GetRender_zPos);
+            emptyObject.transform.position = new Vector3(getBoundsNextPlatform.x,
+                getBoundsNextPlatform.y, getBoundsNextPlatform.z);
             currBridge++;
             bridges.Add(emptyObject);
         }
     }
     public void CreateFirstBridge()
     {
+        Vector3 getBoundsCurrentPlatform = platform.GetRenderPlatformInfo(platform.currentIndexPlatform).bounds.max;
         GameObject emptyObject = new GameObject($"Bridge{0}");
         emptyObject.AddComponent<SBridge>();
         emptyObject.transform.SetParent(SBS.transform, true);
-        emptyObject.transform.position = new Vector3(platform.GetRender_xPos, platform.GetRender_yPos, platform.GetRender_zPos);
+        emptyObject.transform.position = new Vector3(getBoundsCurrentPlatform.x, getBoundsCurrentPlatform.y, getBoundsCurrentPlatform.z);
         bridges.Add(emptyObject);
     }
 }

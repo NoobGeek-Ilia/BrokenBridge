@@ -12,10 +12,6 @@ public class InitRoadFilling : MonoBehaviour
     int cellIndex;
     int cellTipe;
 
-    private void Start()
-    {
-
-    }
     private void Update()
     {
         if (road.roadComplite && !roadHasFilled)

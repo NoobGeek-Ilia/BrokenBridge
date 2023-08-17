@@ -11,8 +11,15 @@ public class SPlayerTouchController : MonoBehaviour
     private bool detectSwipe = false;
     internal protected bool jump = false;
     internal protected bool hit = false;
-    internal protected float pos = 2.47f;
+    internal protected float pos;
+    public SPlatform platform;
+    private float centerRoad;
 
+    private void Start()
+    {
+        centerRoad = platform.GetPlatformPositionInfo().z;
+
+    }
     void Update()
     {
         if (Input.touchCount > 0)
@@ -64,14 +71,14 @@ public class SPlayerTouchController : MonoBehaviour
                 }
                 else if (swipeDirection.x > swipeThreshold) // Свайп вправо
                 {
-                    pos -= 1;
+                    pos -= 1.3f;
                 }
                 else if (swipeDirection.x < -swipeThreshold) // Свайп влево
                 {
-                    pos += 1;
+                    pos += 1.3f;
                 }
             }
-            pos = Mathf.Clamp(pos, 1.47f, 3.47f);
+            pos = Mathf.Clamp(pos, centerRoad - 1.3f, centerRoad + 1.3f);
             fingerDownPosition = fingerUpPosition;
             detectSwipe = false;
         }

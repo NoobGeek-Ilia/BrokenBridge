@@ -15,10 +15,10 @@ public class StateMonitor : MonoBehaviour
     public SPlayerMovement playerMovement;
     public SFirstElevator firstElevator;
     public SLastElevator lastElevator;
-    private int currentStageIndex = 0;
+    internal protected static int currentStageIndex = 0;
     int[] stages = { 2, 2, 3, 3, 4, 4, 4, 5, 5 };
     public TextMeshProUGUI stagesNumTxt;
-    public TextMeshProUGUI currStagesTxt;
+    
     public TextMeshProUGUI coinsNumTxt;
     internal protected int coinsNum;
     public Transform Platforms;
@@ -52,7 +52,7 @@ public class StateMonitor : MonoBehaviour
     {
         coinsNumTxt.text = coinsNum.ToString();
         stagesNumTxt.text = stages[SLevelPanel.levelNumber].ToString();
-        currStagesTxt.text = (currentStageIndex + 1).ToString();
+        
     }
     void ShowLevelStatistic()
     {
@@ -83,7 +83,7 @@ public class StateMonitor : MonoBehaviour
         //platform
         platform.currentIndexPlatform = 0;
         platform.AddNewPlatform();
-        platform.RenderInit();
+        //platform.RenderInit();
 
         //bridge
         bridgeSpawner.currBridge = 1;

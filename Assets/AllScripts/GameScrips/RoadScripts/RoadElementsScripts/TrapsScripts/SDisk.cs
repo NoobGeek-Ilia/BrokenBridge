@@ -17,7 +17,7 @@ public class SDisk : MonoBehaviour
     private void Start()
     {
         platform = FindObjectOfType<SPlatform>();
-        pointA = platform.GetRender_zPos - 0.5f;
+        pointA = platform.GetMaxPlatformZ - 0.5f;
         pointB = pointA - 3f;
     }
     private void FixedUpdate()

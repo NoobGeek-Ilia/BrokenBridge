@@ -23,7 +23,6 @@ public class SBridgeTouchController : MonoBehaviour
                 isTouching = true;
             else if (touch.phase == TouchPhase.Ended && bridge.GetComponent<SBridge>().copyBridgeParticle.Count > 0)
             {
-                Debug.Log("есть части");
                 bridge.GetComponent<SBridge>().PushBridgeBody();
                 isTouching = false;
             }

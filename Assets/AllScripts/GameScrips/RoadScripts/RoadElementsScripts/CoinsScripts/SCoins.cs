@@ -60,7 +60,7 @@ public class SCoins : MonoBehaviour
         int rowsCons;
         float distBetweenCoins; // расстояние между монетами
         float distBetweeRows; // расстояние между рядами
-        startPosY = platform.GetRender_yPos + 0.5f; //расстояние между платформой и монетами
+        startPosY = platform.GetPlatformTop + 0.5f; //расстояние между платформой и монетами
         float startPosZ = platform.copyPlatform[0].transform.position.z;
         Vector3 spawnPosition = new Vector3(firstCoinPosX, startPosY, startPosZ);// начальная позиция для первой монеты
 

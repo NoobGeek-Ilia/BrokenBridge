@@ -24,7 +24,7 @@ public class SLastElevator : MonoBehaviour
             isMoving = false;
         if (isMoving)
         {
-            if (transform.localPosition.y > 2.4f)
+            if (transform.localPosition.y > 5f)
                 playerTakenToNextLevel = true;
             RisePlatform();
         }
@@ -35,8 +35,11 @@ public class SLastElevator : MonoBehaviour
     }
     public void ResetElevatorPos()
     {
-        transform.position = new Vector3(platform.GetRenderLastPlatform_xPos - (transform.localScale.x / 2),
-platform.GetRenderLastPlatform_yPos + 0.1f, platform.GetRenderLastPlatform_zPos - (transform.localScale.z / 2));
+        float lastPlatformPosX = platform.GetRenderPlatformInfo(platform.copyPlatform.Count - 1).bounds.max.x;
+        float lastPlatformPosY = platform.GetRenderPlatformInfo(platform.copyPlatform.Count - 1).bounds.max.y;
+        float lastPlatformPosZ = platform.GetRenderPlatformInfo(platform.copyPlatform.Count - 1).bounds.max.z;
+        transform.position = new Vector3(lastPlatformPosX - (transform.localScale.x / 2),
+    lastPlatformPosY + 0.1f, lastPlatformPosZ - (transform.localScale.z / 2));
         isMoving = false;
     }
 }

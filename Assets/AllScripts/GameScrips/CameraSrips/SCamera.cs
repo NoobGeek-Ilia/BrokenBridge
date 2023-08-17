@@ -24,8 +24,11 @@ public class SCamera : MonoBehaviour
 
     private void Start()
     {
-        initialPosition = new Vector3(platform.copyPlatform[0].transform.position.x - 5.5f,
-                                      platform.GetRender_yPos + 4.5f, platform.copyPlatform[0].transform.position.z);
+        Renderer getInfoFirstPlatform = platform.GetRenderPlatformInfo(0);
+        const float distanceToPlayer = 4.3f;
+        float centerPlatformZ = platform.GetPlatformPositionInfo().z;
+        initialPosition = new Vector3(getInfoFirstPlatform.bounds.min.x - distanceToPlayer,
+                                      getInfoFirstPlatform.bounds.max.y + 4.5f, centerPlatformZ);
 
         initialRotation = Quaternion.Euler(25.5f, 90.11f, 0.067f);
 
@@ -91,8 +94,6 @@ public class SCamera : MonoBehaviour
                 cameraBehindPlayer = true;
                 if (lastElevator.playerTakenToNextLevel)
                 {
-                    //исправить + 25 (сделать отношение от главной камеры)
-                    //transform.position = initialPosition;
                     this.cp = CameraPosition.Start;
                 }
                 break;
