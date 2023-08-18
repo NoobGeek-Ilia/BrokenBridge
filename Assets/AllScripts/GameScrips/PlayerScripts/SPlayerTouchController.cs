@@ -63,7 +63,7 @@ public class SPlayerTouchController : MonoBehaviour
 
                 if (swipeDirection.y > swipeThreshold) // Свайп вверх
                 {
-                    Jump();
+                    //Jump();
                 }
                 else if (swipeDirection.y < -swipeThreshold) // Свайп вниз
                 {
@@ -71,11 +71,11 @@ public class SPlayerTouchController : MonoBehaviour
                 }
                 else if (swipeDirection.x > swipeThreshold) // Свайп вправо
                 {
-                    pos -= 1.3f;
+                    //pos -= 1.3f;
                 }
                 else if (swipeDirection.x < -swipeThreshold) // Свайп влево
                 {
-                    pos += 1.3f;
+                    //pos += 1.3f;
                 }
             }
             pos = Mathf.Clamp(pos, centerRoad - 1.3f, centerRoad + 1.3f);

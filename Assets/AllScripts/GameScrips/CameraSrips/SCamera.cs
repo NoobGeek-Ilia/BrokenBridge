@@ -21,6 +21,10 @@ public class SCamera : MonoBehaviour
     public SLastElevator lastElevator;
     public CameraPosition cp = CameraPosition.Start;
 
+    private Vector3 startPosition;
+    private Quaternion startRotation;
+    private Vector3 targetPosition;
+    private Quaternion targetRotation;
 
     private void Start()
     {
@@ -40,6 +44,31 @@ public class SCamera : MonoBehaviour
 
         transform.position = initialPosition;
         transform.rotation = initialRotation;
+
+        // Initialize the start position and rotation
+        startPosition = initialPosition;
+        startRotation = initialRotation;
+
+        // Initialize the target position and rotation
+        targetPosition = initialPosition;
+        targetRotation = initialRotation;
+    }
+
+    private void FixedUpdate()
+    {
+        if (isMoving)
+        {
+            movementTimer += Time.fixedDeltaTime;
+            float progress = Mathf.Clamp01(movementTimer / movementDuration);
+
+            transform.position = Vector3.Lerp(startPosition, targetPosition, progress);
+            transform.rotation = Quaternion.Lerp(startRotation, targetRotation, progress);
+
+            if (progress >= 1.0f)
+            {
+                isMoving = false;
+            }
+        }
     }
 
     public void MoveToTarget()
@@ -49,11 +78,6 @@ public class SCamera : MonoBehaviour
 
         isMoving = true;
         movementTimer = 0.0f;
-
-        Vector3 startPosition = transform.position;
-        Quaternion startRotation = transform.rotation;
-        Vector3 targetPosition;
-        Quaternion targetRotation;
 
         if (!road.roadComplite)
         {
@@ -65,13 +89,16 @@ public class SCamera : MonoBehaviour
             targetPosition = targetPosition2;
             targetRotation = targetRotation2;
         }
-        StartCoroutine(MoveCamera(startPosition, startRotation, targetPosition, targetRotation));
+
+        startPosition = transform.position;
+        startRotation = transform.rotation;
     }
 
     private void Update()
     {
         ChengeCameraPos(cp);
     }
+
     void ChengeCameraPos(CameraPosition cp)
     {
         switch (cp)
@@ -100,21 +127,6 @@ public class SCamera : MonoBehaviour
         }
     }
 
-    private IEnumerator MoveCamera(Vector3 startPosition, Quaternion startRotation, Vector3 targetPosition, Quaternion targetRotation)
-    {
-        while (movementTimer < movementDuration)
-        {
-            movementTimer += Time.deltaTime;
-            float progress = Mathf.Clamp01(movementTimer / movementDuration);
-
-            transform.position = Vector3.Lerp(startPosition, targetPosition, progress);
-            transform.rotation = Quaternion.Lerp(startRotation, targetRotation, progress);
-
-            yield return null;
-        }
-
-        isMoving = false;
-    }
     public enum CameraPosition
     {
         Start,

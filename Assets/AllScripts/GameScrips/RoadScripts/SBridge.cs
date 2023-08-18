@@ -69,8 +69,6 @@ public class SBridge : MonoBehaviour
     }
 
 
-
-
     public void PushBridgeBody()
     {
         bridgeIsFalling = true;

@@ -12,14 +12,12 @@ public class SWeaponMovement : MonoBehaviour
     private void Update()
     {
         Rotate(animateWeapon);
-        if (playerAnim.hitAnimOn)
-        {
+
             initialRotation = transform.rotation;
             initialPosition = transform.localPosition;
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, newRotationValue, transform.rotation.eulerAngles.z);
             animateWeapon = true;
-            playerAnim.hitAnimOn = false;
-        }
+
     }
     private void FixedUpdate()
     {

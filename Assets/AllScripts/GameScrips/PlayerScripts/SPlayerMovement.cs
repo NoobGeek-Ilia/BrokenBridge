@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class SPlayerMovement : MonoBehaviour
 {
@@ -12,18 +13,24 @@ public class SPlayerMovement : MonoBehaviour
     public SFirstElevator firstElevator;
     public SCamera mainCamera;
     public StateMonitor monitor;
-    public SPlayerTouchController playerTouchContr;
+    float sideTargetPos;
 
     private void Start()
     {
+        STouchDetection.TouchEvent += OnTouch;
         rb = GetComponent<Rigidbody>();
         Physics.gravity = customGravity;
         
         SetNewPlayerPos();
     }
+
+    private void OnTouch(STouchDetection.ActionTipe action)
+    {
+        Movement(action);
+    }
+
     private void Update()
     {
-        Jumping();
         if (mainCamera.cameraBehindPlayer && monitor.timer < 1)
             isRunning = true;
         if (playerOnTargetPlatform)
@@ -42,13 +49,44 @@ public class SPlayerMovement : MonoBehaviour
         Running(isRunning);
     }
 
+    void Movement(STouchDetection.ActionTipe action)
+    {
+        const float stepSize = 1.3f;
+        switch (action)
+        {
+            case STouchDetection.ActionTipe.Right:
+                if (sideTargetPos > -stepSize)
+                    sideTargetPos -= stepSize;
+                break;
+            case STouchDetection.ActionTipe.Left:
+                if (sideTargetPos < stepSize)
+                    sideTargetPos += stepSize;
+                break;
+            case STouchDetection.ActionTipe.Jump:
+                Jumping();
+                break;
+            case STouchDetection.ActionTipe.Hit:
+
+                break;
+        }
+    }
     void SideMovement()
     {
         float speed = 10f;
-        Vector3 newPos = new Vector3(transform.position.x, transform.position.y, playerTouchContr.pos);
-        if (newPos.x >= transform.position.x) // Проверка на движение только вперед
+        Vector3 newPos = new Vector3(transform.position.x, transform.position.y, sideTargetPos);
+        transform.position = Vector3.MoveTowards(transform.position, newPos, speed * Time.deltaTime);
+    }
+
+
+    void Jumping()
+    {
+        float jumpForce = 7.5f;
+
+        if (jumpCount < 2)
         {
-            transform.position = Vector3.MoveTowards(transform.position, newPos, speed * Time.deltaTime);
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isGrounded = false;
+            jumpCount++;
         }
     }
 
@@ -61,20 +99,6 @@ public class SPlayerMovement : MonoBehaviour
             transform.position += movement * speed;
         }
     }
-    void Jumping()
-    {
-        float jumpForce = 7.5f;
-        if (playerTouchContr.jump)
-        {
-            if (jumpCount < 2)
-            {
-                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-                isGrounded = false;
-                jumpCount++;
-            }
-            playerTouchContr.jump = false;
-        }
-    }
 
     public void SetNewPlayerPos()
     {
@@ -84,7 +108,7 @@ public class SPlayerMovement : MonoBehaviour
         rb.velocity = Vector3.zero;
         
         transform.position = new Vector3(newX, newY, newZ);
-        playerTouchContr.pos = newZ;
+        sideTargetPos = 0;
     }
     private void OnCollisionEnter(Collision collision)
     {

@@ -3,22 +3,22 @@ using UnityEngine;
 
 public class SPlatform : MonoBehaviour
 {
-    public int currentIndexPlatform;
     public StateMonitor monitor;
     public SRoad road;
     public GameObject platform;
+    public GameObject bridgeParticle;
     public List<GameObject> copyPlatform = new List<GameObject>();
-    protected internal int[] platforms = { 3, 5, 6, 7, 8, 9, 10, 11, 12 }; //количество платформ (не индексы)
-    private Renderer render;
     public SBridgeSpawner bridgeSpawner;
     public SCameraBody camBody;
-    public GameObject bridgeParticle;
+    public Transform platformsTransform;
 
+    private Renderer render;
+    public int currentIndexPlatform;
     private readonly Vector3 firstPlatformCenterPos = new Vector3(-4, -20f, 0);
+    protected internal int[] platforms = { 5, 5, 6, 7, 8, 9, 10, 11, 12 }; //количество платформ (не индексы)
     protected internal float GetPlatformTop { get; private set; }
     protected internal float GetMaxPlatformZ { get; private set; }
-    public Transform platformsTransform;
-    float stepSize;
+    private float stepSize;
 
     private void Awake()
     {
@@ -55,13 +55,10 @@ public class SPlatform : MonoBehaviour
 
         copyPlatform.Add(Instantiate(platform, Vector3.zero, Quaternion.identity, platformsTransform));
         copyPlatform[0].transform.position = new Vector3(firstPlatformCenterPos.x, firstPlatformCenterPos.y, firstPlatformCenterPos.z);
-        //Debug.Log(roundedDistance);
-        
-        //Debug.Log(copyPlatform[0].GetComponent<Renderer>().bounds.max.x);
+
         for (int i = 1; i < platforms[SLevelPanel.levelNumber]; i++)
         {
             float randomScale = (Random.Range(minScaleX, maxScaleX) / stepSize) * stepSize;
-            //float roundedScale = Mathf.Round(randomScale / stepSize) * stepSize;
             float randomDistance = Random.Range(minDistance, maxDistance);
             float roundedDistance = Mathf.Round(randomDistance / stepSize) * stepSize;
             float lastPlatformMaxPos_x = GetRenderPlatformInfo(i - 1).bounds.max.x;
@@ -73,7 +70,7 @@ public class SPlatform : MonoBehaviour
             if (i == platforms[SLevelPanel.levelNumber] - 1)
                 localScale = platform.transform.localScale;
             else
-                localScale = new Vector3(randomScale, platform.transform.localScale.y, platform.transform.localScale.z);
+                localScale = new Vector3(stepSize / 2, platform.transform.localScale.y, platform.transform.localScale.z);
             copyPlatform[i].transform.localScale = localScale;
             copyPlatform[i].transform.position = newPlatformPos;
             Debug.Log(stepSize);
