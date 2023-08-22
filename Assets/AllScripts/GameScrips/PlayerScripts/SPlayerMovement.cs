@@ -1,6 +1,4 @@
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
-
 public class SPlayerMovement : MonoBehaviour
 {
     internal protected bool isRunning;

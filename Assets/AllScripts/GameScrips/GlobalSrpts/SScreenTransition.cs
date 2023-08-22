@@ -12,7 +12,7 @@ public class SScreenTransition : MonoBehaviour
 
     private void Awake()
     {
-        Application.targetFrameRate = 1000;
+      Application.targetFrameRate = 1000;
     }
 
     private void Update()

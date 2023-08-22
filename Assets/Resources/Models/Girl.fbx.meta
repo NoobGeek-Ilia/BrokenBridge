@@ -4,14 +4,11 @@ ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
-      74: 498681400060150730
-    second: Run
-  - first:
-      74: 404311268800069138
-    second: Girl|ArmatureAction.002
-  - first:
       74: -4901922536797679580
     second: Idie
+  - first:
+      74: 5522812681064789136
+    second: Run
   - first:
       74: 5539831331247536789
     second: Jump
@@ -81,7 +78,7 @@ ModelImporter:
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Run
-      takeName: Girl|ArmatureAction.001
+      takeName: Girl|ArmatureAction.003
       internalID: 0
       firstFrame: 50
       lastFrame: 80
@@ -110,7 +107,7 @@ ModelImporter:
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Jump
-      takeName: Girl|ArmatureAction.001
+      takeName: Girl|ArmatureAction.003
       internalID: 0
       firstFrame: 100
       lastFrame: 130
@@ -139,7 +136,7 @@ ModelImporter:
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: DoubleJump
-      takeName: Girl|ArmatureAction.001
+      takeName: Girl|ArmatureAction.003
       internalID: 0
       firstFrame: 180
       lastFrame: 210
@@ -168,7 +165,7 @@ ModelImporter:
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Hit
-      takeName: Girl|ArmatureAction.001
+      takeName: Girl|ArmatureAction.003
       internalID: 0
       firstFrame: 150
       lastFrame: 160

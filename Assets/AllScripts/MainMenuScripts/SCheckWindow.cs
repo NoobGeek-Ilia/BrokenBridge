@@ -22,7 +22,7 @@ public class SCheckWindow : MonoBehaviour
     }
 
     public GameObject levelPanel;
-    public Button[] button;
+    public GameObject[] mainElements;
     private void Update()
     {
         //CheckOpenedWindow(winName);
@@ -30,16 +30,20 @@ public class SCheckWindow : MonoBehaviour
     }
     void CheckOpenedWindow(WindowName winName)
     {
-        switch(winName)
+        CloseAllWindows();
+        switch (winName)
         {
             case WindowName.None:
-                levelPanel.SetActive(false);
-                SwitchMainButtons();
+                foreach (GameObject button in mainElements)
+                {
+                    button.SetActive(true);
+                }
+                //SwitchMainButtons();
                 break;
 
             case WindowName.Levels:
                 levelPanel.SetActive(true);
-                SwitchMainButtons();
+                //SwitchMainButtons();
                 break;
 
             case WindowName.Store:
@@ -58,7 +62,7 @@ public class SCheckWindow : MonoBehaviour
         Store,
         Settings
     }
-    public void SwitchMainButtons()
+/*    public void SwitchMainButtons()
     {
         foreach (Button button in button)
         {
@@ -66,6 +70,14 @@ public class SCheckWindow : MonoBehaviour
                 button.interactable = false;
             else
                 button.interactable = true;
+        }
+    }*/
+    private void CloseAllWindows()
+    {
+        levelPanel.SetActive(false);
+        foreach (GameObject button in mainElements)
+        {
+            button.SetActive(false);
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -17,7 +17,6 @@ public class SCameraBody : MonoBehaviour
 
     private void Update()
     {
-        MoveCameraToSide();
         if (bridgeSpawner.brideComplite && !road.roadComplite)
         {
             moveToNextPlatform = true;
@@ -29,6 +28,11 @@ public class SCameraBody : MonoBehaviour
         if (lastElevator.playerTakenToNextLevel)
             transform.position = initPos;
     }
+    private void FixedUpdate()
+    {
+        MoveCameraToSide();
+    }
+
     void MoveCameraToSide()
     {
         if (transform.position.x > platform.copyPlatform[platform.currentIndexPlatform].transform.position.x - 20)
@@ -38,16 +42,16 @@ public class SCameraBody : MonoBehaviour
 
         if (moveToNextPlatform && !road.roadComplite)
         {
-            const float speed = 30f; // Измените скорость по вашему усмотрению
-            Vector2 dir = new Vector2(1, 0) * speed * Time.deltaTime;
-            transform.Translate(dir);
+            const float speed = 0.5f;
+            Vector2 dir = new Vector2(1, 0);
+            transform.Translate(dir * speed);
         }
     }
     void FollowPlayer()
     {
         if (road.roadComplite)
-            offset = transform.position - player.transform.position; // Получаем начальную дистанцию между камерой и игроком
-        float targetX = player.transform.position.x + offset.x; // Вычисляем новую X-координату камеры с учетом начальной дистанции
+            offset = transform.position - player.transform.position; // ГЏГ®Г«ГіГ·Г ГҐГ¬ Г­Г Г·Г Г«ГјГ­ГіГѕ Г¤ГЁГ±ГІГ Г­Г¶ГЁГѕ Г¬ГҐГ¦Г¤Гі ГЄГ Г¬ГҐГ°Г®Г© ГЁ ГЁГЈГ°Г®ГЄГ®Г¬
+        float targetX = player.transform.position.x + offset.x; // Г‚Г»Г·ГЁГ±Г«ГїГҐГ¬ Г­Г®ГўГіГѕ X-ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГі ГЄГ Г¬ГҐГ°Г» Г± ГіГ·ГҐГІГ®Г¬ Г­Г Г·Г Г«ГјГ­Г®Г© Г¤ГЁГ±ГІГ Г­Г¶ГЁГЁ
         Vector3 targetPosition = new Vector3(targetX, transform.position.y, transform.position.z);
         transform.position = targetPosition;
     }
