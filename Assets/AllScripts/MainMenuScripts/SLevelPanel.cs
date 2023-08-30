@@ -1,42 +1,61 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 public class SLevelPanel : MonoBehaviour
 {
-    string GameScene = "Game";
     public SCheckWindow checkWindow;
     public Button closeButt;
     public Button[] levelButt;
-    public static int levelNumber;
-    int[] stages = { 3, 5, 7, 9, 10, 11, 12, 13, 13 };
+    public GameObject boxPanel;
+    public TextMeshProUGUI starsCountToUnblock;
+    public SBoxPanel sBoxPanel;
 
-    private void Awake()
-    {
-        
-    }
+    private float prog;
+    private float step = 0.01f;
+    private Vector2 start;
+    private Vector2 end;
+    private float scrollDist = 333;
+    private int pageNumber;
+
     private void Start()
     {
-        for (int i = 0; i < levelButt.Length; i++)
-        {
-            int buttonIndex = i; // Сохраняем индекс кнопки в локальной переменной
-            levelButt[i].onClick.AddListener(() => ButtonClicked(buttonIndex));
-        }
+        start = boxPanel.transform.position;
+        end = boxPanel.transform.position;
     }
-
-    public void ButtonClicked(int buttonIndex)
+    private void Update()
     {
-        //Debug.Log("Нажата кнопка с индексом: " + buttonIndex);
-        levelNumber = buttonIndex;
-        SceneManager.LoadScene(GameScene);
+        starsCountToUnblock.text = $"left for next unlock: {sBoxPanel.StarsNumToUnblockNextSet}";
+    }
+    private void FixedUpdate()
+    {
+        start = boxPanel.transform.position;
+        boxPanel.transform.position = Vector2.Lerp(start, end, prog);
+        prog += step;
     }
 
     public void ClosePanel()
     {
         checkWindow.winName = SCheckWindow.WindowName.None;
     }
+
+    public void LeftButt()
+    {
+        if (pageNumber > 0)
+        {
+            end.x += scrollDist;
+            ResetMove();
+            pageNumber--;
+        }
+    }
+    public void RightButt()
+    {
+        if (pageNumber < 3)
+        {
+            end.x -= scrollDist;
+            ResetMove();
+            pageNumber++;
+            Debug.Log("ss");
+        }
+    }
+    void ResetMove() => prog = 0;
 }
-
-

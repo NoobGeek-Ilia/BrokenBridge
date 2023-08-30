@@ -1,36 +1,31 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class StateMonitor : MonoBehaviour
 {
     public SRoad road;
     public SPlatform platform;
-    public bool levelComplite = true;
     public SBridgeSpawner bridgeSpawner;
     public GameObject StageCompliteWindow;
     public SPlayerMovement playerMovement;
     public SFirstElevator firstElevator;
     public SLastElevator lastElevator;
-    internal protected static int currentStageIndex = 0;
-    int[] stages = { 2, 2, 3, 3, 4, 4, 4, 5, 5 };
     public TextMeshProUGUI stagesNumTxt;
-    
     public TextMeshProUGUI coinsNumTxt;
-    internal protected int coinsNum;
     public Transform Platforms;
     public Transform BridgeSpawner;
     public SCamera mainCamera;
     public SCameraBody bodyCamera;
     public SCoins coins;
 
+    int[] stages = { 2, 2, 3, 3, 4, 4, 4, 5, 5 };
+    internal protected int coinsNum;
+    internal protected static int currentStageIndex = 0;
+    public bool levelComplite = true;
 
     void Update()
     {
-        //Debug.Log($"road complite: {road.roadComplite}, lvl: {SLevelPanel.levelNumber}, lvl complite: {levelComplite}");
         ShowMainState();
         CheckCompliteLevel();
         ShowRunTimer(road.roadComplite);
@@ -51,7 +46,7 @@ public class StateMonitor : MonoBehaviour
     void ShowMainState()
     {
         coinsNumTxt.text = coinsNum.ToString();
-        stagesNumTxt.text = stages[SLevelPanel.levelNumber].ToString();
+        stagesNumTxt.text = stages[SBoxPanel.SelectedLevel].ToString();
         
     }
     void ShowLevelStatistic()
@@ -61,7 +56,7 @@ public class StateMonitor : MonoBehaviour
 
     void CheckCompliteLevel()
     {
-        if (currentStageIndex == stages[SLevelPanel.levelNumber])
+        if (currentStageIndex == stages[SBoxPanel.SelectedLevel])
         {
             levelComplite = true;
 

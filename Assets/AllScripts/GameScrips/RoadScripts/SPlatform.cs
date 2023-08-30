@@ -29,7 +29,7 @@ public class SPlatform : MonoBehaviour
     }
     void Update()
     {
-        if (currentIndexPlatform != platforms[SLevelPanel.levelNumber] && bridgeSpawner.brideComplite)
+        if (currentIndexPlatform != platforms[SBoxPanel.SelectedLevel] && bridgeSpawner.brideComplite)
         {
             currentIndexPlatform++;
             bridgeSpawner.brideComplite = false;
@@ -56,7 +56,7 @@ public class SPlatform : MonoBehaviour
         copyPlatform.Add(Instantiate(platform, Vector3.zero, Quaternion.identity, platformsTransform));
         copyPlatform[0].transform.position = new Vector3(firstPlatformCenterPos.x, firstPlatformCenterPos.y, firstPlatformCenterPos.z);
 
-        for (int i = 1; i < platforms[SLevelPanel.levelNumber]; i++)
+        for (int i = 1; i < platforms[SBoxPanel.SelectedLevel]; i++)
         {
             float randomScale = (Random.Range(minScaleX, maxScaleX) / stepSize) * stepSize;
             float randomDistance = Random.Range(minDistance, maxDistance);
@@ -67,7 +67,7 @@ public class SPlatform : MonoBehaviour
             Vector3 newPlatformPos = new Vector3(newPlatformPos_x, newPlatformPos_y, 0);
 
             copyPlatform.Add(Instantiate(platform, Vector3.zero, Quaternion.identity, platformsTransform));
-            if (i == platforms[SLevelPanel.levelNumber] - 1)
+            if (i == platforms[SBoxPanel.SelectedLevel] - 1)
                 localScale = platform.transform.localScale;
             else
                 localScale = new Vector3(stepSize / 2, platform.transform.localScale.y, platform.transform.localScale.z);
