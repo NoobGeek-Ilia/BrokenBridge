@@ -85,6 +85,15 @@ public class SBridge : MonoBehaviour
             bridgeBody.transform.Rotate(Vector3.back, speed * Time.deltaTime);
     }
 
+    internal protected float[] GetCellPosZ { get; private set; } = new float[widthBridge];
+
+    void SetCellPosZ()
+    {
+        for (int i = 0; i < widthBridge; i++)
+        {
+            GetCellPosZ[i] = copyBridgeParticle[i].transform.position.z;
+        }
+    }
     public void CheckBridgeColl()
     {
         Renderer render = copyBridgeParticle[copyBridgeParticle.Count - 1].GetComponent<Renderer>();
@@ -97,8 +106,10 @@ public class SBridge : MonoBehaviour
         if (lastParticleMinPos_x > nextPlatformMaxPos_x || lastParticleMaxPos_x < nextPformMinPos_x)
             SplitBringe();
         else
+        {
+            SetCellPosZ();
             CutBridgeResetList();
-        
+        }
     }
     void SplitBringe()
     {
@@ -148,7 +159,7 @@ public class SBridge : MonoBehaviour
         for (int i = 0; i < cbp.Count;  i++)
             CellIsEmpty.Add(false);
         int randNum;
-        int probability = 15;
+        int probability = 3;
         for (int i = 0; i < cbp.Count; i++)
         {
             randNum = Random.Range(0, probability);
