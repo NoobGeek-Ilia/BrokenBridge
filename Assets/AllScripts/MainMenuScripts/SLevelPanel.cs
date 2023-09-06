@@ -5,7 +5,6 @@ public class SLevelPanel : MonoBehaviour
 {
     public SCheckWindow checkWindow;
     public Button closeButt;
-    public Button[] levelButt;
     public GameObject boxPanel;
     public TextMeshProUGUI starsCountToUnblock;
     public SBoxPanel sBoxPanel;

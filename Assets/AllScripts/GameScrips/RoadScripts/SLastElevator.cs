@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SLastElevator : MonoBehaviour
@@ -9,6 +10,7 @@ public class SLastElevator : MonoBehaviour
     float speed = 4f; // Скорость движения объекта
     public SPlatform platform;
     protected internal bool playerTakenToNextLevel;
+    public static Action onSwichedToNextStage;
 
     private void Start()
     {
@@ -25,7 +27,10 @@ public class SLastElevator : MonoBehaviour
         if (isMoving)
         {
             if (transform.localPosition.y > 5f)
+            {
+                onSwichedToNextStage?.Invoke();
                 playerTakenToNextLevel = true;
+            }
             RisePlatform();
         }
     }

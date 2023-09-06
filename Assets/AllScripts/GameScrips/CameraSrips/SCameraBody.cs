@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SCameraBody : MonoBehaviour
 {
@@ -14,7 +11,17 @@ public class SCameraBody : MonoBehaviour
     public GameObject player;
     public Vector3 offset;
     public Vector3 initPos = new Vector3(-23, 30, -47);
+    Vector3 targetPosition;
+    Vector2 dir;
 
+    private void OnEnable()
+    {
+        SLastElevator.onSwichedToNextStage += InitPos;
+    }
+    private void OnDisable()
+    {
+        SLastElevator.onSwichedToNextStage -= InitPos;
+    }
     private void Update()
     {
         if (bridgeSpawner.brideComplite && !road.roadComplite)
@@ -25,8 +32,10 @@ public class SCameraBody : MonoBehaviour
         {
             FollowPlayer();
         }
-        if (lastElevator.playerTakenToNextLevel)
-            transform.position = initPos;
+    }
+    void InitPos()
+    {
+        transform.position = initPos;
     }
     private void FixedUpdate()
     {
@@ -43,16 +52,16 @@ public class SCameraBody : MonoBehaviour
         if (moveToNextPlatform && !road.roadComplite)
         {
             const float speed = 0.5f;
-            Vector2 dir = new Vector2(1, 0);
+            dir = new Vector2(1, 0);
             transform.Translate(dir * speed);
         }
     }
     void FollowPlayer()
     {
         if (road.roadComplite)
-            offset = transform.position - player.transform.position; // Ïîëó÷àåì íà÷àëüíóþ äèñòàíöèþ ìåæäó êàìåðîé è èãðîêîì
-        float targetX = player.transform.position.x + offset.x; // Âû÷èñëÿåì íîâóþ X-êîîðäèíàòó êàìåðû ñ ó÷åòîì íà÷àëüíîé äèñòàíöèè
-        Vector3 targetPosition = new Vector3(targetX, transform.position.y, transform.position.z);
+            offset = transform.position - player.transform.position; 
+        float targetX = player.transform.position.x + offset.x; 
+        targetPosition = new Vector3(targetX, transform.position.y, transform.position.z);
         transform.position = targetPosition;
     }
 }

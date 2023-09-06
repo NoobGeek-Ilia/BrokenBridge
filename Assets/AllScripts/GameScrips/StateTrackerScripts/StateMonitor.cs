@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StateMonitor : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class StateMonitor : MonoBehaviour
     public SPlayerMovement playerMovement;
     public SFirstElevator firstElevator;
     public SLastElevator lastElevator;
-    public TextMeshProUGUI stagesNumTxt;
+
     public TextMeshProUGUI coinsNumTxt;
     public Transform Platforms;
     public Transform BridgeSpawner;
@@ -19,14 +20,22 @@ public class StateMonitor : MonoBehaviour
     public SCameraBody bodyCamera;
     public SCoins coins;
 
-    int[] stages = { 2, 2, 3, 3, 4, 4, 4, 5, 5 };
+    internal protected static int[] stages = { 2, 2, 3, 3, 4, 4, 4, 5, 5 };
     internal protected int coinsNum;
     internal protected static int currentStageIndex = 0;
     public bool levelComplite = true;
 
+    private void OnEnable()
+    {
+        SLastElevator.onSwichedToNextStage += ReloadStage;
+    }
+    private void OnDisable()
+    {
+        SLastElevator.onSwichedToNextStage -= ReloadStage;
+    }
     void Update()
     {
-        ShowMainState();
+        ShowCoinCounter();
         CheckCompliteLevel();
         ShowRunTimer(road.roadComplite);
         if (levelComplite)
@@ -36,19 +45,15 @@ public class StateMonitor : MonoBehaviour
 
         else
         {
+
             if (lastElevator.playerTakenToNextLevel)
             {
-                ReloadStage();
                 lastElevator.playerTakenToNextLevel = false;
             }
         }
     }
-    void ShowMainState()
-    {
-        coinsNumTxt.text = coinsNum.ToString();
-        stagesNumTxt.text = stages[SBoxPanel.SelectedLevel].ToString();
-        
-    }
+    void ShowCoinCounter() => coinsNumTxt.text = coinsNum.ToString();
+
     void ShowLevelStatistic()
     {
         StageCompliteWindow.SetActive(true);
@@ -57,10 +62,7 @@ public class StateMonitor : MonoBehaviour
     void CheckCompliteLevel()
     {
         if (currentStageIndex == stages[SBoxPanel.SelectedLevel])
-        {
             levelComplite = true;
-
-        }
     }
     void ReloadStage()
     {
@@ -71,7 +73,6 @@ public class StateMonitor : MonoBehaviour
         firstElevator.ResetElevatorPos();
         playerMovement.SetNewPlayerPos();
         lastElevator.ResetElevatorPos();
-
     }
     void ResetVariables()
     {
@@ -86,6 +87,7 @@ public class StateMonitor : MonoBehaviour
         mainCamera.cameraBehindPlayer = false;
         mainCamera.transform.position = mainCamera.initialPosition;
         coins.ResetCoinsWay();
+        Debug.Log("stageWasSwiched");
     }
 
     void DestroyPlatforms()

@@ -4,7 +4,7 @@ public class SPlayerMovement : MonoBehaviour
     internal protected bool isRunning;
     internal protected bool isGrounded;
     internal protected byte jumpCount;
-    private Rigidbody rb;
+    internal protected Rigidbody rb;
     Vector3 customGravity = new Vector3(0, -25f, 0);
     protected internal bool playerOnTargetPlatform;
     public SLastElevator lastElevator;
@@ -36,7 +36,7 @@ public class SPlayerMovement : MonoBehaviour
             isRunning = false;
         }
 
-        if (transform.localPosition.x + 1 > lastElevator.transform.localPosition.x)
+        if (transform.position.x + 1 > lastElevator.transform.position.x)
             playerOnTargetPlatform = true;
         else
             playerOnTargetPlatform = false;

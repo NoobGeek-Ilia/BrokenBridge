@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 5133928139211733661}
   - component: {fileID: 6979338317704203863}
   - component: {fileID: -3393947126438044918}
+  - component: {fileID: 3962746794218075559}
   m_Layer: 0
   m_Name: Disk
-  m_TagString: Untagged
+  m_TagString: DamageObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,3 +102,16 @@ MonoBehaviour:
   pointA: 0
   pointB: 0
   MovingSpeed: 0.5
+--- !u!65 &3962746794218075559
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8924845047785435010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.8136709, y: 0.02827876, z: 2.8136706}
+  m_Center: {x: 0.00000011920932, y: 0, z: 0.000000059604645}

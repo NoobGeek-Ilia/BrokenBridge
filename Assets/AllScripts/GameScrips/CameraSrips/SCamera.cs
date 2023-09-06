@@ -26,6 +26,14 @@ public class SCamera : MonoBehaviour
     private Vector3 targetPosition;
     private Quaternion targetRotation;
 
+    private void OnEnable()
+    {
+        SLastElevator.onSwichedToNextStage += SetStartPosition;
+    }
+    private void OnDisable()
+    {
+        SLastElevator.onSwichedToNextStage -= SetStartPosition;
+    }
     private void Start()
     {
         Renderer getInfoFirstPlatform = platform.GetRenderPlatformInfo(0);
@@ -97,6 +105,7 @@ public class SCamera : MonoBehaviour
     private void Update()
     {
         ChengeCameraPos(cp);
+        Debug.Log(cp);
     }
 
     void ChengeCameraPos(CameraPosition cp)
@@ -119,14 +128,14 @@ public class SCamera : MonoBehaviour
 
             case CameraPosition.Run:
                 cameraBehindPlayer = true;
-                if (lastElevator.playerTakenToNextLevel)
-                {
-                    this.cp = CameraPosition.Start;
-                }
                 break;
         }
     }
-
+    void SetStartPosition()
+    {
+        
+        cp = CameraPosition.Start;
+    }
     public enum CameraPosition
     {
         Start,

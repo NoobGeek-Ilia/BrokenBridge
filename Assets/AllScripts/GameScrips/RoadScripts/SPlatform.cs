@@ -73,8 +73,6 @@ public class SPlatform : MonoBehaviour
                 localScale = new Vector3(stepSize / 2, platform.transform.localScale.y, platform.transform.localScale.z);
             copyPlatform[i].transform.localScale = localScale;
             copyPlatform[i].transform.position = newPlatformPos;
-            Debug.Log(stepSize);
         }
-        
     }
 }

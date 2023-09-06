@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 2534299248626374661}
   - component: {fileID: 1478438690926958496}
   - component: {fileID: 3702116544381576042}
+  - component: {fileID: 913074535008452262}
   m_Layer: 0
   m_Name: Peaks
-  m_TagString: Untagged
+  m_TagString: DamageObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2534299248626374661
 Transform:
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &913074535008452262
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2909451879863435967}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.867571, y: 1.7316668, z: 4.0000005}
+  m_Center: {x: -0.076397054, y: 0.82834953, z: 0.0063630934}
