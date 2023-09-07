@@ -9,7 +9,6 @@ public class SCoins : MonoBehaviour
     public Transform coins; // ссылка на родительский объект
     public SBridgeSpawner bridgeSpawner;
     public SRoad road;
-    private bool coinsInstalled;
     int groupNum;
     float startPosY;
     const int rotateSpeed = 3;
@@ -17,33 +16,19 @@ public class SCoins : MonoBehaviour
     private void FixedUpdate()
     {
         if (allCoins != null)
-        {
             RotateCoins();
-        }
     }
-    private void Update()
+    internal protected void CreateCoinWay()
     {
-        CreateCoinWay();
-        if (allCoins != null)
+
+        for (int i = 0; i < platform.copyPlatform.Count - 1; i++)
         {
-            
-            foreach (GameObject go in allCoins)
-            {
-                if (go.GetComponent<SCollideCoin>() == null)
-                    go.AddComponent<SCollideCoin>();
-            }
+            groupNum = Random.Range(0, 3);
+            SelectCoinGroup(groupNum, bridgeSpawner.bridges[i].transform.position.x);
         }
-    }
-    void CreateCoinWay()
-    {
-        if (road.roadComplite && !coinsInstalled)
+        foreach (GameObject coin in allCoins)
         {
-            for (int i = 0; i < platform.copyPlatform.Count - 1; i++)
-            {
-                groupNum = Random.Range(0, 3);
-                SelectCoinGroup(groupNum, bridgeSpawner.bridges[i].transform.position.x);
-            }
-            coinsInstalled = true;
+            coin.AddComponent<SCollideCoin>();
         }
     }
     void RotateCoins()
@@ -116,7 +101,7 @@ public class SCoins : MonoBehaviour
                 break;
         }
     }
-    public void ResetCoinsWay()
+    internal protected void ResetCoinsWay()
     {
         
         foreach (GameObject go in allCoins)
@@ -126,6 +111,5 @@ public class SCoins : MonoBehaviour
         }
 
         allCoins.Clear();
-        coinsInstalled = false;
     }
 }

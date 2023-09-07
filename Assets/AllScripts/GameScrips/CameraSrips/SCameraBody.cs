@@ -28,10 +28,7 @@ public class SCameraBody : MonoBehaviour
         {
             moveToNextPlatform = true;
         }
-        if (mainCamera.cameraBehindPlayer)
-        {
-            FollowPlayer();
-        }
+
     }
     void InitPos()
     {
@@ -40,6 +37,10 @@ public class SCameraBody : MonoBehaviour
     private void FixedUpdate()
     {
         MoveCameraToSide();
+        if (mainCamera.cameraBehindPlayer)
+        {
+            FollowPlayer();
+        }
     }
 
     void MoveCameraToSide()

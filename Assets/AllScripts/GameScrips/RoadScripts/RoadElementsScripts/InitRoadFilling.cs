@@ -7,28 +7,33 @@ public class InitRoadFilling : MonoBehaviour
     public SRoad road;
     public GameObject[] enemy;
     public GameObject[] damageObject;
-    bool roadHasFilled;
     public SPlatform platform;
-
+    [SerializeField] Transform damageObjectsContainer;
+    [SerializeField] SCoins coins;
     GameObject bridgeBody;
     SBridge bridge;
-
-    private void Update()
+    [SerializeField] SBuildMaterial bridgeMaterial;
+    private void OnEnable()
     {
-        if (road.roadComplite && !roadHasFilled)
-        {
-            FillRoad();
-        }
+        road.onRoadComplited += FillRoad;
+    }
+
+    private void OnDisable()
+    {
+        road.onRoadComplited -= FillRoad;
     }
     void FillRoad()
     {
+        //coins
+        coins.CreateCoinWay();
+        //enemy + damage obj
         for (int i = 0; i < bridgeSpawner.bridges.Count; i++)
         {
             bridgeBody = GameObject.Find($"Bridge{i}");
             bridge = bridgeBody.GetComponent<SBridge>();
             FillBridge(bridge);
+            bridgeMaterial.CreateMaterialsWay(bridge);
         }
-        roadHasFilled = true;
     }
 
     void FillBridge(SBridge bridge)
@@ -113,7 +118,7 @@ public class InitRoadFilling : MonoBehaviour
                 break;
         }
         Vector3 SpawnPos = new Vector3(NewX, NewY, NewZ);
-        Instantiate(damageObject[selectedObject], SpawnPos, rotation);
+        Instantiate(damageObject[selectedObject], SpawnPos, rotation, damageObjectsContainer);
     }
 
     int SelectedDamageObject(int currRow)
@@ -135,7 +140,7 @@ public class InitRoadFilling : MonoBehaviour
         float spawnZ = bridge.copyBridgeParticle[currCell].transform.position.z;
 
         Vector3 spawnPosition = new Vector3(spawnX, spawnY, spawnZ);
-        Instantiate(enemy[enemyTipe], spawnPosition, enemy[enemyTipe].transform.rotation);
+        Instantiate(enemy[enemyTipe], spawnPosition, enemy[enemyTipe].transform.rotation, damageObjectsContainer);
     }
 
     int ConnectionTipe;
@@ -156,7 +161,7 @@ public class InitRoadFilling : MonoBehaviour
         else
             return false;
     }
-    int EmptyCellSum(int currRow)
+    internal protected int EmptyCellSum(int currRow)
     {
         int sum = 0;
         for (int i = 0; i < SBridge.widthBridge; i++)
@@ -193,4 +198,13 @@ public class InitRoadFilling : MonoBehaviour
             }
 
         }*/
+    public void DestroyDamageObjectsAndEnemy()
+    {
+        int childCount = damageObjectsContainer.childCount;
+        for (int i = childCount - 1; i >= 0; i--)
+        {
+            Transform child = damageObjectsContainer.GetChild(i);
+            DestroyImmediate(child.gameObject);
+        }
+    }
 }

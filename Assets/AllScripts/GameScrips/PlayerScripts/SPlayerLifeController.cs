@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 public class SPlayerLifeController : SCollisionController
@@ -9,40 +8,48 @@ public class SPlayerLifeController : SCollisionController
     private int healthPoints = startingHealthPoints;
     public SPlayerMovement playerMovement;
     Rigidbody playerRb;
+    [SerializeField] ParticleSystem damageEffect;
+    bool gotWound;
     private void Start()
     {
+        damageEffect.Stop();
         playerRb = playerMovement.rb;
     }
     private void OnEnable()
     {
-        onDamageCollided += TakingDamage;
+        onDamageCollided += () => TakingDamage(1, true);
+        playerMovement.onPlayerFell += () => TakingDamage(5, false);
     }
     private void OnDisable()
     {
-        onDamageCollided -= TakingDamage;
+        onDamageCollided += () => TakingDamage(1, true);
+        playerMovement.onPlayerFell += () => TakingDamage(5, false);
     }
     void Update()
     {
         HealthMonitor.text = healthPoints.ToString();
+
     }
-    void TakingDamage()
+    void TakingDamage(int damage, bool gotWound)
     {
-        StartCoroutine(DamageControll());
+        StartCoroutine(DamageControll(damage, gotWound));
     }
-    void ShowDamageEffect()
+    void ShowDamageEffect(bool gotWound)
     {
+        if (gotWound)
+            damageEffect.Play();
         int force = 5;
         playerRb.AddForce(Vector3.up * force, ForceMode.Impulse);
         HealthMonitor.color = Color.red;
     }
-    
-    private IEnumerator DamageControll()
+
+    private IEnumerator DamageControll(int damageValue, bool gotWound)
     {
-        healthPoints--;
-        ShowDamageEffect();
+        int invulnerabilityTime = 2;
+        healthPoints -= damageValue;
+        ShowDamageEffect(gotWound);
         yield return new WaitForSeconds(0.5f);
         HealthMonitor.color = Color.white;
-        yield return new WaitForSeconds(1);
-        
+        yield return new WaitForSeconds(invulnerabilityTime);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 public class SPlayerMovement : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class SPlayerMovement : MonoBehaviour
     public SCamera mainCamera;
     public StateMonitor monitor;
     float sideTargetPos;
+    [SerializeField] SPlayerLifeController liveController;
+    [SerializeField] SPlatform platform;
+    internal protected Action onPlayerFell;
+
 
     private void Start()
     {
@@ -40,6 +45,7 @@ public class SPlayerMovement : MonoBehaviour
             playerOnTargetPlatform = true;
         else
             playerOnTargetPlatform = false;
+        CheckFallPlayer();
     }
     private void FixedUpdate()
     {
@@ -114,6 +120,17 @@ public class SPlayerMovement : MonoBehaviour
         {
             isGrounded = true;
             jumpCount = 0;
+        }
+    }
+    void CheckFallPlayer()
+    {
+        float playerPosY = transform.position.y;
+        float platformPosMaxY = platform.GetRenderPlatformInfo(1).bounds.max.y;
+        float distance = 5;
+        if (playerPosY < platformPosMaxY - distance)
+        {
+            onPlayerFell?.Invoke();
+            SetNewPlayerPos();
         }
     }
 }

@@ -19,6 +19,7 @@ public class StateMonitor : MonoBehaviour
     public SCamera mainCamera;
     public SCameraBody bodyCamera;
     public SCoins coins;
+    [SerializeField] InitRoadFilling roadObjects;
 
     internal protected static int[] stages = { 2, 2, 3, 3, 4, 4, 4, 5, 5 };
     internal protected int coinsNum;
@@ -67,15 +68,20 @@ public class StateMonitor : MonoBehaviour
     void ReloadStage()
     {
         currentStageIndex++;
+        roadObjects.DestroyDamageObjectsAndEnemy();
+        coins.ResetCoinsWay();
         DestroyPlatforms();
         DestroyBridges();
         ResetVariables();
         firstElevator.ResetElevatorPos();
         playerMovement.SetNewPlayerPos();
         lastElevator.ResetElevatorPos();
+        
     }
     void ResetVariables()
     {
+        //road
+        road.eventWasCalled = false;
         //platform
         platform.currentIndexPlatform = 0;
         platform.AddNewPlatform();
@@ -86,7 +92,6 @@ public class StateMonitor : MonoBehaviour
         bridgeSpawner.CreateFirstBridge();
         mainCamera.cameraBehindPlayer = false;
         mainCamera.transform.position = mainCamera.initialPosition;
-        coins.ResetCoinsWay();
         Debug.Log("stageWasSwiched");
     }
 
