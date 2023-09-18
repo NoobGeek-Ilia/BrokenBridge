@@ -9,6 +9,7 @@ TagManager:
   - Undefined
   - DamageObject
   - DamageObjTag
+  - WeaponTag
   layers:
   - Default
   - TransparentFX

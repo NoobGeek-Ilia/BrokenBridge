@@ -22,7 +22,7 @@ public class SBoxPanel : MonoBehaviour
     const int levelNum = 36;
     int unblocktedSet;
     int[] starsNum = new int[levelNum];
-    int defaulUnlocktedLevels = 3;
+    int defaultUnlocktedLevels = 3;
     bool[] availableLevel = new bool[levelNum];
     int cellNumInOneSet = 3;
     internal protected int StarsNumToUnblockNextSet { get; private set; }
@@ -30,7 +30,7 @@ public class SBoxPanel : MonoBehaviour
     void Start()
     {
         FillLevelPanels();
-        for (int i = 0; i < defaulUnlocktedLevels; i++)
+        for (int i = 0; i < defaultUnlocktedLevels; i++)
         {
             availableLevel[i] = true;
         }

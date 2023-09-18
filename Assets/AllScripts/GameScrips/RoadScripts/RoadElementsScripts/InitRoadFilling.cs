@@ -9,6 +9,7 @@ public class InitRoadFilling : MonoBehaviour
     public GameObject[] damageObject;
     public SPlatform platform;
     [SerializeField] Transform damageObjectsContainer;
+    [SerializeField] Transform enemyContainer;
     [SerializeField] SCoins coins;
     GameObject bridgeBody;
     SBridge bridge;
@@ -140,7 +141,7 @@ public class InitRoadFilling : MonoBehaviour
         float spawnZ = bridge.copyBridgeParticle[currCell].transform.position.z;
 
         Vector3 spawnPosition = new Vector3(spawnX, spawnY, spawnZ);
-        Instantiate(enemy[enemyTipe], spawnPosition, enemy[enemyTipe].transform.rotation, damageObjectsContainer);
+        Instantiate(enemy[enemyTipe], spawnPosition, enemy[enemyTipe].transform.rotation, enemyContainer);
     }
 
     int ConnectionTipe;
@@ -172,39 +173,18 @@ public class InitRoadFilling : MonoBehaviour
         }
         return sum;
     }
-    //рабочий варик, но без учета фаера и диска
-    /*    void FillBridge(SBridge bridge)
-        {
-            const int numTipes = 5;
-            foreach (GameObject part in bridge.copyBridgeParticle)
-            {
 
-                if (bridge.CellIsEmpty[bridge.copyBridgeParticle.IndexOf(part)])
-                    continue;
-                cellTipe = Random.Range(0, numTipes);
-
-                switch (cellTipe)
-                {
-                    case 0:
-                        int objTipe = Random.Range(0, roadObjects.Length);
-                        float[] distanceToBridge = { 0.6f, 0.4f, 0.5f }; //sp, sl, cr
-                        Vector3 spawnPosition = new Vector3(part.transform.position.x,
-                            part.transform.position.y + distanceToBridge[objTipe], part.transform.position.z);
-                        Instantiate(roadObjects[objTipe], spawnPosition, roadObjects[objTipe].transform.rotation);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-        }*/
     public void DestroyDamageObjectsAndEnemy()
     {
-        int childCount = damageObjectsContainer.childCount;
-        for (int i = childCount - 1; i >= 0; i--)
+        Transform[] container = { damageObjectsContainer, enemyContainer };
+        for (int j = 0; j < container.Length; j++)
         {
-            Transform child = damageObjectsContainer.GetChild(i);
-            DestroyImmediate(child.gameObject);
+            int childNum = container[j].childCount;
+            for (int i = childNum - 1; i >= 0; i--)
+            {
+                Transform child = container[j].GetChild(i);
+                DestroyImmediate(child.gameObject);
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: 4781951162920444690
-    second: Idie
+    second: Armature|ArmatureAction
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -36,11 +36,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Idie
+      name: Armature|ArmatureAction
       takeName: Armature|ArmatureAction
       internalID: 0
       firstFrame: 0
-      lastFrame: 20
+      lastFrame: 50
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

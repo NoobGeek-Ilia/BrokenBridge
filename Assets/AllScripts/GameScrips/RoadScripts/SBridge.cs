@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,9 +21,13 @@ public class SBridge : MonoBehaviour
 
     private float timerBuildBridge = 0f;
     private float intervalBuilding = 0.05f;
+    internal protected Action onBridgeComplited;
+
+    StateMonitor stateMonitor;
 
     private void Start()
     {
+        stateMonitor = FindObjectOfType<StateMonitor>();
         bridgeSpawner = FindObjectOfType<SBridgeSpawner>();
         bridgeParticle = Resources.Load<GameObject>("Prefabs/WoodenBlock");
         bridgeBody = GameObject.Find($"Bridge{bridgeSpawner.currBridge - 1}");
@@ -107,9 +112,11 @@ public class SBridge : MonoBehaviour
             SplitBringe();
         else
         {
+            onBridgeComplited?.Invoke();
             SetCellPosZ();
             CutBridgeResetList();
         }
+        stateMonitor.materialsNum--;
     }
     void SplitBringe()
     {
@@ -142,6 +149,7 @@ public class SBridge : MonoBehaviour
         BreakBodyClomplitedBridge(copyBridgeParticle);
         DeliteBridgePart();
         PushBrokenBodyPartsDown();
+        
         bridgeSpawner.brideComplite = true;
         transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, -90f);
     }
@@ -162,7 +170,7 @@ public class SBridge : MonoBehaviour
         int probability = 3;
         for (int i = 0; i < cbp.Count; i++)
         {
-            randNum = Random.Range(0, probability);
+            randNum = UnityEngine.Random.Range(0, probability);
             if (randNum == 0)
             {
                 brokenBodyBridgePart.Add(cbp[i]);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,37 +6,63 @@ using UnityEngine;
 
 public class SBridgeSpawner : MonoBehaviour
 {
-    public SBridgeSpawner SBS;
     public SPlatform platform;
-    public int currBridge;
+    
     public bool brideComplite;
     public List<GameObject> bridges = new List<GameObject>();
+    Vector3 getBoundsPlatform;
+    GameObject emptyObject;
+    internal protected int currBridge;
+    bool newBridgeHasSet;
+    internal protected Action onBridgeSet;
+
     void Start()
     {
-        CreateFirstBridge();
+        SetNewPosBridgeBody();
     }
 
     void Update()
     {
-        if (brideComplite)
+        emptyObject.GetComponent<SBridge>().onBridgeComplited += ResetVariable;
+        if (!newBridgeHasSet)
         {
-            Vector3 getBoundsNextPlatform = platform.GetRenderPlatformInfo(platform.currentIndexPlatform + 1).bounds.max;
-            GameObject emptyObject = new GameObject($"Bridge{currBridge}");
-            emptyObject.AddComponent<SBridge>();
-            emptyObject.transform.SetParent(SBS.transform, true);
-            emptyObject.transform.position = new Vector3(getBoundsNextPlatform.x,
-                getBoundsNextPlatform.y, getBoundsNextPlatform.z);
-            currBridge++;
-            bridges.Add(emptyObject);
+            SetNewPosBridgeBody();
+            onBridgeSet?.Invoke();
         }
+        
     }
-    public void CreateFirstBridge()
+
+    void ResetVariable() => newBridgeHasSet = false;
+
+    void SetNewPosBridgeBody()
     {
-        Vector3 getBoundsCurrentPlatform = platform.GetRenderPlatformInfo(platform.currentIndexPlatform).bounds.max;
-        GameObject emptyObject = new GameObject($"Bridge{0}");
+        int numPlatform = platform.currentIndexPlatform;
+        
+        if (bridges.Count > 0)
+            //corutine
+            numPlatform++;
+        else
+            currBridge = 0;
+        getBoundsPlatform = platform.GetRenderPlatformInfo(numPlatform).bounds.max;
+        emptyObject = new GameObject($"Bridge{currBridge}");
         emptyObject.AddComponent<SBridge>();
-        emptyObject.transform.SetParent(SBS.transform, true);
-        emptyObject.transform.position = new Vector3(getBoundsCurrentPlatform.x, getBoundsCurrentPlatform.y, getBoundsCurrentPlatform.z);
+        emptyObject.transform.SetParent(transform, true);
+        emptyObject.transform.position = getBoundsPlatform;
+        currBridge++;
         bridges.Add(emptyObject);
+        newBridgeHasSet = true;
+        
+    }
+    internal protected void ResetSpawner()
+    {
+        int childCount = transform.childCount;
+        for (int i = childCount - 1; i >= 0; i--)
+        {
+            Transform child = transform.GetChild(i);
+            DestroyImmediate(child.gameObject);
+        }
+        currBridge = 0;
+        bridges.Clear();
+        SetNewPosBridgeBody();
     }
 }

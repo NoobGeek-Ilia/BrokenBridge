@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -50,5 +49,16 @@ public class SBuildMaterial : MonoBehaviour
         {
             go.transform.Rotate(0, rotateSpeed, 0, Space.World);
         }
+    }
+    internal protected void ResetMaterialWay()
+    {
+
+        foreach (GameObject go in allMaterials)
+        {
+            if (go != null)
+                Destroy(go);
+        }
+
+        allMaterials.Clear();
     }
 }

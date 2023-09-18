@@ -9,12 +9,12 @@ public class SRoad : MonoBehaviour
     public SCamera cam;
     public bool roadComplite { get; private set;  }
     // Start is called before the first frame update
-    public Action onRoadComplited;
+    internal protected Action onRoadComplited;
     internal protected bool eventWasCalled;
     private void Update()
     {
         CheckCompliteRoad();
-        if (cam.cameraBehindPlayer)
+        if (cam.cp == SCamera.CameraPosition.Run)
             roadComplite = false;
     }
     void CheckCompliteRoad()
@@ -29,10 +29,6 @@ public class SRoad : MonoBehaviour
         }
         //if (platform.currentIndexPlatform + 1 == platform.platforms[SLevelPanel.levelNumber]) - заменить нижнее условие после 
         if (platform.currentIndexPlatform + 1 == platform.copyPlatform.Count)
-        {
-
             roadComplite = true;
-        }
     }
-
 }

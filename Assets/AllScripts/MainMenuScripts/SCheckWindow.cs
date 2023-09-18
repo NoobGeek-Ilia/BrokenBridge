@@ -62,16 +62,6 @@ public class SCheckWindow : MonoBehaviour
         Store,
         Settings
     }
-/*    public void SwitchMainButtons()
-    {
-        foreach (Button button in button)
-        {
-            if (button.interactable == true)
-                button.interactable = false;
-            else
-                button.interactable = true;
-        }
-    }*/
     private void CloseAllWindows()
     {
         levelPanel.SetActive(false);

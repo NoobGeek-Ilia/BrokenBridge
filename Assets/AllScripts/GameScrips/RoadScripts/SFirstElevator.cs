@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SFirstElevator : MonoBehaviour
@@ -9,16 +10,12 @@ public class SFirstElevator : MonoBehaviour
     private Rigidbody rb;
     public SPlatform platform;
     protected internal bool elevatorOnPlatform;
+    internal protected Action onElevatorLanded;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
             ResetElevatorPos();
-    }
-    private void Awake()
-    {
-
     }
     private void FixedUpdate()
     {
@@ -33,6 +30,7 @@ public class SFirstElevator : MonoBehaviour
             {
                 isMoving = false;
                 elevatorOnPlatform = true;
+                onElevatorLanded?.Invoke();
             }
             else
                 elevatorOnPlatform = false;
@@ -42,7 +40,6 @@ public class SFirstElevator : MonoBehaviour
     {
         Vector3 movement = new Vector3(0f, -speed * Time.deltaTime, 0f);
         rb.MovePosition(transform.position + movement);
-        //transform.Translate(Vector3.down * speed * Time.deltaTime);
     }
 
     public void ResetElevatorPos()

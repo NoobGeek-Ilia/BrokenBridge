@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class SPlatform : MonoBehaviour
@@ -9,8 +10,7 @@ public class SPlatform : MonoBehaviour
     public GameObject bridgeParticle;
     public List<GameObject> copyPlatform = new List<GameObject>();
     public SBridgeSpawner bridgeSpawner;
-    public SCameraBody camBody;
-    public Transform platformsTransform;
+    public TextMeshProUGUI materialsNumTxt;
 
     private Renderer render;
     public int currentIndexPlatform;
@@ -34,6 +34,7 @@ public class SPlatform : MonoBehaviour
             currentIndexPlatform++;
             bridgeSpawner.brideComplite = false;
         }
+        //Debug.Log($"curr platform:{currentIndexPlatform}");
     }
     internal protected Vector3 GetPlatformPositionInfo()
     {
@@ -53,7 +54,7 @@ public class SPlatform : MonoBehaviour
 
         Vector3 localScale;
 
-        copyPlatform.Add(Instantiate(platform, Vector3.zero, Quaternion.identity, platformsTransform));
+        copyPlatform.Add(Instantiate(platform, Vector3.zero, Quaternion.identity, transform));
         copyPlatform[0].transform.position = new Vector3(firstPlatformCenterPos.x, firstPlatformCenterPos.y, firstPlatformCenterPos.z);
 
         for (int i = 1; i < platforms[SBoxPanel.SelectedLevel]; i++)
@@ -66,13 +67,31 @@ public class SPlatform : MonoBehaviour
             float newPlatformPos_y = copyPlatform[i - 1].transform.position.y;
             Vector3 newPlatformPos = new Vector3(newPlatformPos_x, newPlatformPos_y, 0);
 
-            copyPlatform.Add(Instantiate(platform, Vector3.zero, Quaternion.identity, platformsTransform));
+            copyPlatform.Add(Instantiate(platform, Vector3.zero, Quaternion.identity, transform));
             if (i == platforms[SBoxPanel.SelectedLevel] - 1)
                 localScale = platform.transform.localScale;
             else
                 localScale = new Vector3(stepSize / 2, platform.transform.localScale.y, platform.transform.localScale.z);
             copyPlatform[i].transform.localScale = localScale;
             copyPlatform[i].transform.position = newPlatformPos;
+        }
+    }
+    public void DestroyPlatforms()
+    {
+        List<GameObject> objectsToDelete = new List<GameObject>(copyPlatform);
+
+        foreach (GameObject obj in objectsToDelete)
+        {
+            copyPlatform.Remove(obj);
+            Destroy(obj);
+        }
+
+        int childCount = transform.childCount;
+
+        for (int i = childCount - 1; i >= 0; i--)
+        {
+            Transform child = transform.GetChild(i);
+            DestroyImmediate(child.gameObject);
         }
     }
 }

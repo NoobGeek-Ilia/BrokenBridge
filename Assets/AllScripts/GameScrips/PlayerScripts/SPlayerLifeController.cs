@@ -38,7 +38,7 @@ public class SPlayerLifeController : SCollisionController
     {
         if (gotWound)
             damageEffect.Play();
-        int force = 5;
+        int force = 2;
         playerRb.AddForce(Vector3.up * force, ForceMode.Impulse);
         HealthMonitor.color = Color.red;
     }

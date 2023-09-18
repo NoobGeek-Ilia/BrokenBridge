@@ -14,6 +14,11 @@ public class STouchDetection : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            TouchEvent?.Invoke(ActionTipe.Hit);
+        }
+        
         if (Input.touchCount > 0)
         {
             if (Input.GetTouch(0).phase == TouchPhase.Began)

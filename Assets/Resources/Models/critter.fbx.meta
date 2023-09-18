@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 46bebff5cb8664b41bdb1a5bb6775666
+guid: 92b90234deac48e4eb947f9f841af2f9
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
       74: 4781951162920444690
-    second: Idie
+    second: Armature|ArmatureAction
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -36,7 +36,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Idie
+      name: Armature|ArmatureAction
       takeName: Armature|ArmatureAction
       internalID: 0
       firstFrame: 0

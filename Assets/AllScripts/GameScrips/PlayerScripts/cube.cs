@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class S : MonoBehaviour
+public class cube : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -13,6 +13,6 @@ public class S : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       // transform.Translate(Vector3.fwd * speed)
     }
 }

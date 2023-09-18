@@ -4,7 +4,7 @@ public class SAnimationPlayer : MonoBehaviour
 {
     internal protected Animator animator;
     public SPlayerMovement playerMovement;
-
+    [SerializeField] StateMonitor monitor;
     private void Start()
     {
         animator = GetComponent<Animator>();

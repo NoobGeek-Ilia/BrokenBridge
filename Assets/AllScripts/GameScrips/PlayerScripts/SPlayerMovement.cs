@@ -15,6 +15,7 @@ public class SPlayerMovement : MonoBehaviour
     float sideTargetPos;
     [SerializeField] SPlayerLifeController liveController;
     [SerializeField] SPlatform platform;
+    [SerializeField] SGameUi gameUi;
     internal protected Action onPlayerFell;
 
 
@@ -23,7 +24,6 @@ public class SPlayerMovement : MonoBehaviour
         STouchDetection.TouchEvent += OnTouch;
         rb = GetComponent<Rigidbody>();
         Physics.gravity = customGravity;
-        
         SetNewPlayerPos();
     }
 
@@ -34,13 +34,11 @@ public class SPlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (mainCamera.cameraBehindPlayer && monitor.timer < 1)
+        KeyControll();
+        if (gameUi.GetRunTimer < 1)
             isRunning = true;
         if (playerOnTargetPlatform)
-        {
             isRunning = false;
-        }
-
         if (transform.position.x + 1 > lastElevator.transform.position.x)
             playerOnTargetPlatform = true;
         else
@@ -49,9 +47,32 @@ public class SPlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        
         SideMovement();
         Running(isRunning);
     }
+    void KeyControll()
+    {
+        const float stepSize = 1.3f;
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            Jumping();
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            if (sideTargetPos < stepSize)
+                sideTargetPos += stepSize;
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            if (sideTargetPos > -stepSize)
+                sideTargetPos -= stepSize;
+        }
+    }
+
 
     void Movement(STouchDetection.ActionTipe action)
     {
@@ -99,7 +120,7 @@ public class SPlayerMovement : MonoBehaviour
         float speed = 0.15f;
         if (running)
         {
-            Vector3 movement = new Vector3(1, 0f, 0);
+            Vector3 movement = new Vector3(1, 0, 0);
             transform.position += movement * speed;
         }
     }

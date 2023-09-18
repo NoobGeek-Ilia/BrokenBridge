@@ -457,9 +457,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7382063616805815391}
   - component: {fileID: -8179248383344770875}
+  - component: {fileID: -1985694432239151655}
+  - component: {fileID: 4826156540584203788}
   m_Layer: 0
-  m_Name: slime
-  m_TagString: Untagged
+  m_Name: Slime
+  m_TagString: DamageObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -501,6 +503,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &-1985694432239151655
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7870474741817777893}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.0411756, y: 3.7623718, z: 3.812779}
+  m_Center: {x: 0.07067739, y: 0.6367843, z: -0.07454931}
+--- !u!114 &4826156540584203788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7870474741817777893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6f0ce3027bab9545af3ece740bb1c94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageEffect: {fileID: 2246354336778168390, guid: 2a27a6069a988664f93d089d48564303, type: 3}
 --- !u!1 &8728222447036906478
 GameObject:
   m_ObjectHideFlags: 0
