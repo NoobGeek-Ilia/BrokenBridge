@@ -16,11 +16,13 @@ public class SParticle : MonoBehaviour
     {
         if (bridge.bridgeIsFalling && collision.gameObject.CompareTag("PlatformTag"))
         {
-            bridge.bridgeIsFalling = false;
             if (collision.gameObject == platform.copyPlatform[platform.currentIndexPlatform + 1] ||
                 collision.gameObject == platform.copyPlatform[platform.currentIndexPlatform])
+            {
                 bridge.CheckBridgeColl();
-            
+                bridge.bridgeIsFalling = false;
+                
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -69,8 +70,8 @@ public class SBridge : MonoBehaviour
 
             newTopBridge += heightBridge;
             timerBuildBridge = 0;
-            //Debug.Log();
         }
+
     }
 
 
@@ -118,8 +119,8 @@ public class SBridge : MonoBehaviour
         }
         stateMonitor.materialsNum--;
     }
-    void SplitBringe()
-    {
+    internal protected void SplitBringe()
+    {     
         foreach (GameObject part in copyBridgeParticle)
         {
             Destroy(part);
@@ -177,6 +178,32 @@ public class SBridge : MonoBehaviour
                 CellIsEmpty[i] = true;
             }
         }
+        Debug.Log(" BreakBodyClomplitedBridge");
+        StartCoroutine(DestroyBrokenComplitedPart());
+    }
+    private IEnumerator DestroyBrokenComplitedPart()
+    {
+        float centerPlatfomY = platform.GetPlatformPositionInfo().y;
+        bool anyPartFeltDown = false;
+        if (brokenBodyBridgePart.Count > 0)
+        {
+            while (!anyPartFeltDown)
+            {
+                for (int i = 0; i < brokenBodyBridgePart.Count; i++)
+                {
+                    if (brokenBodyBridgePart[i].transform.position.y < -20)
+                        anyPartFeltDown = true;
+                }
+                yield return null;
+            }
+        }
+        if (anyPartFeltDown)
+        {
+            foreach (GameObject obj in brokenBodyBridgePart)
+            {
+                Destroy(obj);
+            }
+        }
     }
     void PushBrokenBodyPartsDown()
     {
@@ -184,6 +211,7 @@ public class SBridge : MonoBehaviour
         {
             Rigidbody rb = obj.GetComponent<Rigidbody>();
             rb.constraints = RigidbodyConstraints.None;
+            rb.constraints = RigidbodyConstraints.FreezeRotation;
             rb.AddForce(Vector3.up * 12, ForceMode.Impulse);
         }
     }

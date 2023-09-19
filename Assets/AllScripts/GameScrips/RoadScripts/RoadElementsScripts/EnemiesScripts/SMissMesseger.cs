@@ -3,10 +3,7 @@ using UnityEngine;
 
 public class SMissMesseger : MonoBehaviour
 {
-    private void Update()
-    {
-        RiseUp();
-    }
+    private void Update() => RiseUp();
     private void RiseUp()
     {
         const float speed = 5f;

@@ -18,6 +18,7 @@ public class StateMonitor : MonoBehaviour
     [SerializeField] InitRoadFilling roadObjects;
     [SerializeField] SBuildMaterial buildMaterial;
     [SerializeField] SGameUi gameUi;
+    [SerializeField] SBridgeTouchController bridgeTouchController;
 
     internal protected static int[] stages = { 2, 2, 3, 3, 4, 4, 4, 5, 5 };
     internal protected int coinsNum;
@@ -62,6 +63,7 @@ public class StateMonitor : MonoBehaviour
         firstElevator.ResetElevatorPos();
         playerMovement.SetNewPlayerPos();
         lastElevator.ResetElevatorPos();
+        bridgeTouchController.BridgeInit();
     }
     void ResetVariables()
     {

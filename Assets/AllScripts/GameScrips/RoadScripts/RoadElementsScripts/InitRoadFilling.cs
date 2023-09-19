@@ -141,7 +141,8 @@ public class InitRoadFilling : MonoBehaviour
         float spawnZ = bridge.copyBridgeParticle[currCell].transform.position.z;
 
         Vector3 spawnPosition = new Vector3(spawnX, spawnY, spawnZ);
-        Instantiate(enemy[enemyTipe], spawnPosition, enemy[enemyTipe].transform.rotation, enemyContainer);
+        GameObject currEnemy = Instantiate(enemy[enemyTipe], spawnPosition, enemy[enemyTipe].transform.rotation, enemyContainer);
+        currEnemy.name = enemy[enemyTipe].name;
     }
 
     int ConnectionTipe;

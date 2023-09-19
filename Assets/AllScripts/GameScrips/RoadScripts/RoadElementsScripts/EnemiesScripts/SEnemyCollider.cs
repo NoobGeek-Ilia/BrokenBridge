@@ -23,13 +23,29 @@ public class SEnemyCollider : MonoBehaviour
         float offcet = transform.localScale.y / 2;
         Vector3 newPos = new Vector3(transform.position.x, transform.position.y + offcet + 1, transform.position.z);
         ParticleSystem newEffect = Instantiate(damageEffect, newPos, damageEffect.transform.rotation);
+        ParticleSystem.MainModule main = newEffect.main;
+        string objectName = gameObject.name;
+        switch (objectName)
+        {
+            case "Slime":
+                main.startColor = Color.green;
+                break;
+            case "Spider":
+                main.startColor = Color.black;
+                break;
+            case "Ñritter":
+                main.startColor = new Color(0.6f, 0.2f, 0.8f);
+                break;
+        }
         newEffect.Play();
     }
+
     private void MissEffect()
     {
         float offcet = transform.localScale.x / 2;
         Vector3 newPos = new Vector3(transform.position.x - offcet, transform.position.y, transform.position.z);
         Instantiate(missMessagePrefab, newPos, missMessagePrefab.transform.rotation, transform);
+
     }
 
     private IEnumerator DamageControll(int selectedWeapon)
