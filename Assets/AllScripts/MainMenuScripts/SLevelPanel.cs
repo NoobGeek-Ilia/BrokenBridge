@@ -32,10 +32,6 @@ public class SLevelPanel : MonoBehaviour
         prog += step;
     }
 
-    public void ClosePanel()
-    {
-        checkWindow.winName = SCheckWindow.WindowName.None;
-    }
 
     public void LeftButt()
     {

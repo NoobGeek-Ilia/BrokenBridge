@@ -11,7 +11,7 @@ public class SBackGround : MonoBehaviour
     }
     void MoveClouds()
     {
-        float speed = 50;
+        float speed = 1;
         for (int i = 0; i < cloud.Length; i++)
         {
             cloud[i].transform.Translate(Vector2.left * Time.deltaTime * speed);

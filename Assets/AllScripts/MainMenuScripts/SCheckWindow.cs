@@ -23,11 +23,8 @@ public class SCheckWindow : MonoBehaviour
 
     public GameObject levelPanel;
     public GameObject[] mainElements;
-    private void Update()
-    {
-        //CheckOpenedWindow(winName);
-        //Debug.Log(_winName);
-    }
+    [SerializeField] GameObject StorePanel;
+
     void CheckOpenedWindow(WindowName winName)
     {
         CloseAllWindows();
@@ -47,7 +44,7 @@ public class SCheckWindow : MonoBehaviour
                 break;
 
             case WindowName.Store:
-
+                StorePanel.SetActive(true);
                 break;
 
             case WindowName.Settings:
@@ -65,9 +62,14 @@ public class SCheckWindow : MonoBehaviour
     private void CloseAllWindows()
     {
         levelPanel.SetActive(false);
+        StorePanel.SetActive(false);
         foreach (GameObject button in mainElements)
         {
             button.SetActive(false);
         }
+    }
+    public void ClosePanel()
+    {
+        winName = WindowName.None;
     }
 }
