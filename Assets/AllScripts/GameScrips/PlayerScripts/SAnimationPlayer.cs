@@ -5,10 +5,16 @@ public class SAnimationPlayer : MonoBehaviour
     internal protected Animator animator;
     public SPlayerMovement playerMovement;
     [SerializeField] StateMonitor monitor;
+    [SerializeField] STouchDetection touchDetection;
     private void Start()
     {
         animator = GetComponent<Animator>();
-        STouchDetection.TouchEvent += OnTouch;
+        touchDetection.TouchEvent += OnTouch;
+    }
+
+    private void OnDisable()
+    {
+        touchDetection.TouchEvent -= OnTouch;
     }
 
     private void OnTouch(STouchDetection.ActionTipe action)

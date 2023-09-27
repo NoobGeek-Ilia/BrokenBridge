@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class SCamera : MonoBehaviour
 {
+    AudioSource audioSource;
     public SPlatform platform;
     private Vector3 targetPosition1;
     private Quaternion targetRotation1;
@@ -25,19 +26,25 @@ public class SCamera : MonoBehaviour
     [SerializeField] SBridgeSpawner bridgeSpawner;
     [SerializeField] GameObject sideCameraDriver;
     [SerializeField] SPlayerMovement playerMovement;
+    [SerializeField] SPlayerLifeController sPlayerLifeController;
     const float distanceToPlayerX = 7.5f;
 
     private void OnEnable()
     {
-        SLastElevator.onSwichedToNextStage += () => StartCoroutine(HandleCameraBehavior());
+        lastElevator.onSwichedToNextStage += () => StartCoroutine(HandleCameraBehavior());
         road.onRoadComplited += () => StartCoroutine(HandleCameraBehavior());
         firstElevator.onElevatorLanded += () => StartCoroutine(HandleCameraBehavior());
         bridgeSpawner.onBridgeSet += () => StartCoroutine(MoveCameraToSide());
+        sPlayerLifeController.OnPlayerDied += () =>
+        {
+            cp = CameraPosition.Run;
+            StartCoroutine(HandleCameraBehavior());
+        };
 
     }
     private void OnDisable()
     {
-        SLastElevator.onSwichedToNextStage -= () => StartCoroutine(HandleCameraBehavior());
+        lastElevator.onSwichedToNextStage -= () => StartCoroutine(HandleCameraBehavior());
         road.onRoadComplited -= () => StartCoroutine(HandleCameraBehavior());
         firstElevator.onElevatorLanded -= () => StartCoroutine(HandleCameraBehavior());
         bridgeSpawner.onBridgeSet -= () => StartCoroutine(MoveCameraToSide());
@@ -45,6 +52,7 @@ public class SCamera : MonoBehaviour
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         Renderer getInfoFirstPlatform = platform.GetRenderPlatformInfo(0);
         float centerPlatformZ = platform.GetPlatformPositionInfo().z;
         float distanceToPlayerY = 5.5f;
@@ -74,6 +82,7 @@ public class SCamera : MonoBehaviour
 
     IEnumerator HandleCameraBehavior()
     {
+        audioSource.Play();
         float offset = 0.01f;
         progress = 0;
         switch (cp)

@@ -11,6 +11,7 @@ public class SBridgeSpawner : MonoBehaviour
     public bool brideComplite;
     public List<GameObject> bridges = new List<GameObject>();
     Vector3 getBoundsPlatform;
+    GameObject lastBridge;
     GameObject emptyObject;
     internal protected int currBridge;
     bool newBridgeHasSet;
@@ -29,10 +30,19 @@ public class SBridgeSpawner : MonoBehaviour
             SetNewPosBridgeBody();
             onBridgeSet?.Invoke();
         }
-        
+    }
+    private void OnDisable()
+    {
+        foreach (var bridge in bridges)
+        {
+            bridge.GetComponent<SBridge>().onBridgeComplited -= ResetVariable;
+        }
     }
 
-    void ResetVariable() => newBridgeHasSet = false;
+    void ResetVariable()
+    {
+        newBridgeHasSet = false;
+    }
 
     void SetNewPosBridgeBody()
     {

@@ -10,7 +10,7 @@ public class SLastElevator : MonoBehaviour
     float speed = 4f; // Скорость движения объекта
     public SPlatform platform;
     protected internal bool playerTakenToNextLevel;
-    public static Action onSwichedToNextStage;
+    public Action onSwichedToNextStage;
 
     private void Start()
     {

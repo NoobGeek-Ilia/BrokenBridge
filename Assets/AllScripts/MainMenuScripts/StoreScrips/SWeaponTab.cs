@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class SWeaponTab : SWallet
 {
     private int currIndex;
-    internal protected int SelectedWeaponIndex { get; private set; }
     private const int _weaponNum = 7;
     private bool[] selectInfo = new bool[_weaponNum];
     private bool[] boughtInfo = new bool[_weaponNum];
@@ -34,10 +33,13 @@ public class SWeaponTab : SWallet
 
     };
 
-
-
     private void Start()
     {
+        for (int i = 0; i < _weaponNum; i++)
+        {
+            int boughtValue = PlayerPrefs.GetInt("BoughtWeaponInfo_" + i, 0);
+            boughtInfo[i] = boughtValue == 1;
+        }
         boughtInfo[0] = true;
         selectInfo[0] = true;
         SetActiveWeapon();
@@ -116,7 +118,7 @@ public class SWeaponTab : SWallet
             selectInfo[i] = false;
         }
         selectInfo[currIndex] = true;
-        SelectedWeaponIndex = currIndex;
+        SGlobalGameInfo.selectedWeapon = currIndex;
     }
 
     public void BuyWeapon()
@@ -129,7 +131,7 @@ public class SWeaponTab : SWallet
         if (itemPrice <= CoinValue)
         {
             boughtInfo[currIndex] = true;
-            SelectWeapon();
+            PlayerPrefs.SetInt("BoughtWeaponInfo_" + currIndex, 1);
             ShowActiveElements();
         }
         base.DoTransaction(itemPrice);

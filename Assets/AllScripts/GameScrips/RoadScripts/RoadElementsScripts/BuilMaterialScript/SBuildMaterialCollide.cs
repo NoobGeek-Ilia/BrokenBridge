@@ -1,17 +1,18 @@
+using System;
 using UnityEngine;
 
 public class SBuildMaterialCollide : MonoBehaviour
 {
-    StateMonitor sm;
+    private SBuildMaterialController materialController;
     private void Start()
     {
-        sm = FindObjectOfType<StateMonitor>();
+        materialController = FindObjectOfType<SBuildMaterialController>();
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            sm.materialsNum += 3;
+            materialController.PickUpMaterial();
             gameObject.SetActive(false);
         }
     }

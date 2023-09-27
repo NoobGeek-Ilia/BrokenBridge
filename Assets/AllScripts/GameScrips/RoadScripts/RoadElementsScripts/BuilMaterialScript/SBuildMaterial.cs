@@ -12,7 +12,7 @@ public class SBuildMaterial : MonoBehaviour
     {
         if (allMaterials != null)
         {
-            RotateCoins();
+            RotateMaterial();
         }
     }
     internal protected void CreateMaterialsWay(SBridge bridge)
@@ -42,7 +42,7 @@ public class SBuildMaterial : MonoBehaviour
         Vector3 spawnPosition = new Vector3(spawnX, spawnY, spawnZ);
         allMaterials.Add(Instantiate(materialPrefab, spawnPosition, materialPrefab.transform.rotation, materialContainer));
     }
-    void RotateCoins()
+    void RotateMaterial()
     {
         int rotateSpeed = 2;
         foreach (GameObject go in allMaterials)

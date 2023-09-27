@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -15,26 +16,39 @@ public class StateMonitor : MonoBehaviour
     public SLastElevator lastElevator;
     public SCamera mainCamera;
     public SCoins coins;
+    
     [SerializeField] InitRoadFilling roadObjects;
     [SerializeField] SBuildMaterial buildMaterial;
     [SerializeField] SGameUi gameUi;
     [SerializeField] SBridgeTouchController bridgeTouchController;
-
+    public GameObject[] allCharacters;
+    [SerializeField] GameObject[] weaponPrefab;
+    [SerializeField] Transform[] anchorParent;
+    [SerializeField] SPlayerLifeController playerLifeController;
+    [SerializeField] SStageMonitor stageMonitor;
+    [SerializeField] SBuildMaterialController materialController;
+    internal protected Action OnLevelComplited;
+    internal protected GameObject currCharacter { get; private set; }
     internal protected static int[] stages = { 2, 2, 3, 3, 4, 4, 4, 5, 5 };
     internal protected int coinsNum;
-    internal protected int materialsNum = 10;
+    internal protected int KilledEnemyesNum;
+    internal protected int BrokeBridgeNum;
     
-    internal protected static int currentStageIndex = 0;
+    
+    internal protected int currentStageIndex = 0;
     public bool levelComplite = true;
 
     private void OnEnable()
     {
-        SLastElevator.onSwichedToNextStage += ReloadStage;
+        lastElevator.onSwichedToNextStage += () => Reload(false);
+        ActivateSelectedCharacter();
+        ActivateSelectedWeapon();
     }
     private void OnDisable()
     {
-        SLastElevator.onSwichedToNextStage -= ReloadStage;
+        lastElevator.onSwichedToNextStage -= () => Reload(false);
     }
+
     void Update()
     {
         CheckCompliteLevel();
@@ -46,24 +60,34 @@ public class StateMonitor : MonoBehaviour
     }
     void CheckCompliteLevel()
     {
-        if (currentStageIndex == stages[SBoxPanel.SelectedLevel])
+        if (currentStageIndex == stages[SBoxPanel.SelectedLevel] && !levelComplite)
+        {
             levelComplite = true;
+            OnLevelComplited?.Invoke();
+        }
     }
 
-    void ReloadStage()
+    internal protected void Reload(bool resetStageIndex)
     {
-        currentStageIndex++;
+        if (resetStageIndex)
+            currentStageIndex = 0;
+        else
+            currentStageIndex++;
+        stageMonitor.InitSatge();
         roadObjects.DestroyDamageObjectsAndEnemy();
         coins.ResetCoinsWay();
+        materialController.ResetMaterial();
         buildMaterial.ResetMaterialWay();
         platform.DestroyPlatforms();
         ResetVariables();
         platform.AddNewPlatform();
         bridgeSpawner.ResetSpawner();
         firstElevator.ResetElevatorPos();
+        playerLifeController.ResetPlayerHealsPoint();
         playerMovement.SetNewPlayerPos();
         lastElevator.ResetElevatorPos();
         bridgeTouchController.BridgeInit();
+        Debug.Log($"currStage: {currentStageIndex}");
     }
     void ResetVariables()
     {
@@ -74,5 +98,17 @@ public class StateMonitor : MonoBehaviour
         mainCamera.transform.position = mainCamera.startPosition;
     }
 
-
+    void ActivateSelectedCharacter()
+    {
+        foreach (var character in allCharacters)
+            character.SetActive(false);
+        allCharacters[SGlobalGameInfo.selectedCharacter].SetActive(true);
+        currCharacter = allCharacters[SGlobalGameInfo.selectedCharacter];
+    }
+    void ActivateSelectedWeapon()
+    {
+        GameObject prefab = weaponPrefab[SGlobalGameInfo.selectedWeapon];
+        Transform anchor = anchorParent[SGlobalGameInfo.selectedCharacter];
+        Instantiate(prefab, anchor.transform.position, prefab.transform.rotation, anchor);
+    }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class STouchDetection : MonoBehaviour
 {
-    public static event OnTouchInput TouchEvent;
+    public event OnTouchInput TouchEvent;
     public delegate void OnTouchInput(ActionTipe action);
     private Vector2 tapPos;
     private Vector2 swipeDelta;

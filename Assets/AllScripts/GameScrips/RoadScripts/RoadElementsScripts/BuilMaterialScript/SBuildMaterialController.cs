@@ -1,18 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class SBuildMaterialController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    [SerializeField] StateMonitor stateMonitor;
+    [SerializeField] SGameOverPanel gameOverPanel;
+    internal protected Action OnMaterialRunOut;
+    const int _materialBonusNum = 3;
+    const int _startMaterialNum = 10;
+    private int currMaterialsNum = _startMaterialNum;
+    private bool materialRunOut;
+
+    internal protected int MaterialsNum 
+    { 
+        get => currMaterialsNum; 
+        set => currMaterialsNum = value;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (MaterialsNum < 1 && !materialRunOut)
+        {
+            OnMaterialRunOut?.Invoke();
+            materialRunOut = true;
+            gameOverPanel.OpenPanel();
+        }
+    }
+    internal protected void PickUpMaterial()
+    {
+        MaterialsNum += _materialBonusNum;
+    }
+    internal protected void ResetMaterial()
+    {
+        materialRunOut = false;
     }
 }

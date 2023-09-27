@@ -1,17 +1,36 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 public class SPlayerLifeController : SCollisionController
 {
     public TextMeshProUGUI HealthMonitor;
-    const int startingHealthPoints = 10;
-    private int healthPoints = startingHealthPoints;
+    private int currHelthPoint;
+    private int healthPoints
+    {
+        get { return currHelthPoint; }
+        set
+        {
+            if (value < 0)
+                currHelthPoint = 0;
+            else
+                currHelthPoint = value;
+        }
+    }
+    internal protected bool playerDied { get; private set; }
     public SPlayerMovement playerMovement;
     Rigidbody playerRb;
     [SerializeField] ParticleSystem damageEffect;
+    [SerializeField] ParticleSystem deadEffect;
+    internal protected Action OnPlayerDied;
+    [SerializeField] SGameOverPanel gameOverPanel;
+    [SerializeField] StateMonitor stateMonitor;
+
+
     bool gotWound;
     private void Start()
     {
+        currHelthPoint = SCharacterTab.maxCurrCharacterHp;
         damageEffect.Stop();
         playerRb = playerMovement.rb;
     }
@@ -22,13 +41,19 @@ public class SPlayerLifeController : SCollisionController
     }
     private void OnDisable()
     {
-        onDamageCollided += () => TakingDamage(1, true);
-        playerMovement.onPlayerFell += () => TakingDamage(5, false);
+        onDamageCollided -= () => TakingDamage(1, true);
+        playerMovement.onPlayerFell -= () => TakingDamage(5, false);
     }
     void Update()
     {
         HealthMonitor.text = healthPoints.ToString();
-
+        if (healthPoints < 1 && !playerDied)
+        {
+            Debug.Log("sssssss");
+            stateMonitor.currCharacter.SetActive(false);
+            deadEffect.Play();
+            StartCoroutine(KillPlayer());
+        }
     }
     void TakingDamage(int damage, bool gotWound)
     {
@@ -45,11 +70,27 @@ public class SPlayerLifeController : SCollisionController
 
     private IEnumerator DamageControll(int damageValue, bool gotWound)
     {
+
         int invulnerabilityTime = 2;
         healthPoints -= damageValue;
         ShowDamageEffect(gotWound);
         yield return new WaitForSeconds(0.5f);
         HealthMonitor.color = Color.white;
         yield return new WaitForSeconds(invulnerabilityTime);
+
+    }
+    private IEnumerator KillPlayer()
+    {
+        playerDied = true;
+        yield return new WaitForSeconds(2f);
+        gameOverPanel.OpenPanel();
+        OnPlayerDied?.Invoke();
+        
+    }
+    internal protected void ResetPlayerHealsPoint()
+    {
+        playerDied = false;
+        stateMonitor.allCharacters[SGlobalGameInfo.selectedCharacter].SetActive(true);
+        //currHelthPoint = SCharacterTab.maxCurrCharacterHp;
     }
 }

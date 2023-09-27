@@ -16,6 +16,8 @@ public class SRoad : MonoBehaviour
         CheckCompliteRoad();
         if (cam.cp == SCamera.CameraPosition.Run)
             roadComplite = false;
+        Debug.Log(SGlobalGameInfo.selectedWeapon);
+        Debug.Log(SGlobalGameInfo.selectedCharacter);
     }
     void CheckCompliteRoad()
     {
@@ -25,6 +27,7 @@ public class SRoad : MonoBehaviour
             {
                 onRoadComplited?.Invoke();
                 eventWasCalled = true;
+                Debug.Log("ddwdwwdwd");
             }
         }
         //if (platform.currentIndexPlatform + 1 == platform.platforms[SLevelPanel.levelNumber]) - заменить нижнее условие после 

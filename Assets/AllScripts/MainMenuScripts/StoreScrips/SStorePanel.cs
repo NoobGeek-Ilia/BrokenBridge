@@ -55,7 +55,7 @@ public class SStorePanel : MonoBehaviour
         Color buttonColor = storeTabButtonImages[i].color;
         windowBackgroundImage.color = buttonColor;
 
-        Color darkerColor = new Color(buttonColor.r * 0.5f, buttonColor.g * 0.5f, buttonColor.b * 0.5f, buttonColor.a);
+        Color darkerColor = new Color(buttonColor.r / 0.5f, buttonColor.g / 0.5f, buttonColor.b / 0.5f, buttonColor.a);
         WindowBackground.transform.GetChild(0).GetComponent<Image>().color = darkerColor;
     }
 }

@@ -17,16 +17,20 @@ public class SPlayerMovement : MonoBehaviour
     [SerializeField] SPlatform platform;
     [SerializeField] SGameUi gameUi;
     internal protected Action onPlayerFell;
-
-
+    [SerializeField] SPlayerLifeController playerLifeController;
+    [SerializeField] STouchDetection touchDetection;
+    internal protected int PlayerFellNum { get; private set; }
     private void Start()
     {
-        STouchDetection.TouchEvent += OnTouch;
+        touchDetection.TouchEvent += OnTouch;
         rb = GetComponent<Rigidbody>();
         Physics.gravity = customGravity;
         SetNewPlayerPos();
     }
-
+    private void OnDisable()
+    {
+        touchDetection.TouchEvent -= OnTouch;
+    }
     private void OnTouch(STouchDetection.ActionTipe action)
     {
         Movement(action);
@@ -37,7 +41,7 @@ public class SPlayerMovement : MonoBehaviour
         KeyControll();
         if (gameUi.GetRunTimer < 1)
             isRunning = true;
-        if (playerOnTargetPlatform)
+        if (playerOnTargetPlatform || playerLifeController.playerDied)
             isRunning = false;
         if (transform.position.x + 1 > lastElevator.transform.position.x)
             playerOnTargetPlatform = true;
@@ -47,9 +51,11 @@ public class SPlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        
-        SideMovement();
-        Running(isRunning);
+        if (!playerLifeController.playerDied)
+        {
+            SideMovement();
+            Running(isRunning);
+        }
     }
     void KeyControll()
     {
@@ -107,7 +113,7 @@ public class SPlayerMovement : MonoBehaviour
     {
         float jumpForce = 7.5f;
 
-        if (jumpCount < 2)
+        if (jumpCount < 2 && !playerLifeController.playerDied)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
@@ -152,6 +158,7 @@ public class SPlayerMovement : MonoBehaviour
         {
             onPlayerFell?.Invoke();
             SetNewPlayerPos();
+            PlayerFellNum++;
         }
     }
 }

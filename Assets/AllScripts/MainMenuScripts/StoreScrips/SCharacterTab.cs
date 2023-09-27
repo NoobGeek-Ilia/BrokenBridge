@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SCharacterTab : SWallet
 {
     private int currIndex;
-    internal protected int selectedCharacterIndex { get; private set; }
+    internal protected static int maxCurrCharacterHp { get; private set; } = 9999;
     private const int _characterNum = 3;
     private bool[] selectInfo = new bool[_characterNum];
     private bool[] boughtInfo = new bool[_characterNum];
@@ -32,6 +32,11 @@ public class SCharacterTab : SWallet
 
     private void Start()
     {
+        for (int i = 0; i < _characterNum; i++)
+        {
+            int boughtValue = PlayerPrefs.GetInt("BoughtCharacterInfo_" + i, 0);
+            boughtInfo[i] = boughtValue == 1;
+        }
         boughtInfo[0] = true;
         selectInfo[0] = true;
         SetActiveCharacter();
@@ -39,7 +44,6 @@ public class SCharacterTab : SWallet
     private void Update()
     {
         CheckSelectedCharacter();
-        Debug.Log($"index cher = {selectedCharacterIndex}");
     }
     void SetCharacterInfo(SCharacterInfo character)
     {
@@ -110,7 +114,8 @@ public class SCharacterTab : SWallet
             selectInfo[i] = false;
         }
         selectInfo[currIndex] = true;
-        selectedCharacterIndex = currIndex;
+        SGlobalGameInfo.selectedCharacter = currIndex;
+        maxCurrCharacterHp = characterInfo[currIndex].hp;
     }
 
     public void BuyCharacter()
@@ -123,7 +128,7 @@ public class SCharacterTab : SWallet
         if (itemPrice <= CoinValue)
         {
             boughtInfo[currIndex] = true;
-            SelectCharacter();
+            PlayerPrefs.SetInt("BoughtCharacterInfo_" + currIndex, 1);
             ShowActiveElements();
         }
         base.DoTransaction(itemPrice);

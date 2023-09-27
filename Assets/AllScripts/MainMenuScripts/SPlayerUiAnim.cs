@@ -8,5 +8,6 @@ public class SPlayerUiAnim : MonoBehaviour
     void Update()
     {
         transform.Rotate(Vector3.down, spinSpeed * Time.deltaTime);
+        Debug.Log("Update is called");
     }
 }

@@ -3,19 +3,20 @@ using UnityEngine;
 
 public class SEnemyCollider : MonoBehaviour
 {
-    SWeapon weapon;
     GameObject missMessagePrefab;
     [SerializeField] ParticleSystem damageEffect;
+    private StateMonitor stateMonitor;
+
     private void Start()
     {
-        weapon = GameObject.Find("Weapons").GetComponent<SWeapon>();
+        stateMonitor = FindObjectOfType<StateMonitor>();
         missMessagePrefab = Resources.Load<GameObject>("Prefabs/Enemies/MissMessage");
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("WeaponTag"))
         {
-            StartCoroutine(DamageControll(weapon.missHitProb[SGlobalGameInfo.selectedWeapon]));
+            StartCoroutine(DamageControll(SWeaponInfo.missHitProb[SGlobalGameInfo.selectedWeapon]));
         }
     }
     private void DamageEffect()
@@ -55,6 +56,7 @@ public class SEnemyCollider : MonoBehaviour
         {
             DamageEffect();
             gameObject.SetActive(false);
+            stateMonitor.KilledEnemyesNum++;
         }
         else
             MissEffect();

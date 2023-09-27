@@ -14,6 +14,7 @@ public class InitRoadFilling : MonoBehaviour
     GameObject bridgeBody;
     SBridge bridge;
     [SerializeField] SBuildMaterial bridgeMaterial;
+    internal protected int allEnemiesOnLvlNum;
     private void OnEnable()
     {
         road.onRoadComplited += FillRoad;
@@ -35,6 +36,7 @@ public class InitRoadFilling : MonoBehaviour
             FillBridge(bridge);
             bridgeMaterial.CreateMaterialsWay(bridge);
         }
+        allEnemiesOnLvlNum += enemyContainer.childCount;
     }
 
     void FillBridge(SBridge bridge)

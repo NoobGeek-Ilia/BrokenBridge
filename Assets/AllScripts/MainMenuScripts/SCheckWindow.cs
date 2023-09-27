@@ -25,6 +25,7 @@ public class SCheckWindow : MonoBehaviour
     public GameObject[] mainElements;
     [SerializeField] GameObject StorePanel;
 
+
     void CheckOpenedWindow(WindowName winName)
     {
         CloseAllWindows();

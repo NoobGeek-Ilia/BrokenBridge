@@ -10,30 +10,32 @@ public class SGameUi : MonoBehaviour
     [SerializeField] TextMeshProUGUI materialsNumTxt;
     [SerializeField] StateMonitor monitor;
     [SerializeField] GameObject StageCompliteWindow;
+    [SerializeField] SBuildMaterialController buildMaterialController;
+    [SerializeField] SWinPanel winPanel;
     private void OnEnable()
     {
         road.onRoadComplited += () => StartCoroutine(RunTimer());
+        monitor.OnLevelComplited += ShowLevelStatistic;
     }
     private void OnDisable()
     {
         road.onRoadComplited -= () => StartCoroutine(RunTimer());
+        monitor.OnLevelComplited -= ShowLevelStatistic;
     }
 
     void Update()
     {
         ShowCoinAndMaterialCounter();
-        if (monitor.levelComplite)
-            ShowLevelStatistic();
     }
     void ShowCoinAndMaterialCounter()
     {
         coinsNumTxt.text = monitor.coinsNum.ToString();
-        materialsNumTxt.text = monitor.materialsNum.ToString();
+        materialsNumTxt.text = buildMaterialController.MaterialsNum.ToString();
     }
 
     void ShowLevelStatistic()
     {
-        StageCompliteWindow.SetActive(true);
+        winPanel.OpenPanel();
     }
 
     internal protected int GetRunTimer { get; set; } = 2;

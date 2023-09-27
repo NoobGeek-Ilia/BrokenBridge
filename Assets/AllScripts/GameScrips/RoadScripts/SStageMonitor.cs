@@ -7,26 +7,19 @@ public class SStageMonitor : MonoBehaviour
 {
     public TextMeshPro currStagesTxt;
     public GameObject[] StageCircles;
+    [SerializeField] StateMonitor stateMonitor;
     private void Start()
     {
         SetStageCircles();
         InitSatge();
     }
-    private void OnEnable()
-    {
-        SLastElevator.onSwichedToNextStage += InitSatge;
-    }
-    private void OnDisable()
-    {
-        SLastElevator.onSwichedToNextStage -= InitSatge;
-    }
-    private void InitSatge()
+    internal protected void InitSatge()
     {
         //on first platform
-        currStagesTxt.text = (StateMonitor.currentStageIndex + 1).ToString();
+        currStagesTxt.text = (stateMonitor.currentStageIndex + 1).ToString();
 
         //fill finished stage circles
-        for (int i = 0; i < StateMonitor.currentStageIndex + 1; i++)
+        for (int i = 0; i < stateMonitor.currentStageIndex + 1; i++)
         {
             Image cirlePic = StageCircles[i].GetComponent<Image>();
             cirlePic.color = Color.yellow;

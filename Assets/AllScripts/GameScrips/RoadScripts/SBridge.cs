@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class SBridge : MonoBehaviour
 {
+
+    SAudioManager audioManager;
+
     public List<GameObject> copyBridgeParticle = new List<GameObject>();
     public List<GameObject> brokenBridgePart = new List<GameObject>();
     public List<GameObject> brokenBodyBridgePart = new List<GameObject>();
@@ -12,6 +15,7 @@ public class SBridge : MonoBehaviour
 
     public GameObject bridgeParticle;
     public GameObject bridgeBody;
+    private StateMonitor stateMonitor;
     public SPlatform platform;
     public SBridgeSpawner bridgeSpawner;
     public Transform bridgeBodyTransform;
@@ -23,17 +27,18 @@ public class SBridge : MonoBehaviour
     private float timerBuildBridge = 0f;
     private float intervalBuilding = 0.05f;
     internal protected Action onBridgeComplited;
-
-    StateMonitor stateMonitor;
+    SBuildMaterialController buildMaterialController;
 
     private void Start()
     {
         stateMonitor = FindObjectOfType<StateMonitor>();
+        buildMaterialController = FindObjectOfType<SBuildMaterialController>();
         bridgeSpawner = FindObjectOfType<SBridgeSpawner>();
         bridgeParticle = Resources.Load<GameObject>("Prefabs/WoodenBlock");
         bridgeBody = GameObject.Find($"Bridge{bridgeSpawner.currBridge - 1}");
         platform = FindObjectOfType<SPlatform>();
         bridgeBodyTransform = bridgeBody.transform;
+        audioManager = FindObjectOfType<SAudioManager>();
     }
     private void Update()
     {
@@ -70,6 +75,8 @@ public class SBridge : MonoBehaviour
 
             newTopBridge += heightBridge;
             timerBuildBridge = 0;
+            if (audioManager != null)
+                audioManager.PlaySound(0, 0.9f, 1.1f);
         }
 
     }
@@ -78,6 +85,8 @@ public class SBridge : MonoBehaviour
     public void PushBridgeBody()
     {
         bridgeIsFalling = true;
+        if (audioManager != null)
+            audioManager.PlaySound(1);
         for (int i = widthBridge * 2; i < copyBridgeParticle.Count; ++i)
         {
             if (copyBridgeParticle[i].GetComponent<SParticle>() == null)
@@ -110,14 +119,21 @@ public class SBridge : MonoBehaviour
         float nextPformMinPos_x = platform.GetRenderPlatformInfo(platform.currentIndexPlatform + 1).bounds.min.x;
 
         if (lastParticleMinPos_x > nextPlatformMaxPos_x || lastParticleMaxPos_x < nextPformMinPos_x)
+        {
+            if (audioManager != null)
+                audioManager.PlaySound(3);
             SplitBringe();
+            stateMonitor.BrokeBridgeNum++;
+        }
         else
         {
+            if (audioManager != null)
+                audioManager.PlaySound(2);
             onBridgeComplited?.Invoke();
             SetCellPosZ();
             CutBridgeResetList();
         }
-        stateMonitor.materialsNum--;
+        buildMaterialController.MaterialsNum--;
     }
     internal protected void SplitBringe()
     {     

@@ -1,5 +1,6 @@
 public class SWeaponInfo
 {
+    internal protected static readonly int[] missHitProb = { 2, 2, 3, 4, 5, 6, 7 };
     public string name;
     public int accuracy;
     public int distance;
