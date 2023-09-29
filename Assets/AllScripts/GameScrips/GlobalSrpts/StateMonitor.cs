@@ -29,7 +29,7 @@ public class StateMonitor : MonoBehaviour
     [SerializeField] SBuildMaterialController materialController;
     internal protected Action OnLevelComplited;
     internal protected GameObject currCharacter { get; private set; }
-    internal protected static int[] stages = { 2, 2, 3, 3, 4, 4, 4, 5, 5 };
+    internal protected static int[] stages = { 2, 2, 2, 2, 2, 2, 2, 2, 5 };
     internal protected int coinsNum;
     internal protected int KilledEnemyesNum;
     internal protected int BrokeBridgeNum;

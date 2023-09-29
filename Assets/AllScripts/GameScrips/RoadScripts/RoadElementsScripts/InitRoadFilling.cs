@@ -76,7 +76,7 @@ public class InitRoadFilling : MonoBehaviour
 
     void CreateDamageObjects(int currRow)
     {
-        float[] distanceToBridge = { 0f, 0.4f, 0.2f }; //disk, flame, peak
+        float[] distanceToBridge = { 0f, 0.8f, 0.2f }; //disk, flame, peak
         Vector3[] cellPosition = new Vector3[SBridge.widthBridge];
         int selectedObject = SelectedDamageObject(currRow);
         for (int i = 0; i < SBridge.widthBridge; i++)
@@ -137,7 +137,7 @@ public class InitRoadFilling : MonoBehaviour
     void CreateEnemy(int currCell)
     {
         int enemyTipe = Random.Range(0, enemy.Length);
-        float[] distanceToBridge = { 0.6f, 0.4f, 0.5f }; //sp, sl, cr
+        float[] distanceToBridge = { 0.6f, 0.5f, 0.5f }; //sp, sl, cr
         float spawnX = bridge.copyBridgeParticle[currCell].transform.position.x;
         float spawnY = bridge.copyBridgeParticle[currCell].transform.position.y + distanceToBridge[enemyTipe];
         float spawnZ = bridge.copyBridgeParticle[currCell].transform.position.z;

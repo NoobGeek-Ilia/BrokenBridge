@@ -13,6 +13,5 @@ public class SWinStastistic
         playerFellSum = playerMovement;
         percentEnemiesSum = (int)(((double)killedEnemies / enemiesSum) * 100);
         bridgeBrokeSum = brokeBridge;
-        
     }
 }

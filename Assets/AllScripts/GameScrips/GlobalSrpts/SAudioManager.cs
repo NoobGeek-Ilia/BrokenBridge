@@ -16,10 +16,4 @@ public class SAudioManager : MonoBehaviour
         soundEffect.clip = buildSound[effect];
         soundEffect.PlayOneShot(soundEffect.clip);
     }
-    public void PlaySound(int effect, float minPitch, float maxPitch)
-    {
-        soundEffect.clip = buildSound[effect];
-        soundEffect.pitch = Random.Range(minPitch, maxPitch);
-        soundEffect.PlayOneShot(soundEffect.clip);
-    }
 }

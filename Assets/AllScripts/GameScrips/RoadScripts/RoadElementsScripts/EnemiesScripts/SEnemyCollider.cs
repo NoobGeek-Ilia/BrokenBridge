@@ -6,10 +6,12 @@ public class SEnemyCollider : MonoBehaviour
     GameObject missMessagePrefab;
     [SerializeField] ParticleSystem damageEffect;
     private StateMonitor stateMonitor;
+    private SEnemySoundController soundController;
 
     private void Start()
     {
         stateMonitor = FindObjectOfType<StateMonitor>();
+        soundController = FindObjectOfType<SEnemySoundController>();
         missMessagePrefab = Resources.Load<GameObject>("Prefabs/Enemies/MissMessage");
     }
     private void OnTriggerEnter(Collider other)
@@ -57,9 +59,12 @@ public class SEnemyCollider : MonoBehaviour
             DamageEffect();
             gameObject.SetActive(false);
             stateMonitor.KilledEnemyesNum++;
+            soundController.PlaySmashSound();
         }
         else
+        {
             MissEffect();
+        }
         yield return null;
     }
 }

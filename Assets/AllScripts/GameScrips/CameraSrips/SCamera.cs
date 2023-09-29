@@ -34,7 +34,11 @@ public class SCamera : MonoBehaviour
         lastElevator.onSwichedToNextStage += () => StartCoroutine(HandleCameraBehavior());
         road.onRoadComplited += () => StartCoroutine(HandleCameraBehavior());
         firstElevator.onElevatorLanded += () => StartCoroutine(HandleCameraBehavior());
-        bridgeSpawner.onBridgeSet += () => StartCoroutine(MoveCameraToSide());
+        bridgeSpawner.onBridgeSet += () =>
+        {
+            StartCoroutine(MoveCameraToSide());
+            Debug.Log("Bridge Set Courutin On");
+        };
         sPlayerLifeController.OnPlayerDied += () =>
         {
             cp = CameraPosition.Run;
@@ -67,11 +71,6 @@ public class SCamera : MonoBehaviour
 
         transform.position = startPosition;
         transform.rotation = startRotation;
-    }
-    private void LateUpdate()
-    {
-
-        //Debug.Log(progress);
     }
     private void FixedUpdate()
     {
@@ -134,8 +133,7 @@ public class SCamera : MonoBehaviour
         int platformIndex = platform.currentIndexPlatform + 1;
         float nextPlatformPosX = platform.copyPlatform[platformIndex].transform.position.x - distance;
         float currentVelocity = 0;
-        Debug.Log($"mover - {sideCameraDriver.transform.position.x}, platform {nextPlatformPosX}");
-        if (platform.currentIndexPlatform != StateMonitor.stages[SBoxPanel.SelectedLevel] + 1)
+        if (platform.currentIndexPlatform != platform.platforms[SBoxPanel.SelectedLevel] - 1)
         {
             
             while (transform.position.x < nextPlatformPosX)

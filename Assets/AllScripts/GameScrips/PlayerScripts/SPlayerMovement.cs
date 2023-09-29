@@ -19,6 +19,8 @@ public class SPlayerMovement : MonoBehaviour
     internal protected Action onPlayerFell;
     [SerializeField] SPlayerLifeController playerLifeController;
     [SerializeField] STouchDetection touchDetection;
+    [SerializeField] SPlayerSoundController soundController;
+
     internal protected int PlayerFellNum { get; private set; }
     private void Start()
     {
@@ -63,6 +65,7 @@ public class SPlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            soundController.PlayCharacterJumpSound();
             Jumping();
         }
 
@@ -94,10 +97,11 @@ public class SPlayerMovement : MonoBehaviour
                     sideTargetPos += stepSize;
                 break;
             case STouchDetection.ActionTipe.Jump:
+                soundController.PlayCharacterJumpSound();
                 Jumping();
                 break;
             case STouchDetection.ActionTipe.Hit:
-
+                soundController.PlayHitSound();
                 break;
         }
     }
@@ -159,6 +163,7 @@ public class SPlayerMovement : MonoBehaviour
             onPlayerFell?.Invoke();
             SetNewPlayerPos();
             PlayerFellNum++;
+            soundController.PlayCharacterFallingSound();
         }
     }
 }

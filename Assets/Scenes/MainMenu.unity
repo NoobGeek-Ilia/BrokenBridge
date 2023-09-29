@@ -2248,9 +2248,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fae1d2d82c5e614ebaf3cc0dd2753be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkWindow: {fileID: 386688496}
-  closeButt: {fileID: 2023554417}
-  boxPanel: {fileID: 1377808769}
   starsCountToUnblock: {fileID: 1918173132}
   sBoxPanel: {fileID: 1377808774}
 --- !u!1 &287879282
@@ -3856,7 +3853,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 2500
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 408e2d9f09ba85d4f932f21ff993f2b3, type: 2}
   m_sharedMaterial: {fileID: -7768355889443151321, guid: 408e2d9f09ba85d4f932f21ff993f2b3, type: 2}
@@ -6518,7 +6515,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000091552734, y: 245}
+  m_AnchoredPosition: {x: 0.000091552734, y: 273}
   m_SizeDelta: {x: 489.71, y: 132.4621}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &932922250
@@ -6550,8 +6547,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294901929
-  m_fontColor: {r: 0.66185284, g: 0, b: 1, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 1
   m_fontColorGradient:
@@ -10082,11 +10079,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3920811915492791460, guid: f57f9753b0c6b2549a99b62271932846, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 35.713
+      value: 28.408
       objectReference: {fileID: 0}
     - target: {fileID: 3920811915492791460, guid: f57f9753b0c6b2549a99b62271932846, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 35.713
+      value: 28.41
       objectReference: {fileID: 0}
     - target: {fileID: 3920811915492791460, guid: f57f9753b0c6b2549a99b62271932846, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10118,11 +10115,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3920811915492791460, guid: f57f9753b0c6b2549a99b62271932846, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -131
+      value: -124.3
       objectReference: {fileID: 0}
     - target: {fileID: 3920811915492791460, guid: f57f9753b0c6b2549a99b62271932846, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 183
+      value: 176
       objectReference: {fileID: 0}
     - target: {fileID: 3920811915492791460, guid: f57f9753b0c6b2549a99b62271932846, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -12751,8 +12748,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4279959296
+  m_fontColor: {r: 0, g: 1, b: 0.10195184, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

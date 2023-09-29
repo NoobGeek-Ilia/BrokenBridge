@@ -19,26 +19,31 @@ public class SBoxPanel : MonoBehaviour
     };
     internal protected static int SelectedLevel 
     { get; private set; }
+
     const int levelNum = 36;
-    int unblocktedSet;
-    int[] starsNum = new int[levelNum];
-    int defaultUnlocktedLevels = 3;
-    bool[] availableLevel = new bool[levelNum];
-    int cellNumInOneSet = 3;
+    const int defaultUnlocktedLevels = 3;
+    const int _maxStarsInOnLvl = 3;
+    const int _cellNumInOneSet = 3;
+
+    static int unblocktedSet;
+    static bool[,] starExist = new bool[levelNum, _maxStarsInOnLvl];
+    static bool[] availableLevel = new bool[levelNum];
+    
     internal protected int StarsNumToUnblockNextSet { get; private set; }
 
     void Start()
     {
         FillLevelPanels();
+        UpdateStarsNumInComplitedLevel();
+        ShowStars();
         for (int i = 0; i < defaultUnlocktedLevels; i++)
         {
+            allLevelButtons[i].transform.GetChild(2).gameObject.SetActive(false);
             availableLevel[i] = true;
         }
         CheckAvailableLevel();
-        ShowStars();
         CheckSelectedLevel();
     }
-
 
     void FillLevelPanels()
     {
@@ -72,32 +77,68 @@ public class SBoxPanel : MonoBehaviour
     int GetStarsSumInAvailableSets()
     {
         int sum = 0;
-        for (int i = 0; i < (unblocktedSet * cellNumInOneSet) + cellNumInOneSet; i++)
+        for (int i = 0; i < levelNum; i++)
         {
-            sum += starsNum[i];
+            for (int j = 0; j < _maxStarsInOnLvl; j++)
+            {
+                if (starExist[i, j])
+                    sum++;
+            }
         }
         return sum;
     }
     void CheckAvailableLevel()
     {
         int minStarsNumToUnblockLevels = 6; //for one set
-        int currentAvailableStars = (minStarsNumToUnblockLevels * unblocktedSet) + minStarsNumToUnblockLevels;
-        if (currentAvailableStars >= GetStarsSumInAvailableSets())
+        int currentAvailableStars = ((minStarsNumToUnblockLevels * unblocktedSet) + minStarsNumToUnblockLevels);
+        Debug.Log($"Sum: {GetStarsSumInAvailableSets()}, Need: {currentAvailableStars}, {unblocktedSet}");
+        if (GetStarsSumInAvailableSets() >= currentAvailableStars)
         {
-            for (int i = 0; i < (unblocktedSet * cellNumInOneSet) + cellNumInOneSet; i++)
-            {
-                allLevelButtons[i].transform.GetChild(2).gameObject.SetActive(false);
+            Debug.Log("sum > value");
+            unblocktedSet++;
+            int unblocedLevelNum = _cellNumInOneSet * unblocktedSet;
+            for (int i = unblocedLevelNum; i < (unblocktedSet * _cellNumInOneSet) + _cellNumInOneSet; i++)
                 availableLevel[i] = true;
+        }
+
+        //set locker
+        for (int i = 0; i < levelNum; i++)
+        {
+            if (availableLevel[i])
+                allLevelButtons[i].transform.GetChild(2).gameObject.SetActive(false);
+        }
+
+        StarsNumToUnblockNextSet = ((minStarsNumToUnblockLevels * unblocktedSet) + minStarsNumToUnblockLevels) - GetStarsSumInAvailableSets();
+    }
+
+    void UpdateStarsNumInComplitedLevel()
+    {
+        if (SWinPanel.starRecived != null)
+        {
+
+            for (int i = 0; i < _maxStarsInOnLvl; i++)
+            {
+                if (SWinPanel.starRecived[i])
+                {
+                    starExist[SelectedLevel, i] = true;
+                    SWinPanel.starRecived[i] = false;
+                }
+                else
+                    starExist[SelectedLevel, i] = false;
             }
         }
-        StarsNumToUnblockNextSet = currentAvailableStars - GetStarsSumInAvailableSets();
+
     }
+
     void ShowStars()
     {
         for (int i = 0; i < levelNum; i++)
         {
-            for (int j = 0; j < starsNum[i]; j++)
-                allLevelButtons[i].transform.GetChild(1).transform.GetChild(j).gameObject.SetActive(true);
+            for (int j = 0; j < _maxStarsInOnLvl; j++)
+            {
+                if (starExist[i, j])
+                    allLevelButtons[i].transform.GetChild(1).transform.GetChild(j).gameObject.SetActive(true);
+            }
         }
     }
 

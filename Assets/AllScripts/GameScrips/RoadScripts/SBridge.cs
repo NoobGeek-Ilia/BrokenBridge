@@ -76,7 +76,7 @@ public class SBridge : MonoBehaviour
             newTopBridge += heightBridge;
             timerBuildBridge = 0;
             if (audioManager != null)
-                audioManager.PlaySound(0, 0.9f, 1.1f);
+                audioManager.PlaySound(0);
         }
 
     }

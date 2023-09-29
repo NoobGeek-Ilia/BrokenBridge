@@ -15,7 +15,7 @@ public class SPlatform : MonoBehaviour
     private Renderer render;
     public int currentIndexPlatform;
     private readonly Vector3 firstPlatformCenterPos = new Vector3(-4, -20f, 0);
-    protected internal int[] platforms = { 5, 5, 6, 7, 8, 9, 10, 11, 12 }; //количество платформ (не индексы)
+    protected internal int[] platforms = { 5, 3, 3, 3, 3, 3, 5, 11, 12 }; //количество платформ (не индексы)
     protected internal float GetPlatformTop { get; private set; }
     protected internal float GetMaxPlatformZ { get; private set; }
     private float stepSize;

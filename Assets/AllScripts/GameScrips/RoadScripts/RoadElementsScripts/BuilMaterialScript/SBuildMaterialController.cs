@@ -7,7 +7,7 @@ public class SBuildMaterialController : MonoBehaviour
     [SerializeField] SGameOverPanel gameOverPanel;
     internal protected Action OnMaterialRunOut;
     const int _materialBonusNum = 3;
-    const int _startMaterialNum = 10;
+    const int _startMaterialNum = 100;
     private int currMaterialsNum = _startMaterialNum;
     private bool materialRunOut;
 
@@ -19,6 +19,7 @@ public class SBuildMaterialController : MonoBehaviour
 
     private void Update()
     {
+        //גûחûגאועסÿ גטהטלמ קאסעמ, ג ןנמפאיכונו 
         if (MaterialsNum < 1 && !materialRunOut)
         {
             OnMaterialRunOut?.Invoke();

@@ -3,16 +3,15 @@ using UnityEngine;
 
 public class SMissMesseger : MonoBehaviour
 {
-    private void Update() => RiseUp();
-    private void RiseUp()
+    const float speed = 5f;
+    private void FixedUpdate()
     {
-        const float speed = 5f;
         transform.Translate(Vector3.up * speed * Time.deltaTime);
         FadeEffect();
     }
     private void FadeEffect()
     {
-        const float fadeSpeed = 0.01f;
+        const float fadeSpeed = 0.03f;
         TextMeshPro messageColor = GetComponent<TextMeshPro>();
         float fadeAmount = messageColor.color.a - fadeSpeed;
         messageColor.color = new Color(messageColor.color.r, messageColor.color.g, messageColor.color.b, fadeAmount);

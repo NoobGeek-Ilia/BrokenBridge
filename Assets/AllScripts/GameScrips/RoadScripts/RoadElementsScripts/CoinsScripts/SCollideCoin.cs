@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class SCollideCoin : MonoBehaviour
 {
-    StateMonitor sm;
+    StateMonitor stateMonitor;
+    SCoinSoundController coinSoundController;
     private void Start()
     {
-        sm = FindObjectOfType<StateMonitor>();
+        coinSoundController = FindObjectOfType<SCoinSoundController>();
+        stateMonitor = FindObjectOfType<StateMonitor>();
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            sm.coinsNum++;
+            const int oneCoinValue = 5;
+            stateMonitor.coinsNum += oneCoinValue;
             gameObject.SetActive(false);
+            coinSoundController.PlayGetCoinSound();
         }
     }
 }

@@ -8,10 +8,14 @@ public class SWinPanel : MonoBehaviour
     [SerializeField] SPlayerMovement playerMovement;
     [SerializeField] InitRoadFilling initRoad;
     [SerializeField] StateMonitor stateMonitor;
+    [SerializeField] GameObject HomeButton;
+    [SerializeField] GameObject HomeButtonReserve;
+    
 
     [SerializeField] TextMeshProUGUI[] statisticTxt;
 
-    internal protected int startSum;
+    const int _maxStars = 3;
+    internal protected static bool[] starRecived = new bool[_maxStars];
     [SerializeField] GameObject[] Star;
 
     const int maxValuePlayerFell = 3;
@@ -23,6 +27,7 @@ public class SWinPanel : MonoBehaviour
     {
         Time.timeScale = 0;
         gameObject.SetActive(true);
+        HomeButtonReserve.SetActive(false);
 
         SWinStastistic statistic = new SWinStastistic(playerMovement.PlayerFellNum, initRoad.allEnemiesOnLvlNum,
 stateMonitor.KilledEnemyesNum, stateMonitor.BrokeBridgeNum);
@@ -30,11 +35,16 @@ stateMonitor.KilledEnemyesNum, stateMonitor.BrokeBridgeNum);
 
         StartCoroutine(ShowStaticticAnim(statisticInfo));
         
+        
     }
     public void GoToMainScene()
     {
+        //send money to wallet
+        SWallet.CoinValue += stateMonitor.coinsNum;
+        PlayerPrefs.SetInt("CoinValue", SWallet.CoinValue);
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
+        Debug.Log(PlayerPrefs.GetInt("CoinValue", SWallet.CoinValue));
     }
 
     private IEnumerator ShowStaticticAnim(int[] statistic)
@@ -54,24 +64,27 @@ stateMonitor.KilledEnemyesNum, stateMonitor.BrokeBridgeNum);
 
     private IEnumerator ShowStars(int[] statistic)
     {
+        // can not use for loop, different comparison sign
         if (statistic[0] < thresholdValue[0])
         {
             Star[0].SetActive(true);
-            startSum++;
+            starRecived[0] = true;
             yield return new WaitForSecondsRealtime(0.5f);
         }
         
         if (statistic[1] >= thresholdValue[1])
         {
             Star[1].SetActive(true);
-            startSum++;
+            starRecived[1] = true;
             yield return new WaitForSecondsRealtime(0.5f);
         }
         
         if (statistic[2] < thresholdValue[2])
         {
             Star[2].SetActive(true);
-            startSum++;
+            starRecived[2] = true;
+            yield return new WaitForSecondsRealtime(1f);
         }
+        HomeButton.SetActive(true);
     }
 }

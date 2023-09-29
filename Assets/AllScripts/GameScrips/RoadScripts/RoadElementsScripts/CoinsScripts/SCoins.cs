@@ -11,13 +11,7 @@ public class SCoins : MonoBehaviour
     public SRoad road;
     int groupNum;
     float startPosY;
-    const int rotateSpeed = 3;
 
-    private void FixedUpdate()
-    {
-        if (allCoins != null)
-            RotateCoins();
-    }
     internal protected void CreateCoinWay()
     {
 
@@ -31,13 +25,7 @@ public class SCoins : MonoBehaviour
             coin.AddComponent<SCollideCoin>();
         }
     }
-    void RotateCoins()
-    {
-        foreach (GameObject go in allCoins)
-        {
-            go.transform.Rotate(0, rotateSpeed, 0, Space.World);
-        }
-    }
+
     void SelectCoinGroup(int groupNum, float firstCoinPosX)
     {
         

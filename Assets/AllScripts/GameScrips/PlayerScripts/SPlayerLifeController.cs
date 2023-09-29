@@ -25,7 +25,7 @@ public class SPlayerLifeController : SCollisionController
     internal protected Action OnPlayerDied;
     [SerializeField] SGameOverPanel gameOverPanel;
     [SerializeField] StateMonitor stateMonitor;
-
+    [SerializeField] SPlayerSoundController soundController;
 
     bool gotWound;
     private void Start()
@@ -49,7 +49,6 @@ public class SPlayerLifeController : SCollisionController
         HealthMonitor.text = healthPoints.ToString();
         if (healthPoints < 1 && !playerDied)
         {
-            Debug.Log("sssssss");
             stateMonitor.currCharacter.SetActive(false);
             deadEffect.Play();
             StartCoroutine(KillPlayer());
@@ -58,6 +57,7 @@ public class SPlayerLifeController : SCollisionController
     void TakingDamage(int damage, bool gotWound)
     {
         StartCoroutine(DamageControll(damage, gotWound));
+        soundController.PlayCharacterGettingHitSound();
     }
     void ShowDamageEffect(bool gotWound)
     {
