@@ -16,8 +16,8 @@ public class SRoad : MonoBehaviour
         CheckCompliteRoad();
         if (cam.cp == SCamera.CameraPosition.Run)
             roadComplite = false;
-        Debug.Log(SGlobalGameInfo.selectedWeapon);
-        Debug.Log(SGlobalGameInfo.selectedCharacter);
+        //Debug.Log(SGlobalGameInfo.selectedWeapon);
+        //Debug.Log(SGlobalGameInfo.selectedCharacter);
     }
     void CheckCompliteRoad()
     {

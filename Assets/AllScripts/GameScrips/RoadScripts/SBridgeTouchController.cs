@@ -37,23 +37,24 @@ public class SBridgeTouchController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
             isTouching = true;
 
-        if (Input.GetKeyUp(KeyCode.Space) && currBridge.copyBridgeParticle.Count > 0)
+        if (Input.GetKeyUp(KeyCode.Space) && currBridge.copyBridgeParticle.Count > 3)
         {
             currBridge.PushBridgeBody();
             isTouching = false;
         }
+        Debug.Log(currBridge.copyBridgeParticle.Count);
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
                 isTouching = true;
-            else if (touch.phase == TouchPhase.Ended && currBridge.copyBridgeParticle.Count > 0)
+            else if (touch.phase == TouchPhase.Ended && currBridge.copyBridgeParticle.Count > 3)
             {
                 currBridge.PushBridgeBody();
                 isTouching = false;
             }
         }
         if (isTouching && !currBridge.bridgeIsFalling)
-            currBridge.BuildBringe();
+            currBridge.BuildBridge();
     }
 }

@@ -29,7 +29,7 @@ public class StateMonitor : MonoBehaviour
     [SerializeField] SBuildMaterialController materialController;
     internal protected Action OnLevelComplited;
     internal protected GameObject currCharacter { get; private set; }
-    internal protected static int[] stages = { 2, 2, 2, 2, 2, 2, 2, 2, 5 };
+    internal protected static int[] stages = new int[36];
     internal protected int coinsNum;
     internal protected int KilledEnemyesNum;
     internal protected int BrokeBridgeNum;
@@ -38,6 +38,21 @@ public class StateMonitor : MonoBehaviour
     internal protected int currentStageIndex = 0;
     public bool levelComplite = true;
 
+    private void Start()
+    {
+        FillStagesArray();
+    }
+    void FillStagesArray()
+    {
+        int[] pattern = new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 6 };
+        //int[] pattern = new int[] { 1, 2, 2, 3, 3, 3, 4, 4, 5 };
+        int patternLength = pattern.Length;
+
+        for (int i = 0; i < stages.Length; i++)
+        {
+            stages[i] = pattern[i % patternLength];
+        }
+    }
     private void OnEnable()
     {
         lastElevator.onSwichedToNextStage += () => Reload(false);

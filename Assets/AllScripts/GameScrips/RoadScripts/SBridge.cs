@@ -34,7 +34,7 @@ public class SBridge : MonoBehaviour
         stateMonitor = FindObjectOfType<StateMonitor>();
         buildMaterialController = FindObjectOfType<SBuildMaterialController>();
         bridgeSpawner = FindObjectOfType<SBridgeSpawner>();
-        bridgeParticle = Resources.Load<GameObject>("Prefabs/WoodenBlock");
+        bridgeParticle = Resources.Load<GameObject>("Prefabs/BridgeParticles/Block_wood");
         bridgeBody = GameObject.Find($"Bridge{bridgeSpawner.currBridge - 1}");
         platform = FindObjectOfType<SPlatform>();
         bridgeBodyTransform = bridgeBody.transform;
@@ -43,9 +43,10 @@ public class SBridge : MonoBehaviour
     private void Update()
     {
         LowerBridge();
+        
     }
 
-    public void BuildBringe()
+    public void BuildBridge()
     {
         timerBuildBridge += Time.deltaTime;
         if (timerBuildBridge >= intervalBuilding)
@@ -54,13 +55,13 @@ public class SBridge : MonoBehaviour
             float bridgeParticleWidth = bridgeParticleSize.x;
             float bridgeParticleHeight = bridgeParticleSize.y;
             float bridgeParticleDepth = bridgeParticleSize.z;
-
+            Debug.Log($"heightSize = {bridgeParticleHeight}");
             for (int i = newTopBridge; i < newTopBridge + heightBridge; i++)
             {
                 for (int j = 0; j < widthBridge; j++)
                 {
                     float newPartPos_x = transform.position.x + (bridgeParticleWidth / 2);
-                    float newPartPos_y = transform.position.y + (bridgeParticleHeight / 2) + (i * bridgeParticleHeight);
+                    float newPartPos_y = transform.position.y + 0.4f + (i * bridgeParticleHeight);
                     float newPartPos_z = (transform.position.z - (j * bridgeParticleDepth)) - (bridgeParticleDepth / 2);
 
                     Vector3 newStartPosBridgeParticle = new Vector3(newPartPos_x, newPartPos_y, newPartPos_z);
@@ -87,12 +88,13 @@ public class SBridge : MonoBehaviour
         bridgeIsFalling = true;
         if (audioManager != null)
             audioManager.PlaySound(1);
-        for (int i = widthBridge * 2; i < copyBridgeParticle.Count; ++i)
+        for (int i = 0; i < copyBridgeParticle.Count; ++i)
         {
             if (copyBridgeParticle[i].GetComponent<SParticle>() == null)
                 copyBridgeParticle[i].AddComponent<SParticle>();
         }
     }
+
     void LowerBridge()
     {
         const float speed = 150;

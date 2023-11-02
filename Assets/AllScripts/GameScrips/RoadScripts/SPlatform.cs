@@ -15,13 +15,14 @@ public class SPlatform : MonoBehaviour
     private Renderer render;
     public int currentIndexPlatform;
     private readonly Vector3 firstPlatformCenterPos = new Vector3(-4, -20f, 0);
-    protected internal int[] platforms = { 5, 3, 3, 3, 3, 3, 5, 11, 12 }; //количество платформ (не индексы)
+    protected internal int[] platforms = new int[36]; //количество платформ (не индексы)
     protected internal float GetPlatformTop { get; private set; }
     protected internal float GetMaxPlatformZ { get; private set; }
     private float stepSize;
 
     private void Awake()
     {
+        FillPlatformArray();
         stepSize = bridgeParticle.GetComponent<Renderer>().bounds.size.y;
         AddNewPlatform();
         GetPlatformTop = GetRenderPlatformInfo(0).bounds.max.y;
@@ -35,6 +36,19 @@ public class SPlatform : MonoBehaviour
             bridgeSpawner.brideComplite = false;
         }
         //Debug.Log($"curr platform:{currentIndexPlatform}");
+    }
+    void FillPlatformArray()
+    {
+        int[] pattern = new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+        //nt[] pattern = new int[] { 4, 4, 4, 8, 8, 8, 12, 12, 12 };
+        int patternLength = pattern.Length;
+
+        for (int i = 0; i < platforms.Length; i++)
+        {
+            platforms[i] = pattern[i % patternLength];
+            Debug.Log(platforms[i]);
+        }
+
     }
     internal protected Vector3 GetPlatformPositionInfo()
     {
@@ -63,7 +77,7 @@ public class SPlatform : MonoBehaviour
             float randomDistance = Random.Range(minDistance, maxDistance);
             float roundedDistance = Mathf.Round(randomDistance / stepSize) * stepSize;
             float lastPlatformMaxPos_x = GetRenderPlatformInfo(i - 1).bounds.max.x;
-            float newPlatformPos_x = lastPlatformMaxPos_x + roundedDistance;
+            float newPlatformPos_x = lastPlatformMaxPos_x + roundedDistance + randomScale * 2;
             float newPlatformPos_y = copyPlatform[i - 1].transform.position.y;
             Vector3 newPlatformPos = new Vector3(newPlatformPos_x, newPlatformPos_y, 0);
 
@@ -71,7 +85,7 @@ public class SPlatform : MonoBehaviour
             if (i == platforms[SBoxPanel.SelectedLevel] - 1)
                 localScale = platform.transform.localScale;
             else
-                localScale = new Vector3(stepSize / 2, platform.transform.localScale.y, platform.transform.localScale.z);
+                localScale = new Vector3(randomScale, platform.transform.localScale.y, platform.transform.localScale.z);
             copyPlatform[i].transform.localScale = localScale;
             copyPlatform[i].transform.position = newPlatformPos;
         }

@@ -12,7 +12,7 @@ public class SBridgeButt : MonoBehaviour
         button = GetComponent<Button>();
         bridge = GameObject.Find($"Bridge{bridgeSpawner.currBridge - 1}");
 
-        UnityAction action = () => bridge.GetComponent<SBridge>().BuildBringe();
+        UnityAction action = () => bridge.GetComponent<SBridge>().BuildBridge();
         button.onClick.AddListener(action);
     }
 
