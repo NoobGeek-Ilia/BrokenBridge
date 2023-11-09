@@ -37,7 +37,6 @@ public class SCamera : MonoBehaviour
         bridgeSpawner.onBridgeSet += () =>
         {
             StartCoroutine(MoveCameraToSide());
-            Debug.Log("Bridge Set Courutin On");
         };
         sPlayerLifeController.OnPlayerDied += () =>
         {

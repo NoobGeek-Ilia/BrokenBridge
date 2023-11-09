@@ -16,9 +16,11 @@ public class SBridgeSpawner : MonoBehaviour
     internal protected int currBridge;
     bool newBridgeHasSet;
     internal protected Action onBridgeSet;
+    internal protected GameObject bridgeParticlePrefab;
 
     void Start()
     {
+        SetPrefab();
         SetNewPosBridgeBody();
     }
 
@@ -37,6 +39,11 @@ public class SBridgeSpawner : MonoBehaviour
         {
             bridge.GetComponent<SBridge>().onBridgeComplited -= ResetVariable;
         }
+    }
+    private void SetPrefab()
+    {
+        string[] model = { "Wood", "Ice", "Glass", "Leana" };
+        bridgeParticlePrefab = Resources.Load<GameObject>($"Prefabs/BridgeParticles/Block_{model[SBoxPanel.SelectedSet]}");
     }
 
     void ResetVariable()

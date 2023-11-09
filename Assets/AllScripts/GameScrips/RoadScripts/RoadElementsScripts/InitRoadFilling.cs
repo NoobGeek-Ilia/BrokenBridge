@@ -5,7 +5,7 @@ public class InitRoadFilling : MonoBehaviour
 {
     public SBridgeSpawner bridgeSpawner;
     public SRoad road;
-    public GameObject[] enemy;
+    private GameObject[,] enemyPrefab = new GameObject[4, 3];
     public GameObject[] damageObject;
     public SPlatform platform;
     [SerializeField] Transform damageObjectsContainer;
@@ -24,6 +24,27 @@ public class InitRoadFilling : MonoBehaviour
     {
         road.onRoadComplited -= FillRoad;
     }
+    private void Start()
+    {
+        InitEnemy();
+    }
+
+    void InitEnemy()
+    {
+        string[,] model = {
+        { "Spider", "Slime", "CritterWood" },
+        { "BigFoot", "Penguin", "CritterIce"},
+        { "Pigeon", "Rat", "CritterCity"},
+        { "Monkey", "Crab", "CritterTropic"}
+        };
+        for (int i = 0; i < enemyPrefab.GetLength(0); i++)
+        {
+            for (int j = 0; j < enemyPrefab.GetLength(1); j++)
+            {
+                enemyPrefab[i, j] = Resources.Load<GameObject>($"Prefabs/Enemies/{model[i, j]}");
+            }
+        }
+    }    
     void FillRoad()
     {
         //coins
@@ -136,15 +157,21 @@ public class InitRoadFilling : MonoBehaviour
     }
     void CreateEnemy(int currCell)
     {
-        int enemyTipe = Random.Range(0, enemy.Length);
-        float[] distanceToBridge = { 0.6f, 0.5f, 0.5f }; //sp, sl, cr
+        int enemyTipe = Random.Range(0, enemyPrefab.GetLength(1));
+        float[,] distanceToBridge = {
+            { 0.6f, 0.5f, 0.5f }, //sp, sl, cri
+            { 0.8f, 0.7f, 0.5f }, //big, peng, cri
+            { 2f, 0.3f, 0.5f }, // pige, rat, cri
+            { 0.5f, 0.5f, 0.5f } // mon, cra, cri
+        };
         float spawnX = bridge.copyBridgeParticle[currCell].transform.position.x;
-        float spawnY = bridge.copyBridgeParticle[currCell].transform.position.y + distanceToBridge[enemyTipe];
+        float spawnY = bridge.copyBridgeParticle[currCell].transform.position.y + distanceToBridge[SBoxPanel.SelectedSet, enemyTipe];
         float spawnZ = bridge.copyBridgeParticle[currCell].transform.position.z;
 
         Vector3 spawnPosition = new Vector3(spawnX, spawnY, spawnZ);
-        GameObject currEnemy = Instantiate(enemy[enemyTipe], spawnPosition, enemy[enemyTipe].transform.rotation, enemyContainer);
-        currEnemy.name = enemy[enemyTipe].name;
+        GameObject currEnemy = Instantiate(enemyPrefab[SBoxPanel.SelectedSet, enemyTipe], 
+            spawnPosition, enemyPrefab[SBoxPanel.SelectedSet, enemyTipe].transform.rotation, enemyContainer);
+        currEnemy.name = enemyPrefab[SBoxPanel.SelectedSet, enemyTipe].name;
     }
 
     int ConnectionTipe;

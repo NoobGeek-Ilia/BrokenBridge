@@ -13,7 +13,7 @@ public class SBridge : MonoBehaviour
     public List<GameObject> brokenBodyBridgePart = new List<GameObject>();
     internal protected List<bool> CellIsEmpty = new List<bool>();
 
-    public GameObject bridgeParticle;
+
     public GameObject bridgeBody;
     private StateMonitor stateMonitor;
     public SPlatform platform;
@@ -34,7 +34,6 @@ public class SBridge : MonoBehaviour
         stateMonitor = FindObjectOfType<StateMonitor>();
         buildMaterialController = FindObjectOfType<SBuildMaterialController>();
         bridgeSpawner = FindObjectOfType<SBridgeSpawner>();
-        bridgeParticle = Resources.Load<GameObject>("Prefabs/BridgeParticles/Block_wood");
         bridgeBody = GameObject.Find($"Bridge{bridgeSpawner.currBridge - 1}");
         platform = FindObjectOfType<SPlatform>();
         bridgeBodyTransform = bridgeBody.transform;
@@ -46,12 +45,14 @@ public class SBridge : MonoBehaviour
         
     }
 
+
+
     public void BuildBridge()
     {
         timerBuildBridge += Time.deltaTime;
         if (timerBuildBridge >= intervalBuilding)
         {
-            Vector3 bridgeParticleSize = bridgeParticle.GetComponent<Renderer>().bounds.size;
+            Vector3 bridgeParticleSize = bridgeSpawner.bridgeParticlePrefab.GetComponent<Renderer>().bounds.size;
             float bridgeParticleWidth = bridgeParticleSize.x;
             float bridgeParticleHeight = bridgeParticleSize.y;
             float bridgeParticleDepth = bridgeParticleSize.z;
@@ -65,7 +66,8 @@ public class SBridge : MonoBehaviour
                     float newPartPos_z = (transform.position.z - (j * bridgeParticleDepth)) - (bridgeParticleDepth / 2);
 
                     Vector3 newStartPosBridgeParticle = new Vector3(newPartPos_x, newPartPos_y, newPartPos_z);
-                    copyBridgeParticle.Add(Instantiate(bridgeParticle, newStartPosBridgeParticle, bridgeParticle.transform.rotation));
+                    copyBridgeParticle.Add(Instantiate(bridgeSpawner.bridgeParticlePrefab, newStartPosBridgeParticle, 
+                        bridgeSpawner.bridgeParticlePrefab.transform.rotation));
                 }
             }
 
@@ -196,7 +198,6 @@ public class SBridge : MonoBehaviour
                 CellIsEmpty[i] = true;
             }
         }
-        Debug.Log(" BreakBodyClomplitedBridge");
         StartCoroutine(DestroyBrokenComplitedPart());
     }
     private IEnumerator DestroyBrokenComplitedPart()

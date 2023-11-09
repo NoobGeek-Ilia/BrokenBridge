@@ -6,8 +6,8 @@ public class SPlatform : MonoBehaviour
 {
     public StateMonitor monitor;
     public SRoad road;
-    public GameObject platform;
-    public GameObject bridgeParticle;
+    private GameObject platformPrefab;
+    private GameObject bridgeParticle;
     public List<GameObject> copyPlatform = new List<GameObject>();
     public SBridgeSpawner bridgeSpawner;
     public TextMeshProUGUI materialsNumTxt;
@@ -22,6 +22,8 @@ public class SPlatform : MonoBehaviour
 
     private void Awake()
     {
+        SetParticlePrefab();
+        SetPrefab();
         FillPlatformArray();
         stepSize = bridgeParticle.GetComponent<Renderer>().bounds.size.y;
         AddNewPlatform();
@@ -37,10 +39,23 @@ public class SPlatform : MonoBehaviour
         }
         //Debug.Log($"curr platform:{currentIndexPlatform}");
     }
+    private void SetPrefab()
+    {
+        string[] model = { "Tree", "Glacier", "Skyscraper", "Palm" };
+        platformPrefab = Resources.Load<GameObject>($"Prefabs/Platforms/Platform_{model[SBoxPanel.SelectedSet]}");
+    }
+
+    //быстрое решение, для того чтобы stepSize инициализировалась с актуальными значениями
+    //по сути можно использовать класс sBridgeSpawner, но предварительно стоит решить проблему с очередью вызовов 
+    private void SetParticlePrefab()
+    {
+        string[] model = { "Wood", "Ice", "Glass", "Leana" };
+        bridgeParticle = Resources.Load<GameObject>($"Prefabs/BridgeParticles/Block_{model[SBoxPanel.SelectedSet]}");
+    }
     void FillPlatformArray()
     {
-        int[] pattern = new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 2 };
-        //nt[] pattern = new int[] { 4, 4, 4, 8, 8, 8, 12, 12, 12 };
+        //int[] pattern = new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+        int[] pattern = new int[] { 4, 4, 4, 8, 8, 8, 12, 12, 12 };
         int patternLength = pattern.Length;
 
         for (int i = 0; i < platforms.Length; i++)
@@ -68,7 +83,7 @@ public class SPlatform : MonoBehaviour
 
         Vector3 localScale;
 
-        copyPlatform.Add(Instantiate(platform, Vector3.zero, Quaternion.identity, transform));
+        copyPlatform.Add(Instantiate(platformPrefab, Vector3.zero, Quaternion.identity, transform));
         copyPlatform[0].transform.position = new Vector3(firstPlatformCenterPos.x, firstPlatformCenterPos.y, firstPlatformCenterPos.z);
 
         for (int i = 1; i < platforms[SBoxPanel.SelectedLevel]; i++)
@@ -81,11 +96,11 @@ public class SPlatform : MonoBehaviour
             float newPlatformPos_y = copyPlatform[i - 1].transform.position.y;
             Vector3 newPlatformPos = new Vector3(newPlatformPos_x, newPlatformPos_y, 0);
 
-            copyPlatform.Add(Instantiate(platform, Vector3.zero, Quaternion.identity, transform));
+            copyPlatform.Add(Instantiate(platformPrefab, Vector3.zero, Quaternion.identity, transform));
             if (i == platforms[SBoxPanel.SelectedLevel] - 1)
-                localScale = platform.transform.localScale;
+                localScale = platformPrefab.transform.localScale;
             else
-                localScale = new Vector3(randomScale, platform.transform.localScale.y, platform.transform.localScale.z);
+                localScale = new Vector3(randomScale, platformPrefab.transform.localScale.y, platformPrefab.transform.localScale.z);
             copyPlatform[i].transform.localScale = localScale;
             copyPlatform[i].transform.position = newPlatformPos;
         }

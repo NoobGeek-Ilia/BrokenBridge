@@ -44,7 +44,6 @@ stateMonitor.KilledEnemyesNum, stateMonitor.BrokeBridgeNum);
         PlayerPrefs.SetInt("CoinValue", SWallet.CoinValue);
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
-        Debug.Log(PlayerPrefs.GetInt("CoinValue", SWallet.CoinValue));
     }
 
     private IEnumerator ShowStaticticAnim(int[] statistic)

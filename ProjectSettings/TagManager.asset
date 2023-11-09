@@ -10,6 +10,7 @@ TagManager:
   - DamageObject
   - DamageObjTag
   - WeaponTag
+  - BigFoot
   layers:
   - Default
   - TransparentFX

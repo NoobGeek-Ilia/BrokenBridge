@@ -12,18 +12,22 @@ public class SBoxPanel : MonoBehaviour
     List<GameObject> allLevelButtons = new List<GameObject>();
     Color[] colorArray = new Color[]
     {
-        new Color(0.5f, 0.7f, 1f), // Голубой цвет через RGB
-        new Color(0.5f, 0.6f, 0.4f), // Оранжевый цвет через RGB
-        new Color(0f, 1f, 0.5f),  // Зеленый цвет через RGB
-        new Color(1f, 0.7f, 0.8f)  // Зеленый цвет через RGB
+            new Color(0.71f, 0.55f, 0.35f), // Светло коричнивый
+            new Color(0.5f, 0.7f, 1f),     // Светло голубой
+            new Color(0.5f, 0.5f, 0.5f),   // Серый
+            new Color(0f, 1f, 0.5f),
     };
     internal protected static int SelectedLevel 
     { get; private set; }
 
+    internal protected static int SelectedSet
+    { get; private set; }
+
     const int levelNum = 36;
-    const int defaultUnlocktedLevels = 3;
+    const int defaultUnlocktedLevels = 36;
     const int _maxStarsInOnLvl = 3;
     const int _cellNumInOneSet = 3;
+    const int cellsPerSet = 9;
 
     static int unblocktedSet;
     static bool[,] starExist = new bool[levelNum, _maxStarsInOnLvl];
@@ -33,13 +37,15 @@ public class SBoxPanel : MonoBehaviour
 
     void Start()
     {
+       
         FillLevelPanels();
         UpdateStarsNumInComplitedLevel();
         ShowStars();
         for (int i = 0; i < defaultUnlocktedLevels; i++)
         {
-            allLevelButtons[i].transform.GetChild(2).gameObject.SetActive(false);
+            //allLevelButtons[i].transform.GetChild(2).gameObject.SetActive(false);
             availableLevel[i] = true;
+            PlayerPrefs.SetInt("AvailableLevel" + i, 1);
         }
         CheckAvailableLevel();
         CheckSelectedLevel();
@@ -87,23 +93,26 @@ public class SBoxPanel : MonoBehaviour
         }
         return sum;
     }
-    void CheckAvailableLevel()
+    private void CheckAvailableLevel()
     {
         int minStarsNumToUnblockLevels = 6; //for one set
         int currentAvailableStars = ((minStarsNumToUnblockLevels * unblocktedSet) + minStarsNumToUnblockLevels);
-        Debug.Log($"Sum: {GetStarsSumInAvailableSets()}, Need: {currentAvailableStars}, {unblocktedSet}");
         if (GetStarsSumInAvailableSets() >= currentAvailableStars)
         {
-            Debug.Log("sum > value");
             unblocktedSet++;
             int unblocedLevelNum = _cellNumInOneSet * unblocktedSet;
             for (int i = unblocedLevelNum; i < (unblocktedSet * _cellNumInOneSet) + _cellNumInOneSet; i++)
+            {
                 availableLevel[i] = true;
+                PlayerPrefs.SetInt("AvailableLevel" + i, 1);
+            }
         }
 
         //set locker
         for (int i = 0; i < levelNum; i++)
         {
+            int levelValue = PlayerPrefs.GetInt("AvailableLevel" + i);
+            availableLevel[i] = levelValue == 1;
             if (availableLevel[i])
                 allLevelButtons[i].transform.GetChild(2).gameObject.SetActive(false);
         }
@@ -113,22 +122,34 @@ public class SBoxPanel : MonoBehaviour
 
     void UpdateStarsNumInComplitedLevel()
     {
+        for (int i = 0; i < levelNum; i++)
+        {
+            for (int j = 0; j < _maxStarsInOnLvl; j++)
+            {
+                int exist = PlayerPrefs.GetInt("StarExist" + i + "_" + j);
+                starExist[i, j] = exist == 1;
+            }
+        }
+
         if (SWinPanel.starRecived != null)
         {
-
             for (int i = 0; i < _maxStarsInOnLvl; i++)
             {
                 if (SWinPanel.starRecived[i])
                 {
                     starExist[SelectedLevel, i] = true;
                     SWinPanel.starRecived[i] = false;
+                    PlayerPrefs.SetInt("StarExist" + SelectedLevel + "_" + i, 1);
                 }
                 else
+                {
                     starExist[SelectedLevel, i] = false;
+                    PlayerPrefs.SetInt("StarExist" + SelectedLevel + "_" + i, 0);
+                }
             }
         }
-
     }
+
 
     void ShowStars()
     {
@@ -145,6 +166,8 @@ public class SBoxPanel : MonoBehaviour
     public void ButtonClicked(int buttonIndex)
     {
         SelectedLevel = buttonIndex;
+        SelectedSet = buttonIndex / cellsPerSet;
         SceneManager.LoadScene(GameScene);
+        Debug.Log($"selectedSet = {SelectedSet}");
     }
 }

@@ -42,7 +42,6 @@ public class SBridgeTouchController : MonoBehaviour
             currBridge.PushBridgeBody();
             isTouching = false;
         }
-        Debug.Log(currBridge.copyBridgeParticle.Count);
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);

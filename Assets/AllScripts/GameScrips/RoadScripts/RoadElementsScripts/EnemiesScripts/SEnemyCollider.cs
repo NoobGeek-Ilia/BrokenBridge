@@ -12,7 +12,7 @@ public class SEnemyCollider : MonoBehaviour
     {
         stateMonitor = FindObjectOfType<StateMonitor>();
         soundController = FindObjectOfType<SEnemySoundController>();
-        missMessagePrefab = Resources.Load<GameObject>("Prefabs/Enemies/MissMessage");
+        missMessagePrefab = Resources.Load<GameObject>("Prefabs/Enemies/Effects/MissMessage");
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -36,8 +36,35 @@ public class SEnemyCollider : MonoBehaviour
             case "Spider":
                 main.startColor = Color.black;
                 break;
-            case "Ñritter":
+            case "CritterWood":
                 main.startColor = new Color(0.6f, 0.2f, 0.8f);
+                break;
+            case "BigFoot":
+                main.startColor = Color.white;
+                break;
+            case "Penguin":
+                main.startColor = Color.black;
+                break;
+            case "CritterIce":
+                main.startColor = Color.blue;
+                break;
+            case "Pigeon":
+                main.startColor = Color.gray ;
+                break;
+            case "Rat":
+                main.startColor = Color.white;
+                break;
+            case "CritterCity":
+                main.startColor = new Color(0.6f, 0.2f, 0.8f);
+                break;
+            case "Monkey":
+                main.startColor = new Color(0.6f, 0.2f, 0.1f);
+                break;
+            case "Crab":
+                main.startColor = new Color(0.9f, 0.4f, 0.0f);
+                break;
+            case "CritterTropic":
+                main.startColor = Color.yellow;
                 break;
         }
         newEffect.Play();
