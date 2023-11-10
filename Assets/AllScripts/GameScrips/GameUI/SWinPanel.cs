@@ -16,7 +16,9 @@ public class SWinPanel : MonoBehaviour
 
     const int _maxStars = 3;
     internal protected static bool[] starRecived = new bool[_maxStars];
+    internal protected static int GetStarRecivedSum;
     [SerializeField] GameObject[] Star;
+
 
     const int maxValuePlayerFell = 3;
     const int minValueKilledEnemiesPercent = 50;
@@ -84,6 +86,16 @@ stateMonitor.KilledEnemyesNum, stateMonitor.BrokeBridgeNum);
             starRecived[2] = true;
             yield return new WaitForSecondsRealtime(1f);
         }
+        CheckStarResivedSum();
         HomeButton.SetActive(true);
+    }
+    void CheckStarResivedSum()
+    {
+        GetStarRecivedSum = 0;
+        for (int i = 0; i < _maxStars; i++)
+        {
+            if (starRecived[i])
+                GetStarRecivedSum++;
+        }
     }
 }

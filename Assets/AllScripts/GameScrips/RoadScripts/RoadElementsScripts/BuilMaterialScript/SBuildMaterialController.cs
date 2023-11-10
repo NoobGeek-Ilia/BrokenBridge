@@ -5,16 +5,24 @@ public class SBuildMaterialController : MonoBehaviour
 {
     [SerializeField] StateMonitor stateMonitor;
     [SerializeField] SGameOverPanel gameOverPanel;
+    [SerializeField] SPlatform platform;
+
     internal protected Action OnMaterialRunOut;
     const int _materialBonusNum = 3;
-    const int _startMaterialNum = 100;
-    private int currMaterialsNum = _startMaterialNum;
+    int extraMaterial = 5;
+    private int currMaterialsNum;
     private bool materialRunOut;
 
     internal protected int MaterialsNum 
     { 
         get => currMaterialsNum; 
         set => currMaterialsNum = value;
+    }
+    private void Start()
+    {
+        extraMaterial -= SBoxPanel.SelectedSet + 1;
+        MaterialsNum = (platform.GetPlatformNum * stateMonitor.GetStageNum) + extraMaterial;
+
     }
 
     private void Update()

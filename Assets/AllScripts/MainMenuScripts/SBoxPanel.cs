@@ -12,7 +12,7 @@ public class SBoxPanel : MonoBehaviour
     List<GameObject> allLevelButtons = new List<GameObject>();
     Color[] colorArray = new Color[]
     {
-            new Color(0.71f, 0.55f, 0.35f), // Светло коричнивый
+            new Color(0.90f, 0.70f, 1f), // Светло коричнивый
             new Color(0.5f, 0.7f, 1f),     // Светло голубой
             new Color(0.5f, 0.5f, 0.5f),   // Серый
             new Color(0f, 1f, 0.5f),
@@ -24,7 +24,7 @@ public class SBoxPanel : MonoBehaviour
     { get; private set; }
 
     const int levelNum = 36;
-    const int defaultUnlocktedLevels = 36;
+    const int defaultUnlocktedLevels = 3;
     const int _maxStarsInOnLvl = 3;
     const int _cellNumInOneSet = 3;
     const int cellsPerSet = 9;
@@ -37,9 +37,11 @@ public class SBoxPanel : MonoBehaviour
 
     void Start()
     {
-       
-        FillLevelPanels();
+        FillLevelPanels(); 
         UpdateStarsNumInComplitedLevel();
+        //сделать проверку на количество звезд, которые были на ячейке, должно быть < SWinPanel.GetStarRecivedSum
+        if (SWinPanel.GetStarRecivedSum > GetStarsSumInOneLvl())
+            SaveStarsData();
         ShowStars();
         for (int i = 0; i < defaultUnlocktedLevels; i++)
         {
@@ -93,6 +95,17 @@ public class SBoxPanel : MonoBehaviour
         }
         return sum;
     }
+
+    int GetStarsSumInOneLvl()
+    {
+        int sum = 0;
+        for (int i = 0; i < _maxStarsInOnLvl; i++)
+        {
+            if (starExist[SBoxPanel.SelectedLevel, i])
+                sum++;
+        }
+        return sum;
+    }
     private void CheckAvailableLevel()
     {
         int minStarsNumToUnblockLevels = 6; //for one set
@@ -130,26 +143,26 @@ public class SBoxPanel : MonoBehaviour
                 starExist[i, j] = exist == 1;
             }
         }
-
-        if (SWinPanel.starRecived != null)
-        {
-            for (int i = 0; i < _maxStarsInOnLvl; i++)
-            {
-                if (SWinPanel.starRecived[i])
-                {
-                    starExist[SelectedLevel, i] = true;
-                    SWinPanel.starRecived[i] = false;
-                    PlayerPrefs.SetInt("StarExist" + SelectedLevel + "_" + i, 1);
-                }
-                else
-                {
-                    starExist[SelectedLevel, i] = false;
-                    PlayerPrefs.SetInt("StarExist" + SelectedLevel + "_" + i, 0);
-                }
-            }
-        }
     }
 
+    void SaveStarsData()
+    {
+        for (int i = 0; i < _maxStarsInOnLvl; i++)
+        {
+            if (SWinPanel.starRecived[i])
+            {
+                starExist[SelectedLevel, i] = true;
+                SWinPanel.starRecived[i] = false;
+                PlayerPrefs.SetInt("StarExist" + SelectedLevel + "_" + i, 1);
+            }
+            else
+            {
+                starExist[SelectedLevel, i] = false;
+                PlayerPrefs.SetInt("StarExist" + SelectedLevel + "_" + i, 0);
+            }
+        }
+        PlayerPrefs.Save(); // Сохранение данных
+    }
 
     void ShowStars()
     {

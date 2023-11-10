@@ -1760,6 +1760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateMonitor: {fileID: 1210461295}
   gameOverPanel: {fileID: 467819735}
+  platform: {fileID: 1499118439}
 --- !u!1001 &282062763
 PrefabInstance:
   m_ObjectHideFlags: 0

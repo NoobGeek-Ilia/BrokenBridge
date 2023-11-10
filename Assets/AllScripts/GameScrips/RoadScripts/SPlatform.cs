@@ -18,6 +18,7 @@ public class SPlatform : MonoBehaviour
     protected internal int[] platforms = new int[36]; //количество платформ (не индексы)
     protected internal float GetPlatformTop { get; private set; }
     protected internal float GetMaxPlatformZ { get; private set; }
+    protected internal int GetPlatformNum { get; private set; }
     private float stepSize;
 
     private void Awake()
@@ -54,8 +55,8 @@ public class SPlatform : MonoBehaviour
     }
     void FillPlatformArray()
     {
-        //int[] pattern = new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 2 };
-        int[] pattern = new int[] { 4, 4, 4, 8, 8, 8, 12, 12, 12 };
+        int[] pattern = new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+        //int[] pattern = new int[] { 4, 4, 4, 8, 8, 8, 12, 12, 12 };
         int patternLength = pattern.Length;
 
         for (int i = 0; i < platforms.Length; i++)
@@ -63,7 +64,7 @@ public class SPlatform : MonoBehaviour
             platforms[i] = pattern[i % patternLength];
             Debug.Log(platforms[i]);
         }
-
+        GetPlatformNum = platforms[SBoxPanel.SelectedLevel];
     }
     internal protected Vector3 GetPlatformPositionInfo()
     {

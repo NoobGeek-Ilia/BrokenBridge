@@ -33,25 +33,26 @@ public class StateMonitor : MonoBehaviour
     internal protected int coinsNum;
     internal protected int KilledEnemyesNum;
     internal protected int BrokeBridgeNum;
-    
-    
+    protected internal int GetStageNum { get; private set; }
+
     internal protected int currentStageIndex = 0;
     public bool levelComplite = true;
 
-    private void Start()
+    private void Awake()
     {
         FillStagesArray();
     }
     void FillStagesArray()
     {
-        //int[] pattern = new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 6 };
-        int[] pattern = new int[] { 1, 1, 1, 3, 3, 3, 4, 4, 5 };
+        int[] pattern = new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        //int[] pattern = new int[] { 1, 1, 1, 3, 3, 3, 4, 4, 5 };
         int patternLength = pattern.Length;
 
         for (int i = 0; i < stages.Length; i++)
         {
             stages[i] = pattern[i % patternLength];
         }
+        GetStageNum = stages[SBoxPanel.SelectedLevel];
     }
     private void OnEnable()
     {
