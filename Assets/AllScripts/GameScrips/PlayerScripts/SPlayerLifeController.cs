@@ -17,6 +17,14 @@ public class SPlayerLifeController : SCollisionController
                 currHelthPoint = value;
         }
     }
+    internal protected int HealthPoints
+    {
+        get { return healthPoints; }
+        set
+        {
+            healthPoints = value;
+        }
+    }
     internal protected bool playerDied { get; private set; }
     public SPlayerMovement playerMovement;
     Rigidbody playerRb;

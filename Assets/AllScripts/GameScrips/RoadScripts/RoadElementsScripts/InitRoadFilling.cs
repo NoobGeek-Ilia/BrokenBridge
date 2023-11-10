@@ -14,6 +14,7 @@ public class InitRoadFilling : MonoBehaviour
     GameObject bridgeBody;
     SBridge bridge;
     [SerializeField] SBuildMaterial bridgeMaterial;
+    [SerializeField] SHeart heart;
     internal protected int allEnemiesOnLvlNum;
     private void OnEnable()
     {
@@ -56,6 +57,7 @@ public class InitRoadFilling : MonoBehaviour
             bridge = bridgeBody.GetComponent<SBridge>();
             FillBridge(bridge);
             bridgeMaterial.CreateMaterialsWay(bridge);
+            heart.CreateHeartsWay(bridge);
         }
         allEnemiesOnLvlNum += enemyContainer.childCount;
     }

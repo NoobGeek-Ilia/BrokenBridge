@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class SBuildMaterialController : MonoBehaviour
@@ -6,6 +8,7 @@ public class SBuildMaterialController : MonoBehaviour
     [SerializeField] StateMonitor stateMonitor;
     [SerializeField] SGameOverPanel gameOverPanel;
     [SerializeField] SPlatform platform;
+    [SerializeField] TextMeshProUGUI MaterialCounter;
 
     internal protected Action OnMaterialRunOut;
     const int _materialBonusNum = 3;
@@ -28,7 +31,7 @@ public class SBuildMaterialController : MonoBehaviour
     private void Update()
     {
         //גûחûגאועסÿ גטהטלמ קאסעמ, ג ןנמפאיכונו 
-        if (MaterialsNum < 1 && !materialRunOut)
+        if (MaterialsNum < 0 && !materialRunOut)
         {
             OnMaterialRunOut?.Invoke();
             materialRunOut = true;
@@ -42,5 +45,16 @@ public class SBuildMaterialController : MonoBehaviour
     internal protected void ResetMaterial()
     {
         materialRunOut = false;
+    }
+    internal protected void LoseMaterial()
+    {
+        StartCoroutine(LoseEffect());
+        MaterialsNum--;
+    }
+    IEnumerator LoseEffect()
+    {
+        MaterialCounter.color = Color.red;
+        yield return new WaitForSeconds(0.5f);
+        MaterialCounter.color = Color.white;
     }
 }

@@ -20,6 +20,7 @@ public class SPlatform : MonoBehaviour
     protected internal float GetMaxPlatformZ { get; private set; }
     protected internal int GetPlatformNum { get; private set; }
     private float stepSize;
+    private float maxScaleX;
 
     private void Awake()
     {
@@ -55,8 +56,8 @@ public class SPlatform : MonoBehaviour
     }
     void FillPlatformArray()
     {
-        int[] pattern = new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 2 };
-        //int[] pattern = new int[] { 4, 4, 4, 8, 8, 8, 12, 12, 12 };
+        //int[] pattern = new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+        int[] pattern = new int[] { 4, 4, 4, 8, 8, 8, 12, 12, 12 };
         int patternLength = pattern.Length;
 
         for (int i = 0; i < platforms.Length; i++)
@@ -80,7 +81,7 @@ public class SPlatform : MonoBehaviour
         const float minDistance = 10f;
         const float maxDistance = 20f;
         const float minScaleX = 0.2f;
-        const float maxScaleX = 1.2f;
+        maxScaleX = 1.2f;// - (SBoxPanel.SelectedSet * 0.2f);
 
         Vector3 localScale;
 

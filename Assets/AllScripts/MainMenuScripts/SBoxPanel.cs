@@ -24,7 +24,7 @@ public class SBoxPanel : MonoBehaviour
     { get; private set; }
 
     const int levelNum = 36;
-    const int defaultUnlocktedLevels = 3;
+    const int defaultUnlocktedLevels = 36;
     const int _maxStarsInOnLvl = 3;
     const int _cellNumInOneSet = 3;
     const int cellsPerSet = 9;

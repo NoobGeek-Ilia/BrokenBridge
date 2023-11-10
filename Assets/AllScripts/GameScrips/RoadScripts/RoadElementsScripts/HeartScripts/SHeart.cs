@@ -1,22 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SBuildMaterial : MonoBehaviour
+public class SHeart : MonoBehaviour
 {
-    [SerializeField] InitRoadFilling roadFilling;
-    [SerializeField] GameObject materialPrefab;
-    [SerializeField] Transform materialContainer;
-    List<GameObject> allMaterials = new List<GameObject>();
+    [SerializeField] GameObject heartPrefab;
+    [SerializeField] Transform heartContainer;
+    List<GameObject> allHearts = new List<GameObject>();
 
     private void FixedUpdate()
     {
-        if (allMaterials != null)
+        if (allHearts != null)
         {
-            RotateMaterial();
+            RotateHearts();
         }
     }
-
-    internal protected void CreateMaterialsWay(SBridge bridge)
+    internal protected void CreateHeartsWay(SBridge bridge)
     {
         for (int currRow = 0; currRow < bridge.copyBridgeParticle.Count / 3; currRow++)
         {
@@ -41,25 +39,25 @@ public class SBuildMaterial : MonoBehaviour
         float spawnY = bridge.copyBridgeParticle[currCell].transform.position.y + distanceToBridge;
         float spawnZ = bridge.copyBridgeParticle[currCell].transform.position.z;
         Vector3 spawnPosition = new Vector3(spawnX, spawnY, spawnZ);
-        allMaterials.Add(Instantiate(materialPrefab, spawnPosition, materialPrefab.transform.rotation, materialContainer));
+        allHearts.Add(Instantiate(heartPrefab, spawnPosition, heartPrefab.transform.rotation, heartContainer));
     }
-    void RotateMaterial()
+    void RotateHearts()
     {
         int rotateSpeed = 2;
-        foreach (GameObject go in allMaterials)
+        foreach (GameObject go in allHearts)
         {
             go.transform.Rotate(0, rotateSpeed, 0, Space.World);
         }
     }
-    internal protected void ResetMaterialWay()
+    internal protected void ResetHeartsWay()
     {
 
-        foreach (GameObject go in allMaterials)
+        foreach (GameObject go in allHearts)
         {
             if (go != null)
                 Destroy(go);
         }
 
-        allMaterials.Clear();
+        allHearts.Clear();
     }
 }

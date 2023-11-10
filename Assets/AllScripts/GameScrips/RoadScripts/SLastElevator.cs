@@ -44,7 +44,7 @@ public class SLastElevator : MonoBehaviour
         float lastPlatformPosY = platform.GetRenderPlatformInfo(platform.copyPlatform.Count - 1).bounds.max.y;
         float lastPlatformPosZ = platform.GetRenderPlatformInfo(platform.copyPlatform.Count - 1).bounds.max.z;
         transform.position = new Vector3(lastPlatformPosX - (transform.localScale.x / 2),
-    lastPlatformPosY + 0.1f, lastPlatformPosZ - (transform.localScale.z / 2));
+    lastPlatformPosY + 0.05f, lastPlatformPosZ - (transform.localScale.z / 2));
         isMoving = false;
     }
 }

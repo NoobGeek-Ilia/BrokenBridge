@@ -27,6 +27,7 @@ public class StateMonitor : MonoBehaviour
     [SerializeField] SPlayerLifeController playerLifeController;
     [SerializeField] SStageMonitor stageMonitor;
     [SerializeField] SBuildMaterialController materialController;
+    [SerializeField] SHeart heart;
     internal protected Action OnLevelComplited;
     internal protected GameObject currCharacter { get; private set; }
     internal protected static int[] stages = new int[36];
@@ -44,8 +45,8 @@ public class StateMonitor : MonoBehaviour
     }
     void FillStagesArray()
     {
-        int[] pattern = new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-        //int[] pattern = new int[] { 1, 1, 1, 3, 3, 3, 4, 4, 5 };
+        //int[] pattern = new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        int[] pattern = new int[] { 1, 1, 1, 3, 3, 3, 4, 4, 5 };
         int patternLength = pattern.Length;
 
         for (int i = 0; i < stages.Length; i++)
@@ -94,6 +95,7 @@ public class StateMonitor : MonoBehaviour
         coins.ResetCoinsWay();
         materialController.ResetMaterial();
         buildMaterial.ResetMaterialWay();
+        heart.ResetHeartsWay();
         platform.DestroyPlatforms();
         ResetVariables();
         platform.AddNewPlatform();

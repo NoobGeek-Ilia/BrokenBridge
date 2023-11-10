@@ -137,7 +137,8 @@ public class SBridge : MonoBehaviour
             SetCellPosZ();
             CutBridgeResetList();
         }
-        buildMaterialController.MaterialsNum--;
+        buildMaterialController.LoseMaterial();
+        //
     }
     internal protected void SplitBringe()
     {     
