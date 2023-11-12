@@ -9,6 +9,7 @@ public class SBuildMaterialController : MonoBehaviour
     [SerializeField] SGameOverPanel gameOverPanel;
     [SerializeField] SPlatform platform;
     [SerializeField] TextMeshProUGUI MaterialCounter;
+    [SerializeField] SBuildMaterialSoundController materialSoundController;
 
     internal protected Action OnMaterialRunOut;
     const int _materialBonusNum = 3;
@@ -41,6 +42,7 @@ public class SBuildMaterialController : MonoBehaviour
     internal protected void PickUpMaterial()
     {
         MaterialsNum += _materialBonusNum;
+        materialSoundController.PlaySound();
     }
     internal protected void ResetMaterial()
     {

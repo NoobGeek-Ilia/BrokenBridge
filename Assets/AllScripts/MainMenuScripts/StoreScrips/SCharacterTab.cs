@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SCharacterTab : SWallet
 {
     private int currIndex;
-    internal protected static int maxCurrCharacterHp { get; private set; } = 9999;
+    internal protected static int maxCurrCharacterHp { get; private set; } = 30;
     private const int _characterNum = 3;
     private bool[] selectInfo = new bool[_characterNum];
     private bool[] boughtInfo = new bool[_characterNum];

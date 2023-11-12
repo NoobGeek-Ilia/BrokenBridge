@@ -21,4 +21,9 @@ public class SMainButtons : MonoBehaviour
     {
         checkWindow.winName = SCheckWindow.WindowName.Settings;
     }
+
+    public void InfoButt()
+    {
+        checkWindow.winName = SCheckWindow.WindowName.Info;
+    }
 }

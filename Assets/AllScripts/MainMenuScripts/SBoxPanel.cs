@@ -34,6 +34,7 @@ public class SBoxPanel : MonoBehaviour
     static bool[] availableLevel = new bool[levelNum];
     
     internal protected int StarsNumToUnblockNextSet { get; private set; }
+    [SerializeField] GameObject unblockMessageWindow;
 
     void Start()
     {
@@ -113,6 +114,8 @@ public class SBoxPanel : MonoBehaviour
         if (GetStarsSumInAvailableSets() >= currentAvailableStars)
         {
             unblocktedSet++;
+            //
+            unblockMessageWindow.SetActive(true);
             int unblocedLevelNum = _cellNumInOneSet * unblocktedSet;
             for (int i = unblocedLevelNum; i < (unblocktedSet * _cellNumInOneSet) + _cellNumInOneSet; i++)
             {
@@ -120,6 +123,8 @@ public class SBoxPanel : MonoBehaviour
                 PlayerPrefs.SetInt("AvailableLevel" + i, 1);
             }
         }
+        else
+            unblockMessageWindow.SetActive(false);
 
         //set locker
         for (int i = 0; i < levelNum; i++)

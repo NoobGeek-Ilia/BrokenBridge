@@ -22,7 +22,7 @@ public class SStageMonitor : MonoBehaviour
         for (int i = 0; i < stateMonitor.currentStageIndex + 1; i++)
         {
             Image cirlePic = StageCircles[i].GetComponent<Image>();
-            cirlePic.color = Color.yellow;
+            cirlePic.color = Color.green;
         }
     }
     private void SetStageCircles()

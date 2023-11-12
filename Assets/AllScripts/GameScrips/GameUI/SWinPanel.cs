@@ -10,6 +10,7 @@ public class SWinPanel : MonoBehaviour
     [SerializeField] StateMonitor stateMonitor;
     [SerializeField] GameObject HomeButton;
     [SerializeField] GameObject HomeButtonReserve;
+    [SerializeField] SStarSoundController starSoundController;
     
 
     [SerializeField] TextMeshProUGUI[] statisticTxt;
@@ -53,11 +54,18 @@ stateMonitor.KilledEnemyesNum, stateMonitor.BrokeBridgeNum);
         for (int i = 0; i < statistic.Length; i++)
         {
             int currNum = 0;
+            float waitTime = 0.1f;
+            if (i == 1)
+            {
+                waitTime -= 0.001f * statistic[i];
+            }
             while (currNum < statistic[i])
             {
                 currNum++;
                 statisticTxt[i].text = currNum.ToString();
-                yield return new WaitForSecondsRealtime(0.1f);
+                if (i == 1)
+                    statisticTxt[i].text += " %";
+                yield return new WaitForSecondsRealtime(waitTime);
             }
         }
         StartCoroutine(ShowStars(statistic));
@@ -70,6 +78,7 @@ stateMonitor.KilledEnemyesNum, stateMonitor.BrokeBridgeNum);
         {
             Star[0].SetActive(true);
             starRecived[0] = true;
+            starSoundController.PlaySound();
             yield return new WaitForSecondsRealtime(0.5f);
         }
         
@@ -77,6 +86,7 @@ stateMonitor.KilledEnemyesNum, stateMonitor.BrokeBridgeNum);
         {
             Star[1].SetActive(true);
             starRecived[1] = true;
+            starSoundController.PlaySound();
             yield return new WaitForSecondsRealtime(0.5f);
         }
         
@@ -84,6 +94,7 @@ stateMonitor.KilledEnemyesNum, stateMonitor.BrokeBridgeNum);
         {
             Star[2].SetActive(true);
             starRecived[2] = true;
+            starSoundController.PlaySound();
             yield return new WaitForSecondsRealtime(1f);
         }
         CheckStarResivedSum();

@@ -115,7 +115,7 @@ public class SPlayerMovement : MonoBehaviour
 
     void Jumping()
     {
-        float jumpForce = 7.5f;
+        float jumpForce = 8.5f;
 
         if (jumpCount < 2 && !playerLifeController.playerDied)
         {
