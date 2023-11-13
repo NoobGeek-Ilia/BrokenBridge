@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SWallet : MonoBehaviour
 {
-    private static int coinValue = 10000;
+    private static int coinValue = 0;
     private void Awake()
     {
         coinValue = PlayerPrefs.GetInt("CoinValue", coinValue);

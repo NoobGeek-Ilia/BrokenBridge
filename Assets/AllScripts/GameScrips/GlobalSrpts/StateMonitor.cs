@@ -46,7 +46,7 @@ public class StateMonitor : MonoBehaviour
     void FillStagesArray()
     {
         //int[] pattern = new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-        int[] pattern = new int[] { 1, 1, 1, 3, 3, 3, 4, 4, 5 };
+        int[] pattern = new int[] { 2, 2, 3, 3, 3, 3, 4, 6, 8 };
         int patternLength = pattern.Length;
 
         for (int i = 0; i < stages.Length; i++)

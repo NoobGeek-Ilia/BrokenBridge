@@ -110,3 +110,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 824a8a9d3fc3fae408dc1bc5531e903c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bonusEffect: {fileID: 5882418880884303810, guid: 83a7500eea6dada41b1523f54ece81d4, type: 3}

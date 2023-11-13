@@ -4,6 +4,7 @@ using UnityEngine;
 public class SBuildMaterialCollide : MonoBehaviour
 {
     private SBuildMaterialController materialController;
+    [SerializeField] ParticleSystem bonusEffect;
     private void Start()
     {
         materialController = FindObjectOfType<SBuildMaterialController>();
@@ -14,6 +15,13 @@ public class SBuildMaterialCollide : MonoBehaviour
         {
             materialController.PickUpMaterial();
             gameObject.SetActive(false);
+            PlayBonusEffect();
         }
+    }
+    private void PlayBonusEffect()
+    {
+        Vector3 newPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        ParticleSystem newEffect = Instantiate(bonusEffect, newPos, Quaternion.identity);
+        newEffect.Play();
     }
 }

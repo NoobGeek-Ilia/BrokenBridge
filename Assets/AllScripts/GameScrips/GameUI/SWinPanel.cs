@@ -21,9 +21,9 @@ public class SWinPanel : MonoBehaviour
     [SerializeField] GameObject[] Star;
 
 
-    const int maxValuePlayerFell = 3;
+    const int maxValuePlayerFell = 6;
     const int minValueKilledEnemiesPercent = 50;
-    const int maxValueBridgeBroke = 3;
+    const int maxValueBridgeBroke = 10;
     int[] thresholdValue = { maxValuePlayerFell , minValueKilledEnemiesPercent, maxValueBridgeBroke };
 
     internal protected void OpenPanel()

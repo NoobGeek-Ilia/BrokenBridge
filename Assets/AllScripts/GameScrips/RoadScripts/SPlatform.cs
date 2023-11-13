@@ -57,7 +57,7 @@ public class SPlatform : MonoBehaviour
     void FillPlatformArray()
     {
         //int[] pattern = new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 2 };
-        int[] pattern = new int[] { 4, 4, 4, 8, 8, 8, 12, 12, 12 };
+        int[] pattern = new int[] { 4, 5, 5, 7, 8, 12, 5, 6, 5 };
         int patternLength = pattern.Length;
 
         for (int i = 0; i < platforms.Length; i++)
