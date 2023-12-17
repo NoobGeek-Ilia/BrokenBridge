@@ -47,8 +47,6 @@ public class SPlatform : MonoBehaviour
         platformPrefab = Resources.Load<GameObject>($"Prefabs/Platforms/Platform_{model[SBoxPanel.SelectedSet]}");
     }
 
-    //быстрое решение, для того чтобы stepSize инициализировалась с актуальными значениями
-    //по сути можно использовать класс sBridgeSpawner, но предварительно стоит решить проблему с очередью вызовов 
     private void SetParticlePrefab()
     {
         string[] model = { "Wood", "Ice", "Glass", "Leana" };
@@ -57,13 +55,13 @@ public class SPlatform : MonoBehaviour
     void FillPlatformArray()
     {
         //int[] pattern = new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 2 };
-        int[] pattern = new int[] { 4, 5, 5, 7, 8, 12, 5, 6, 5 };
+        int[] pattern = new int[] { 3, 4, 4, 5, 6, 8, 4, 5, 4 };
         int patternLength = pattern.Length;
 
         for (int i = 0; i < platforms.Length; i++)
         {
             platforms[i] = pattern[i % patternLength];
-            Debug.Log(platforms[i]);
+            
         }
         GetPlatformNum = platforms[SBoxPanel.SelectedLevel];
     }
@@ -99,9 +97,9 @@ public class SPlatform : MonoBehaviour
             Vector3 newPlatformPos = new Vector3(newPlatformPos_x, newPlatformPos_y, 0);
 
             copyPlatform.Add(Instantiate(platformPrefab, Vector3.zero, Quaternion.identity, transform));
-            if (i == platforms[SBoxPanel.SelectedLevel] - 1)
+/*            if (i == platforms[SBoxPanel.SelectedLevel] - 1)
                 localScale = platformPrefab.transform.localScale;
-            else
+            else*/
                 localScale = new Vector3(randomScale, platformPrefab.transform.localScale.y, platformPrefab.transform.localScale.z);
             copyPlatform[i].transform.localScale = localScale;
             copyPlatform[i].transform.position = newPlatformPos;

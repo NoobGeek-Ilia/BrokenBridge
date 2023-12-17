@@ -11,13 +11,13 @@ public class SRoad : MonoBehaviour
     // Start is called before the first frame update
     internal protected Action onRoadComplited;
     internal protected bool eventWasCalled;
+    [SerializeField] GameObject firstElevator;
+
     private void Update()
     {
         CheckCompliteRoad();
         if (cam.cp == SCamera.CameraPosition.Run)
             roadComplite = false;
-        //Debug.Log(SGlobalGameInfo.selectedWeapon);
-        //Debug.Log(SGlobalGameInfo.selectedCharacter);
     }
     void CheckCompliteRoad()
     {
@@ -27,10 +27,9 @@ public class SRoad : MonoBehaviour
             {
                 onRoadComplited?.Invoke();
                 eventWasCalled = true;
-                Debug.Log("ddwdwwdwd");
+                firstElevator.SetActive(true);
             }
         }
-        //if (platform.currentIndexPlatform + 1 == platform.platforms[SLevelPanel.levelNumber]) - заменить нижнее условие после 
         if (platform.currentIndexPlatform + 1 == platform.copyPlatform.Count)
             roadComplite = true;
     }

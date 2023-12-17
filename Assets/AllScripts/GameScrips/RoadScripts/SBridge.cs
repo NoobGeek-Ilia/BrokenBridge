@@ -189,7 +189,7 @@ public class SBridge : MonoBehaviour
         for (int i = 0; i < cbp.Count;  i++)
             CellIsEmpty.Add(false);
         int randNum;
-        int probability = 3;
+        int probability = -3 * SBoxPanel.SelectedSet + 13;
         for (int i = 0; i < cbp.Count; i++)
         {
             randNum = UnityEngine.Random.Range(0, probability);

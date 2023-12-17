@@ -30,6 +30,7 @@ public class SLastElevator : MonoBehaviour
             {
                 onSwichedToNextStage?.Invoke();
                 playerTakenToNextLevel = true;
+                gameObject.SetActive(false);
             }
             RisePlatform();
         }
@@ -43,7 +44,7 @@ public class SLastElevator : MonoBehaviour
         float lastPlatformPosX = platform.GetRenderPlatformInfo(platform.copyPlatform.Count - 1).bounds.max.x;
         float lastPlatformPosY = platform.GetRenderPlatformInfo(platform.copyPlatform.Count - 1).bounds.max.y;
         float lastPlatformPosZ = platform.GetRenderPlatformInfo(platform.copyPlatform.Count - 1).bounds.max.z;
-        transform.position = new Vector3(lastPlatformPosX - (transform.localScale.x / 2),
+        transform.position = new Vector3(lastPlatformPosX + (transform.localScale.x / 2),
     lastPlatformPosY + 0.05f, lastPlatformPosZ - (transform.localScale.z / 2));
         isMoving = false;
     }

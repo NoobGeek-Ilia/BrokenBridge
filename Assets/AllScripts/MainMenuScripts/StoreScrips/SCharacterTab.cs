@@ -8,8 +8,8 @@ public class SCharacterTab : SWallet
 {
     private int currIndex;
     internal protected static int maxCurrCharacterHp { get; private set; } = 30;
-    private const int _characterNum = 3;
-    private bool[] selectInfo = new bool[_characterNum];
+    internal protected static int _characterNum = 3;
+    internal protected bool[] selectInfo = new bool[_characterNum];
     private bool[] boughtInfo = new bool[_characterNum];
     [SerializeField] GameObject[] Characters = new GameObject[_characterNum];
     [SerializeField] GameObject selectBut;
@@ -21,29 +21,42 @@ public class SCharacterTab : SWallet
     [SerializeField] TextMeshProUGUI priceTxt;
 
     [SerializeField] TextMeshProUGUI selectTxt;
-    SCharacterInfo[] characterInfo =
+    public static SCharacterInfo[] characterInfo =
     {
         new SCharacterInfo("Ninja boy", 30),
-        new SCharacterInfo("Ninja girl", 40, 500),
-        new SCharacterInfo("Heir boy", 50, 950)
+        new SCharacterInfo("Ninja girl", 40, 2200),
+        new SCharacterInfo("Heir boy", 50, 3700)
     };
-
 
 
     private void Start()
     {
-        for (int i = 0; i < _characterNum; i++)
+        boughtInfo[0] = true;
+        for (int i = 1; i < _characterNum; i++)
         {
-            int boughtValue = PlayerPrefs.GetInt("BoughtCharacterInfo_" + i, 0);
+            int boughtValue = PlayerPrefs.GetInt("BoughtCharacterInfo_" + i);
             boughtInfo[i] = boughtValue == 1;
         }
-        boughtInfo[0] = true;
-        selectInfo[0] = true;
+        if (CheckSumBoughtChar() == 1)
+        {
+            selectInfo[0] = true;
+            boughtInfo[0] = true;
+        }
         SetActiveCharacter();
     }
     private void Update()
     {
         CheckSelectedCharacter();
+    }
+    int CheckSumBoughtChar()
+    {
+        int sum = 0;
+        for (int i = 0; i < _characterNum; i++)
+        {
+            if (boughtInfo[i])
+                sum++;
+        }
+        return sum;
     }
     void SetCharacterInfo(SCharacterInfo character)
     {
@@ -112,8 +125,10 @@ public class SCharacterTab : SWallet
         for (int i = 0; i < selectInfo.Length; i++)
         {
             selectInfo[i] = false;
+            PlayerPrefs.SetInt("SelectedCharacterInfo_" + i, 0);
         }
         selectInfo[currIndex] = true;
+        PlayerPrefs.SetInt("SelectedCharacterInfo_" + currIndex, 1);
         SGlobalGameInfo.selectedCharacter = currIndex;
         maxCurrCharacterHp = characterInfo[currIndex].hp;
     }
@@ -121,6 +136,7 @@ public class SCharacterTab : SWallet
     public void BuyCharacter()
     {
         DoTransaction(characterInfo[currIndex].price);
+        SelectCharacter();
     }
     
     private new void DoTransaction(int itemPrice)

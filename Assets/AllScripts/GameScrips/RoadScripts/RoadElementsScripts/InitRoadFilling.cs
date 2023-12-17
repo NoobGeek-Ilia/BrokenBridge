@@ -16,6 +16,14 @@ public class InitRoadFilling : MonoBehaviour
     [SerializeField] SBuildMaterial bridgeMaterial;
     [SerializeField] SHeart heart;
     internal protected int allEnemiesOnLvlNum;
+    private readonly string[,] model =
+    {
+        { "Spider", "Slime", "CritterWood" },
+        { "BigFoot", "Penguin", "CritterIce"},
+        { "Pigeon", "Rat", "CritterCity"},
+        { "Monkey", "Crab", "CritterTropic"}
+    };
+
     private void OnEnable()
     {
         road.onRoadComplited += FillRoad;
@@ -32,14 +40,8 @@ public class InitRoadFilling : MonoBehaviour
 
     void InitEnemy()
     {
-        string[,] model = {
-        { "Spider", "Slime", "CritterWood" },
-        { "BigFoot", "Penguin", "CritterIce"},
-        { "Pigeon", "Rat", "CritterCity"},
-        { "Monkey", "Crab", "CritterTropic"}
-        };
         for (int i = 0; i < enemyPrefab.GetLength(0); i++)
-        {
+        { 
             for (int j = 0; j < enemyPrefab.GetLength(1); j++)
             {
                 enemyPrefab[i, j] = Resources.Load<GameObject>($"Prefabs/Enemies/{model[i, j]}");
@@ -66,7 +68,7 @@ public class InitRoadFilling : MonoBehaviour
     {
         for (int currRow = 0; currRow < bridge.copyBridgeParticle.Count / 3; currRow++)
         {
-            int probRowFill = 5; // probability of filling a row
+            int probRowFill = (SBoxPanel.SelectedSet + 1) * 2; // probability of filling a row
             int randRow = Random.Range(0, probRowFill);
             bool RawIsEmpty = EmptyCellSum(currRow) == SBridge.widthBridge - 1;
             bool RawIsNone = randRow < 1;
@@ -84,11 +86,12 @@ public class InitRoadFilling : MonoBehaviour
                 for (int i = 0; i < SBridge.widthBridge; i++)
                 {
                     int currCell = (currRow * 3) + i;
-                    int probCellFill = 2; // probability of filling a cell
-                    int randCell = Random.Range(0, probCellFill);
+                    int randCell = Random.Range(0, 100);
                     bool cellIsEmpty = bridge.CellIsEmpty[currCell];
-                    bool cellIsNone = randCell < 1;
-                    if (cellIsEmpty || cellIsNone) //continue if cell is empty or none
+                    int probCellIsNone = 90 - 10 * SBoxPanel.SelectedSet;
+                    bool cellIsNone = randCell < probCellIsNone;
+
+                    if (cellIsEmpty || cellIsNone)
                         continue;
                     else
                         CreateEnemy(currCell);
@@ -109,8 +112,16 @@ public class InitRoadFilling : MonoBehaviour
             bool cellIsEmpty = bridge.CellIsEmpty[currCell];
             if(cellIsEmpty)
                 continue;
+
+            if (selectedObject == 2)
+            {
+                bool pickFill = Random.value > 0.5f;
+                if (!pickFill)
+                    continue;
+            }
             cellPosition[i] = bridge.copyBridgeParticle[currCell].transform.position;
             SetPosAndInstObject(cellPosition[i], selectedObject, distanceToBridge[selectedObject]);
+            //disk set
             if (selectedObject != 2)
                 break;
         }

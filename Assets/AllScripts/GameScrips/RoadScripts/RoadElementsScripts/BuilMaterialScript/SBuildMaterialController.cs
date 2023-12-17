@@ -19,8 +19,13 @@ public class SBuildMaterialController : MonoBehaviour
 
     internal protected int MaterialsNum 
     { 
-        get => currMaterialsNum; 
-        set => currMaterialsNum = value;
+        get => currMaterialsNum;
+        set
+        {
+            if (currMaterialsNum < 1)
+                currMaterialsNum = 0;
+            currMaterialsNum = value;
+        }
     }
     private void Start()
     {
@@ -32,8 +37,9 @@ public class SBuildMaterialController : MonoBehaviour
     private void Update()
     {
         //גûחûגאועסÿ גטהטלמ קאסעמ, ג ןנמפאיכונו 
-        if (MaterialsNum < 0 && !materialRunOut)
+        if (MaterialsNum < 1 && !materialRunOut)
         {
+            bool isLastPlatform = platform.GetPlatformNum - 2 == platform.currentIndexPlatform;
             OnMaterialRunOut?.Invoke();
             materialRunOut = true;
             gameOverPanel.OpenPanel();

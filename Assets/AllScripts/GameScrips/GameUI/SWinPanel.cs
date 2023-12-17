@@ -33,7 +33,7 @@ public class SWinPanel : MonoBehaviour
         HomeButtonReserve.SetActive(false);
 
         SWinStastistic statistic = new SWinStastistic(playerMovement.PlayerFellNum, initRoad.allEnemiesOnLvlNum,
-stateMonitor.KilledEnemyesNum, stateMonitor.BrokeBridgeNum);
+        stateMonitor.KilledEnemyesNum, stateMonitor.BrokeBridgeNum);
         int[] statisticInfo = { statistic.playerFellSum, statistic.percentEnemiesSum, statistic.bridgeBrokeSum };
 
         StartCoroutine(ShowStaticticAnim(statisticInfo));

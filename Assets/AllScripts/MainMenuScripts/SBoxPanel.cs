@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class SBoxPanel : MonoBehaviour
 {
-    string GameScene = "Game";
+    const string GameScene = "Game";
     public Transform[] panel;
     public GameObject ButtonTemplate;
     List<GameObject> allLevelButtons = new List<GameObject>();
@@ -24,6 +24,7 @@ public class SBoxPanel : MonoBehaviour
     { get; private set; }
 
     const int levelNum = 36;
+    const int setsNum = 3;
     const int defaultUnlocktedLevels = 3;
     const int _maxStarsInOnLvl = 3;
     const int _cellNumInOneSet = 3;
@@ -32,26 +33,37 @@ public class SBoxPanel : MonoBehaviour
     static int unblocktedSet;
     static bool[,] starExist = new bool[levelNum, _maxStarsInOnLvl];
     static bool[] availableLevel = new bool[levelNum];
-    
-    internal protected int StarsNumToUnblockNextSet { get; private set; }
+
+    private int starsNumToUnblockNextSet = 0;
+    internal protected int StarsNumToUnblockNextSet 
+    { 
+        get => starsNumToUnblockNextSet; 
+        private set
+        {
+            if (value < 1)
+                starsNumToUnblockNextSet = 6;
+            else
+                starsNumToUnblockNextSet = value;
+        }
+    }
     [SerializeField] GameObject unblockMessageWindow;
 
     void Start()
     {
-        FillLevelPanels(); 
-        UpdateStarsNumInComplitedLevel();
-        //сделать проверку на количество звезд, которые были на ячейке, должно быть < SWinPanel.GetStarRecivedSum
+        unblocktedSet = PlayerPrefs.GetInt("UnblocktedSet");
+        FillLevelPanels();
         if (SWinPanel.GetStarRecivedSum > GetStarsSumInOneLvl())
             SaveStarsData();
+        UpdateStarsNumInComplitedLevel();
         ShowStars();
         for (int i = 0; i < defaultUnlocktedLevels; i++)
         {
-            //allLevelButtons[i].transform.GetChild(2).gameObject.SetActive(false);
             availableLevel[i] = true;
             PlayerPrefs.SetInt("AvailableLevel" + i, 1);
         }
         CheckAvailableLevel();
         CheckSelectedLevel();
+        Debug.Log($"unblock: {unblocktedSet}");
     }
 
     void FillLevelPanels()
@@ -102,7 +114,7 @@ public class SBoxPanel : MonoBehaviour
         int sum = 0;
         for (int i = 0; i < _maxStarsInOnLvl; i++)
         {
-            if (starExist[SBoxPanel.SelectedLevel, i])
+            if (starExist[SelectedLevel, i])
                 sum++;
         }
         return sum;
@@ -111,7 +123,9 @@ public class SBoxPanel : MonoBehaviour
     {
         int minStarsNumToUnblockLevels = 6; //for one set
         int currentAvailableStars = ((minStarsNumToUnblockLevels * unblocktedSet) + minStarsNumToUnblockLevels);
-        if (GetStarsSumInAvailableSets() >= currentAvailableStars)
+        //проверка на звезды и количество разблоченных сетов, не может быть больше уровней
+        /////////////////////////unblocktedSet доходит до 9 и не выполняется код ниже. вероятно надо unblocktedSet до 11 апнуть
+        if (GetStarsSumInAvailableSets() >= currentAvailableStars && unblocktedSet < (levelNum / setsNum))
         {
             unblocktedSet++;
             //
@@ -134,8 +148,9 @@ public class SBoxPanel : MonoBehaviour
             if (availableLevel[i])
                 allLevelButtons[i].transform.GetChild(2).gameObject.SetActive(false);
         }
-
-        StarsNumToUnblockNextSet = ((minStarsNumToUnblockLevels * unblocktedSet) + minStarsNumToUnblockLevels) - GetStarsSumInAvailableSets();
+        PlayerPrefs.SetInt("UnblocktedSet", unblocktedSet);
+        StarsNumToUnblockNextSet = currentAvailableStars - GetStarsSumInAvailableSets();
+        Debug.Log($"unblock: {unblocktedSet}");
     }
 
     void UpdateStarsNumInComplitedLevel()
@@ -166,7 +181,7 @@ public class SBoxPanel : MonoBehaviour
                 PlayerPrefs.SetInt("StarExist" + SelectedLevel + "_" + i, 0);
             }
         }
-        PlayerPrefs.Save(); // Сохранение данных
+        PlayerPrefs.Save();
     }
 
     void ShowStars()

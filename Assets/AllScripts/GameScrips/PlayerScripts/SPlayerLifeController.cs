@@ -38,7 +38,7 @@ public class SPlayerLifeController : SCollisionController
     bool gotWound;
     private void Start()
     {
-        currHelthPoint = SCharacterTab.maxCurrCharacterHp;
+        currHelthPoint = SCharacterTab.characterInfo[SGlobalGameInfo.selectedCharacter].hp;
         damageEffect.Stop();
         playerRb = playerMovement.rb;
     }

@@ -23,7 +23,7 @@ public class SBuildMaterial : MonoBehaviour
             for (int i = 0; i < SBridge.widthBridge; i++)
             {
                 int currCell = (currRow * 3) + i;
-                int probCellFill = 20; // probability of filling a cell
+                int probCellFill = 25; // probability of filling a cell
                 int randCell = Random.Range(0, probCellFill);
                 bool cellIsEmpty = bridge.CellIsEmpty[currCell];
                 bool cellIsNone = randCell < 1;
