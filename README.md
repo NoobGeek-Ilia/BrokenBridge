@@ -1,5 +1,6 @@
 # BrokenBridge
 >Mobile game
+>You can play in the browser [here](https://noobgeek.itch.io/broken-bridge)
 
 The game is a continuation of the game for Arduboy [Blade runner](https://github.com/NoobGeek-Ilya/BladeRunner)
 
