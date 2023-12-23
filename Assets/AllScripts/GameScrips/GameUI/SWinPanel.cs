@@ -26,6 +26,7 @@ public class SWinPanel : MonoBehaviour
     const int maxValueBridgeBroke = 10;
     int[] thresholdValue = { maxValuePlayerFell , minValueKilledEnemiesPercent, maxValueBridgeBroke };
 
+
     internal protected void OpenPanel()
     {
         Time.timeScale = 0;
@@ -37,14 +38,11 @@ public class SWinPanel : MonoBehaviour
         int[] statisticInfo = { statistic.playerFellSum, statistic.percentEnemiesSum, statistic.bridgeBrokeSum };
 
         StartCoroutine(ShowStaticticAnim(statisticInfo));
-        
-        
     }
     public void GoToMainScene()
     {
         //send money to wallet
-        SWallet.CoinValue += stateMonitor.coinsNum;
-        PlayerPrefs.SetInt("CoinValue", SWallet.CoinValue);
+        SWallet.AddCoins(stateMonitor.coinsNum);
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
