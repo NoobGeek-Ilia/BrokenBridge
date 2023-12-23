@@ -31,7 +31,7 @@ Weapon characteristics:
 ## Control
 - Swipe to the side: Move
 - Swap down: Hit
-- Swap up: Jump
+- Swap up: Jump / Double jump
 
 ## Game Details
 Programs used:
@@ -44,4 +44,4 @@ Programs used:
 >In version 2.0, the game is expected to be adapted for Android-based set-top boxes
 
 ## Updates
-No updates
+No updates yet
