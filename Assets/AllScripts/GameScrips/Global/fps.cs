@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class fps : MonoBehaviour
@@ -16,8 +14,6 @@ public class fps : MonoBehaviour
         }
     }
 
-    private void OnGUI()
-    {
+    private void OnGUI() => 
         GUI.Label(new Rect(5, 40, 100, 25), "FPS: " + Mathf.Round(count));
-    }
 }

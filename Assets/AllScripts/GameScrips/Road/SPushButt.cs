@@ -4,10 +4,12 @@ using UnityEngine.UI;
 
 public class SPushButt : MonoBehaviour
 {
-    GameObject bridge;
     public SBridgeSpawner bridgeSpawner;
     public Button button;
-    void Start()
+
+    private GameObject bridge;
+
+    private void Start()
     {
         button = GetComponent<Button>();
         bridge = GameObject.Find($"Bridge{bridgeSpawner.currBridge - 1}");
@@ -16,8 +18,7 @@ public class SPushButt : MonoBehaviour
         button.onClick.AddListener(actionPush);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         bridge = GameObject.Find($"Bridge{bridgeSpawner.currBridge - 1}");
 

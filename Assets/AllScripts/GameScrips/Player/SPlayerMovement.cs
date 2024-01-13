@@ -2,26 +2,29 @@ using System;
 using UnityEngine;
 public class SPlayerMovement : MonoBehaviour
 {
-    internal protected bool isRunning;
-    internal protected bool isGrounded;
-    internal protected byte jumpCount;
-    internal protected Rigidbody rb;
-    Vector3 customGravity = new Vector3(0, -25f, 0);
-    protected internal bool playerOnTargetPlatform;
     public SLastElevator lastElevator;
     public SFirstElevator firstElevator;
     public SCamera mainCamera;
     public StateMonitor monitor;
-    float sideTargetPos;
-    [SerializeField] SPlayerLifeController liveController;
-    [SerializeField] SPlatform platform;
-    [SerializeField] SGameUi gameUi;
-    internal protected Action onPlayerFell;
-    [SerializeField] SPlayerLifeController playerLifeController;
-    [SerializeField] STouchDetection touchDetection;
-    [SerializeField] SPlayerSoundController soundController;
 
+    internal protected bool isRunning;
+    internal protected bool isGrounded;
+    internal protected byte jumpCount;
+    internal protected Action onPlayerFell;
+    internal protected Rigidbody rb;
+    internal protected bool playerOnTargetPlatform;
     internal protected int PlayerFellNum { get; private set; }
+
+    private Vector3 customGravity = new Vector3(0, -25f, 0);
+    private float sideTargetPos;
+
+    [SerializeField] private SPlayerLifeController liveController;
+    [SerializeField] private SPlatform platform;
+    [SerializeField] private SGameUi gameUi;  
+    [SerializeField] private SPlayerLifeController playerLifeController;
+    [SerializeField] private STouchDetection touchDetection;
+    [SerializeField] private SPlayerSoundController soundController;
+
     private void Start()
     {
         touchDetection.TouchEvent += OnTouch;
@@ -33,11 +36,7 @@ public class SPlayerMovement : MonoBehaviour
     {
         touchDetection.TouchEvent -= OnTouch;
     }
-    private void OnTouch(STouchDetection.ActionTipe action)
-    {
-        Movement(action);
-    }
-
+    
     private void Update()
     {
         KeyControll();
@@ -60,7 +59,8 @@ public class SPlayerMovement : MonoBehaviour
             Running(isRunning);
         }
     }
-    void KeyControll()
+    private void OnTouch(STouchDetection.ActionTipe action) => Movement(action);
+    private void KeyControll()
     {
         const float stepSize = 1.3f;
 
@@ -84,9 +84,10 @@ public class SPlayerMovement : MonoBehaviour
     }
 
 
-    void Movement(STouchDetection.ActionTipe action)
+    private void Movement(STouchDetection.ActionTipe action)
     {
         const float stepSize = 1.3f;
+
         switch (action)
         {
             case STouchDetection.ActionTipe.Right:
@@ -106,15 +107,16 @@ public class SPlayerMovement : MonoBehaviour
                 break;
         }
     }
-    void SideMovement()
+    private void SideMovement()
     {
         float speed = 10f;
         Vector3 newPos = new Vector3(transform.position.x, transform.position.y, sideTargetPos);
+
         transform.position = Vector3.MoveTowards(transform.position, newPos, speed * Time.deltaTime);
     }
 
 
-    void Jumping()
+    private void Jumping()
     {
         float jumpForce = 8.5f;
 
@@ -126,9 +128,10 @@ public class SPlayerMovement : MonoBehaviour
         }
     }
 
-    void Running(bool running)
+    private void Running(bool running)
     {
         float speed = 0.15f;
+
         if (running)
         {
             Vector3 movement = new Vector3(1, 0, 0);
@@ -141,8 +144,8 @@ public class SPlayerMovement : MonoBehaviour
         float newX = firstElevator.transform.position.x;
         float newY = firstElevator.transform.position.y + 0.5f;
         float newZ = firstElevator.transform.position.z;
+
         rb.velocity = Vector3.zero;
-        
         transform.position = new Vector3(newX, newY, newZ);
         sideTargetPos = 0;
     }
@@ -154,11 +157,12 @@ public class SPlayerMovement : MonoBehaviour
             jumpCount = 0;
         }
     }
-    void CheckFallPlayer()
+    private void CheckFallPlayer()
     {
         float playerPosY = transform.position.y;
         float platformPosMaxY = platform.GetRenderPlatformInfo(1).bounds.max.y;
         float distance = 5;
+
         if (playerPosY < platformPosMaxY - distance)
         {
             onPlayerFell?.Invoke();

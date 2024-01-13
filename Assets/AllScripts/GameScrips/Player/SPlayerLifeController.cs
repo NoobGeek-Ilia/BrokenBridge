@@ -2,9 +2,24 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+
 public class SPlayerLifeController : SCollisionController
 {
     public TextMeshProUGUI HealthMonitor;
+    public SPlayerMovement playerMovement;
+
+    internal protected int HealthPoints
+    {
+        get { return healthPoints; }
+        set
+        {
+            healthPoints = value;
+        }
+    }
+    internal protected bool playerDied { get; private set; }
+    internal protected Action OnPlayerDied;
+
+    private Rigidbody playerRb;
     private int currHelthPoint;
     private int healthPoints
     {
@@ -17,25 +32,13 @@ public class SPlayerLifeController : SCollisionController
                 currHelthPoint = value;
         }
     }
-    internal protected int HealthPoints
-    {
-        get { return healthPoints; }
-        set
-        {
-            healthPoints = value;
-        }
-    }
-    internal protected bool playerDied { get; private set; }
-    public SPlayerMovement playerMovement;
-    Rigidbody playerRb;
-    [SerializeField] ParticleSystem damageEffect;
-    [SerializeField] ParticleSystem deadEffect;
-    internal protected Action OnPlayerDied;
-    [SerializeField] SGameOverPanel gameOverPanel;
-    [SerializeField] StateMonitor stateMonitor;
-    [SerializeField] SPlayerSoundController soundController;
 
-    bool gotWound;
+    [SerializeField] private ParticleSystem damageEffect;
+    [SerializeField] private ParticleSystem deadEffect;
+    [SerializeField] private SGameOverPanel gameOverPanel;
+    [SerializeField] private StateMonitor stateMonitor;
+    [SerializeField] private SPlayerSoundController soundController;
+
     private void Start()
     {
         currHelthPoint = SCharacterTab.characterInfo[SGlobalGameInfo.selectedCharacter].hp;
@@ -52,7 +55,7 @@ public class SPlayerLifeController : SCollisionController
         onDamageCollided -= () => TakingDamage(1, true);
         playerMovement.onPlayerFell -= () => TakingDamage(5, false);
     }
-    void Update()
+    private void Update()
     {
         HealthMonitor.text = healthPoints.ToString();
         if (healthPoints < 1 && !playerDied)
@@ -62,12 +65,12 @@ public class SPlayerLifeController : SCollisionController
             StartCoroutine(KillPlayer());
         }
     }
-    void TakingDamage(int damage, bool gotWound)
+    private void TakingDamage(int damage, bool gotWound)
     {
         StartCoroutine(DamageControll(damage, gotWound));
         soundController.PlayCharacterGettingHitSound();
     }
-    void ShowDamageEffect(bool gotWound)
+    private void ShowDamageEffect(bool gotWound)
     {
         if (gotWound)
             damageEffect.Play();
@@ -78,14 +81,12 @@ public class SPlayerLifeController : SCollisionController
 
     private IEnumerator DamageControll(int damageValue, bool gotWound)
     {
-
         int invulnerabilityTime = 2;
         healthPoints -= damageValue;
         ShowDamageEffect(gotWound);
         yield return new WaitForSeconds(0.5f);
         HealthMonitor.color = Color.white;
         yield return new WaitForSeconds(invulnerabilityTime);
-
     }
     private IEnumerator KillPlayer()
     {
@@ -93,12 +94,10 @@ public class SPlayerLifeController : SCollisionController
         yield return new WaitForSeconds(2f);
         gameOverPanel.OpenPanel();
         OnPlayerDied?.Invoke();
-        
     }
     internal protected void ResetPlayerHealsPoint()
     {
         playerDied = false;
         stateMonitor.allCharacters[SGlobalGameInfo.selectedCharacter].SetActive(true);
-        //currHelthPoint = SCharacterTab.maxCurrCharacterHp;
     }
 }

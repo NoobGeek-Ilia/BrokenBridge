@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class SStorePanel : MonoBehaviour
 {
-    [SerializeField] Button[] StoreTabBut;
-    [SerializeField] GameObject[] StoreTab;
-    [SerializeField] TextMeshProUGUI coinValueTxt;
-
     private Image[] storeTabButtonImages;
+
+    [SerializeField] private Button[] StoreTabBut;
+    [SerializeField] private GameObject[] StoreTab;
+    [SerializeField] private TextMeshProUGUI coinValueTxt;
 
     private void Start()
     {
@@ -29,18 +29,17 @@ public class SStorePanel : MonoBehaviour
         coinValueTxt.text = SWallet.CoinValue.ToString();
     }
 
-    void OpenActiveTab(int tab)
+    private void OpenActiveTab(int tab)
     {
         CloseAllTab();
         StoreTab[tab].SetActive(true);
     }
 
-    void CloseAllTab()
+    private void CloseAllTab()
     {
         for (int i = 0; i < StoreTab.Length; i++)
         {
             StoreTab[i].SetActive(false);
         }
     }
-
 }

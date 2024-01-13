@@ -1,7 +1,3 @@
-using System;
-using System.Diagnostics;
-using Unity.VisualScripting;
-
 public class SWinStastistic
 {
     internal protected int playerFellSum;

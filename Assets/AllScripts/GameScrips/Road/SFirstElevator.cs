@@ -5,12 +5,14 @@ public class SFirstElevator : MonoBehaviour
 {
     public StateMonitor monitor;
     public SRoad road;
-    bool isMoving = true;
-    float speed = 4f; // Скорость движения объекта
-    private Rigidbody rb;
     public SPlatform platform;
-    protected internal bool elevatorOnPlatform;
+
+    internal protected bool elevatorOnPlatform;
     internal protected Action onElevatorLanded;
+
+    private bool isMoving = true;
+    private float speed = 4f;
+    private Rigidbody rb;
 
     private void Start()
     {
@@ -22,7 +24,7 @@ public class SFirstElevator : MonoBehaviour
         if (isMoving)
             LowerPlatform();
     }
-    void Update()
+    private void Update()
     {
         if (isMoving)
         {
@@ -36,7 +38,7 @@ public class SFirstElevator : MonoBehaviour
                 elevatorOnPlatform = false;
         }
     }
-    void LowerPlatform()
+    private void LowerPlatform()
     {
         Vector3 movement = new Vector3(0f, -speed * Time.deltaTime, 0f);
         rb.MovePosition(transform.position + movement);
@@ -47,6 +49,7 @@ public class SFirstElevator : MonoBehaviour
         float newX = platform.copyPlatform[0].transform.position.x;
         float newY = platform.GetPlatformTop + 7;
         float newZ = platform.copyPlatform[0].transform.position.z;
+
         transform.position = new Vector3(newX, newY, newZ);
         isMoving = true;
     }

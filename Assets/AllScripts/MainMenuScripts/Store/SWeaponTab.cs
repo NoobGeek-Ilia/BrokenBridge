@@ -4,22 +4,25 @@ using UnityEngine.UI;
 
 public class SWeaponTab : SWallet
 {
-    private int currIndex;
+    
     internal protected static int _weaponNum = 7;
     internal protected bool[] selectInfo = new bool[_weaponNum];
+
     private bool[] boughtInfo = new bool[_weaponNum];
-    [SerializeField] GameObject[] Weapons = new GameObject[_weaponNum];
-    [SerializeField] GameObject selectBut;
-    [SerializeField] GameObject buyBut;
-    [SerializeField] GameObject priceUI;
+    private int currIndex;
 
-    [SerializeField] TextMeshProUGUI nameTxt;
-    [SerializeField] TextMeshProUGUI accuracyTxt;
-    [SerializeField] TextMeshProUGUI distanceTxt;
-    [SerializeField] TextMeshProUGUI priceTxt;
+    [SerializeField] private GameObject[] Weapons = new GameObject[_weaponNum];
+    [SerializeField] private GameObject selectBut;
+    [SerializeField] private GameObject buyBut;
+    [SerializeField] private GameObject priceUI;
 
-    [SerializeField] TextMeshProUGUI selectTxt;
-    SWeaponInfo[] weaponInfo =
+    [SerializeField] private TextMeshProUGUI nameTxt;
+    [SerializeField] private TextMeshProUGUI accuracyTxt;
+    [SerializeField] private TextMeshProUGUI distanceTxt;
+    [SerializeField] private TextMeshProUGUI priceTxt;
+    [SerializeField] private TextMeshProUGUI selectTxt;
+
+    private SWeaponInfo[] weaponInfo =
     {
         new SWeaponInfo("Wood Sword", 2, 5),
         new SWeaponInfo("Metall Sword", 3, 5, 250),
@@ -50,7 +53,7 @@ public class SWeaponTab : SWallet
     {
         CheckSelectedWeapon();
     }
-    int CheckSumBoughtWeapon()
+    private int CheckSumBoughtWeapon()
     {
         int sum = 0;
         for (int i = 0; i < _weaponNum; i++)
@@ -60,7 +63,7 @@ public class SWeaponTab : SWallet
         }
         return sum;
     }
-    void SetWeaponInfo(SWeaponInfo weapon)
+    private void SetWeaponInfo(SWeaponInfo weapon)
     {
         nameTxt.text = weapon.name;
         accuracyTxt.text = weapon.accuracy.ToString();
@@ -81,7 +84,7 @@ public class SWeaponTab : SWallet
         SetActiveWeapon();
     }
 
-    void ShowActiveElements()
+    private void ShowActiveElements()
     {
         if (boughtInfo[currIndex])
         {
@@ -97,7 +100,7 @@ public class SWeaponTab : SWallet
         }
     }
 
-    void CheckSelectedWeapon()
+    private void CheckSelectedWeapon()
     {
         if (selectInfo[currIndex])
         {
@@ -109,10 +112,9 @@ public class SWeaponTab : SWallet
             selectBut.GetComponent<Image>().color = Color.red;
             selectTxt.text = "select";
         }
-
     }
 
-    void SetActiveWeapon()
+    private void SetActiveWeapon()
     {
         for (int i = 0; i < Weapons.Length; i++)
         {

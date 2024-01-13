@@ -5,24 +5,26 @@ public class InitRoadFilling : MonoBehaviour
 {
     public SBridgeSpawner bridgeSpawner;
     public SRoad road;
-    private GameObject[,] enemyPrefab = new GameObject[4, 3];
     public GameObject[] damageObject;
     public SPlatform platform;
-    [SerializeField] Transform damageObjectsContainer;
-    [SerializeField] Transform enemyContainer;
-    [SerializeField] SCoins coins;
-    GameObject bridgeBody;
-    SBridge bridge;
-    [SerializeField] SBuildMaterial bridgeMaterial;
-    [SerializeField] SHeart heart;
+
     internal protected int allEnemiesOnLvlNum;
-    private readonly string[,] model =
-    {
+
+    private GameObject[,] enemyPrefab = new GameObject[4, 3];
+    private GameObject bridgeBody;
+    private SBridge bridge;
+    private readonly string[,] model = {
         { "Spider", "Slime", "CritterWood" },
         { "BigFoot", "Penguin", "CritterIce"},
         { "Pigeon", "Rat", "CritterCity"},
         { "Monkey", "Crab", "CritterTropic"}
     };
+
+    [SerializeField] private Transform damageObjectsContainer;
+    [SerializeField] private Transform enemyContainer;
+    [SerializeField] private SCoins coins;
+    [SerializeField] private SBuildMaterial bridgeMaterial;
+    [SerializeField] private SHeart heart;
 
     private void OnEnable()
     {
@@ -38,7 +40,7 @@ public class InitRoadFilling : MonoBehaviour
         InitEnemy();
     }
 
-    void InitEnemy()
+    private void InitEnemy()
     {
         for (int i = 0; i < enemyPrefab.GetLength(0); i++)
         { 
@@ -47,8 +49,8 @@ public class InitRoadFilling : MonoBehaviour
                 enemyPrefab[i, j] = Resources.Load<GameObject>($"Prefabs/Enemies/{model[i, j]}");
             }
         }
-    }    
-    void FillRoad()
+    }
+    private void FillRoad()
     {
         //coins
         coins.CreateCoinWay();
@@ -64,7 +66,7 @@ public class InitRoadFilling : MonoBehaviour
         allEnemiesOnLvlNum += enemyContainer.childCount;
     }
 
-    void FillBridge(SBridge bridge)
+    private void FillBridge(SBridge bridge)
     {
         for (int currRow = 0; currRow < bridge.copyBridgeParticle.Count / 3; currRow++)
         {
@@ -72,10 +74,13 @@ public class InitRoadFilling : MonoBehaviour
             int randRow = Random.Range(0, probRowFill);
             bool RawIsEmpty = EmptyCellSum(currRow) == SBridge.widthBridge - 1;
             bool RawIsNone = randRow < 1;
+
             if (RawIsEmpty || RawIsNone) //continue to next row
                 continue;
+
             //fill row
             bool rowTipe = Random.value > 0.5f;
+
             if (rowTipe) //fill row with damage objects
             {
                 CreateDamageObjects(currRow);
@@ -85,7 +90,6 @@ public class InitRoadFilling : MonoBehaviour
             {
                 for (int i = 0; i < SBridge.widthBridge; i++)
                 {
-                    //добавить проверку > убито 2 или нет
                     int currCell = (currRow * 3) + i;
                     int randCell = Random.Range(0, 100);
                     bool cellIsEmpty = bridge.CellIsEmpty[currCell];
@@ -101,7 +105,7 @@ public class InitRoadFilling : MonoBehaviour
         }
     }
 
-    void CreateDamageObjects(int currRow)
+    private void CreateDamageObjects(int currRow)
     {
         float[] distanceToBridge = { 0f, 0.8f, 0.2f }; //disk, flame, peak
         Vector3[] cellPosition = new Vector3[SBridge.widthBridge];
@@ -127,7 +131,7 @@ public class InitRoadFilling : MonoBehaviour
                 break;
         }
     }
-    void SetPosAndInstObject(Vector3 cellPosition, int selectedObject, float distanceToBridge)
+    private void SetPosAndInstObject(Vector3 cellPosition, int selectedObject, float distanceToBridge)
     {
         float NewX = cellPosition.x;
         float NewY = cellPosition.y + distanceToBridge;
@@ -160,7 +164,7 @@ public class InitRoadFilling : MonoBehaviour
         Instantiate(damageObject[selectedObject], SpawnPos, rotation, damageObjectsContainer);
     }
 
-    int SelectedDamageObject(int currRow)
+    private int SelectedDamageObject(int currRow)
     {
         int objTipe;
         do
@@ -170,7 +174,7 @@ public class InitRoadFilling : MonoBehaviour
 
         return objTipe;
     }
-    void CreateEnemy(int currCell)
+    private void CreateEnemy(int currCell)
     {
         int enemyTipe = Random.Range(0, enemyPrefab.GetLength(1));
         float[,] distanceToBridge = {
@@ -189,8 +193,8 @@ public class InitRoadFilling : MonoBehaviour
         currEnemy.name = enemyPrefab[SBoxPanel.SelectedSet, enemyTipe].name;
     }
 
-    int ConnectionTipe;
-    bool CheckingCellsNearby(int currRow)
+    private int ConnectionTipe;
+    private bool CheckingCellsNearby(int currRow)
     {
         bool[] cell = new bool[SBridge.widthBridge];
         for (int i = 0; i < SBridge.widthBridge; i++)

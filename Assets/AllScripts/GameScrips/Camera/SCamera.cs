@@ -1,32 +1,30 @@
-using System;
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 
 public class SCamera : MonoBehaviour
 {
-    AudioSource audioSource;
-    public SPlatform platform;
-    private Vector3 targetPosition1;
-    private Quaternion targetRotation1;
-    
     public bool cameraBehindPlayer;
     public SRoad road;
     public SFirstElevator firstElevator;
     public SLastElevator lastElevator;
-    internal protected CameraPosition cp = CameraPosition.Start;
-
+    public SPlatform platform;
+    internal protected CameraPosition cp;
     internal protected Vector3 startPosition;
+
+    private Vector3 targetPosition1;
+    private Quaternion targetRotation1;
+    private AudioSource audioSource;
     private Quaternion startRotation;
     private Vector3 newTargetPosition;
     private Quaternion newTargetRotation;
     private Vector3 newStartPosition;
     private Quaternion newStartRotation;
 
-    [SerializeField] SBridgeSpawner bridgeSpawner;
-    [SerializeField] GameObject sideCameraDriver;
-    [SerializeField] SPlayerMovement playerMovement;
-    [SerializeField] SPlayerLifeController sPlayerLifeController;
+    [SerializeField] private SBridgeSpawner bridgeSpawner;
+    [SerializeField] private GameObject sideCameraDriver;
+    [SerializeField] private SPlayerMovement playerMovement;
+    [SerializeField] private SPlayerLifeController sPlayerLifeController;
+
     const float distanceToPlayerX = 7.5f;
 
     private void OnEnable()
@@ -34,10 +32,8 @@ public class SCamera : MonoBehaviour
         lastElevator.onSwichedToNextStage += () => StartCoroutine(HandleCameraBehavior());
         road.onRoadComplited += () => StartCoroutine(HandleCameraBehavior());
         firstElevator.onElevatorLanded += () => StartCoroutine(HandleCameraBehavior());
-        bridgeSpawner.onBridgeSet += () =>
-        {
-            StartCoroutine(MoveCameraToSide());
-        };
+        bridgeSpawner.onBridgeSet += () => StartCoroutine(MoveCameraToSide());
+
         sPlayerLifeController.OnPlayerDied += () =>
         {
             cp = CameraPosition.Run;
@@ -61,7 +57,7 @@ public class SCamera : MonoBehaviour
         float distanceToPlayerY = 5.5f;
         //start
         startPosition = new Vector3(playerMovement.transform.position.x - distanceToPlayerX,
-                                      getInfoFirstPlatform.bounds.max.y + distanceToPlayerY, centerPlatformZ);
+            getInfoFirstPlatform.bounds.max.y + distanceToPlayerY, centerPlatformZ);
         startRotation = Quaternion.Euler(20f, 90.11f, 0.067f);
 
         //build
@@ -83,6 +79,7 @@ public class SCamera : MonoBehaviour
         audioSource.Play();
         float offset = 0.01f;
         progress = 0;
+
         switch (cp)
         {
             case CameraPosition.Start:
@@ -111,6 +108,7 @@ public class SCamera : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(0.1f);
+
         if (cp != CameraPosition.Run)
             cp++;
         else
@@ -132,14 +130,14 @@ public class SCamera : MonoBehaviour
         int platformIndex = platform.currentIndexPlatform + 1;
         float nextPlatformPosX = platform.copyPlatform[platformIndex].transform.position.x - distance;
         float currentVelocity = 0;
+
         if (platform.currentIndexPlatform != platform.platforms[SBoxPanel.SelectedLevel] - 1)
         {
-            
             while (transform.position.x < nextPlatformPosX)
             {
-                
                 float targetPosX = Mathf.SmoothDamp(sideCameraDriver.transform.position.x, nextPlatformPosX, ref currentVelocity, 0.3f);
-                sideCameraDriver.transform.position = new Vector3(targetPosX, sideCameraDriver.transform.position.y, sideCameraDriver.transform.position.z);
+                sideCameraDriver.transform.position = new Vector3(targetPosX, sideCameraDriver.transform.position.y, 
+                    sideCameraDriver.transform.position.z);
                 yield return null;
             }
         }

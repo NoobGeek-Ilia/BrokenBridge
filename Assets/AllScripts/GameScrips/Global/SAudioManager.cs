@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SAudioManager : MonoBehaviour
 {
-    [SerializeField] AudioSource soundEffect;
-    [SerializeField] AudioClip[] buildSound;
+    [SerializeField] private AudioSource soundEffect;
+    [SerializeField] private AudioClip[] buildSound;
     private void Start()
     {
         soundEffect = GetComponent<AudioSource>();

@@ -12,18 +12,8 @@ public class StateMonitor : MonoBehaviour
     public GameObject lastElevatorGo;
     public SCamera mainCamera;
     public SCoins coins;
-    
-    [SerializeField] InitRoadFilling roadObjects;
-    [SerializeField] SBuildMaterial buildMaterial;
-    [SerializeField] SGameUi gameUi;
-    [SerializeField] SBridgeTouchController bridgeTouchController;
     public GameObject[] allCharacters;
-    [SerializeField] GameObject[] weaponPrefab;
-    [SerializeField] Transform[] anchorParent;
-    [SerializeField] SPlayerLifeController playerLifeController;
-    [SerializeField] SStageMonitor stageMonitor;
-    [SerializeField] SBuildMaterialController materialController;
-    [SerializeField] SHeart heart;
+    public bool levelComplite = true;
 
     internal protected Action OnLevelComplited;
     internal protected GameObject currCharacter { get; private set; }
@@ -31,10 +21,19 @@ public class StateMonitor : MonoBehaviour
     internal protected int coinsNum;
     internal protected int KilledEnemyesNum;
     internal protected int BrokeBridgeNum;
-    protected internal int GetStageNum { get; private set; }
-
+    internal protected int GetStageNum { get; private set; }
     internal protected int currentStageIndex = 0;
-    public bool levelComplite = true;
+
+    [SerializeField] private InitRoadFilling roadObjects;
+    [SerializeField] private SBuildMaterial buildMaterial;
+    [SerializeField] private SGameUi gameUi;
+    [SerializeField] private SBridgeTouchController bridgeTouchController;
+    [SerializeField] private GameObject[] weaponPrefab;
+    [SerializeField] private Transform[] anchorParent;
+    [SerializeField] private SPlayerLifeController playerLifeController;
+    [SerializeField] private SStageMonitor stageMonitor;
+    [SerializeField] private SBuildMaterialController materialController;
+    [SerializeField] private SHeart heart;
 
     private void Awake()
     {
@@ -44,7 +43,6 @@ public class StateMonitor : MonoBehaviour
     }
     void FillStagesArray()
     {
-        //int[] pattern = new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 1 };
         int[] pattern = new int[] { 2, 2, 3, 3, 3, 3, 4, 6, 8 };
         int patternLength = pattern.Length;
 
@@ -65,7 +63,7 @@ public class StateMonitor : MonoBehaviour
         lastElevator.onSwichedToNextStage -= () => Reload(false);
     }
 
-    void Update()
+    private void Update()
     {
         CheckCompliteLevel();
         if (!levelComplite)
@@ -74,7 +72,7 @@ public class StateMonitor : MonoBehaviour
                 lastElevator.playerTakenToNextLevel = false;
         }
     }
-    void CheckCompliteLevel()
+    private void CheckCompliteLevel()
     {
         if (currentStageIndex == stages[SBoxPanel.SelectedLevel] && !levelComplite)
         {
@@ -104,10 +102,9 @@ public class StateMonitor : MonoBehaviour
         playerMovement.SetNewPlayerPos();
         lastElevatorGo.SetActive(true);
         lastElevator.ResetElevatorPos();
-        bridgeTouchController.BridgeInit();
-        
+        bridgeTouchController.BridgeInit();   
     }
-    void ResetVariables()
+    private void ResetVariables()
     {
         road.eventWasCalled = false;
         platform.currentIndexPlatform = 0;
@@ -116,14 +113,14 @@ public class StateMonitor : MonoBehaviour
         mainCamera.transform.position = mainCamera.startPosition;
     }
 
-    void ActivateSelectedCharacter()
+    private void ActivateSelectedCharacter()
     {
         foreach (var character in allCharacters)
             character.SetActive(false);
         allCharacters[SGlobalGameInfo.selectedCharacter].SetActive(true);
         currCharacter = allCharacters[SGlobalGameInfo.selectedCharacter];
     }
-    void ActivateSelectedWeapon()
+    private void ActivateSelectedWeapon()
     {
         GameObject prefab = weaponPrefab[SGlobalGameInfo.selectedWeapon];
         Transform anchor = anchorParent[SGlobalGameInfo.selectedCharacter];

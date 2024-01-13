@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SPlayerUiAnim : MonoBehaviour
 {
-    float spinSpeed = 60;
-    void Update()
+    private float spinSpeed = 60;
+    private void Update()
     {
         transform.Rotate(Vector3.down, spinSpeed * Time.deltaTime);
     }

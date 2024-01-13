@@ -5,8 +5,9 @@ public class SBigFoot : MonoBehaviour
     private Animator animator;
     private SPlayerMovement playerMovement;
     private Vector3 playerPosition;
-    [SerializeField] private GameObject damageArea;
     private const int offset = 10;
+
+    [SerializeField] private GameObject damageArea;
 
     private void Start()
     {

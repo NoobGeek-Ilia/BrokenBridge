@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class SBridgeTouchController : MonoBehaviour
 {
-    internal protected bool isTouching;
-    GameObject bridge;
-    SBridge currBridge;
     public SBridgeSpawner bridgeSpawner;
     public SCamera mainCamera;
     public SRoad road;
+
+    internal protected bool isTouching;
+
+    private GameObject bridge;
+    private SBridge currBridge;
 
     private void OnEnable()
     {
@@ -32,7 +34,7 @@ public class SBridgeTouchController : MonoBehaviour
         currBridge = bridge.GetComponent<SBridge>();
     }
 
-    void CheckTouchAndBuild()
+    private void CheckTouchAndBuild()
     {
         if (Input.GetKeyDown(KeyCode.Space))
             isTouching = true;

@@ -1,10 +1,10 @@
-using System;
 using UnityEngine;
 
 public class SHeartCollider : MonoBehaviour
 {
     private SHeartController materialController;
-    [SerializeField] ParticleSystem bonusEffect;
+
+    [SerializeField] private ParticleSystem bonusEffect;
     private void Start()
     {
         materialController = FindObjectOfType<SHeartController>();

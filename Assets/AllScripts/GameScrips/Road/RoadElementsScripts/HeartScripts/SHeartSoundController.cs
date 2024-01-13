@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SHeartSoundController : MonoBehaviour
 {
-    [SerializeField] AudioSource heartSound;
+    [SerializeField] private AudioSource heartSound;
 
     internal protected void PlaySound()
     {

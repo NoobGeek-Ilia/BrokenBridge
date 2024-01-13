@@ -4,9 +4,6 @@ using UnityEngine;
 public class SLockController
 {
     internal protected static bool[] availableLevel = new bool[SBoxPanel.levelNum];
-    private const int defaultUnlocktedLevels = 3;
-    private int unblocktedSet;
-    private int starsNumToUnblockNextSet;
     internal protected int StarsNumNeedToUnblockNextSet
     {
         get => starsNumToUnblockNextSet;
@@ -14,6 +11,10 @@ public class SLockController
 
     }
     internal protected static Action AllSetsHaveBeenUnlocked;
+
+    private const int defaultUnlocktedLevels = 3;
+    private int unblocktedSet;
+    private int starsNumToUnblockNextSet;
     private bool NewSetHaveBeenUnlocked;
 
     internal protected SLockController(out bool newSetUnlock)
@@ -52,11 +53,11 @@ public class SLockController
         if (allSetsUnblocked)
             AllSetsHaveBeenUnlocked?.Invoke();
         currentAvailableStars = ((minStarsNumToUnblockLevels * unblocktedSet) + minStarsNumToUnblockLevels); //обновляем значение здвезд для следующего сета
-        StarsNumNeedToUnblockNextSet = currentAvailableStars - SStarController.GetStarsSum(); // Проблема в этой строчке
+        StarsNumNeedToUnblockNextSet = currentAvailableStars - SStarController.GetStarsSum();
     }
 
 
-    bool IsAllSetsUnblocked() =>
+    private bool IsAllSetsUnblocked() =>
         unblocktedSet > (SBoxPanel.levelNum / SBoxPanel.cellNumInOneSet - 2);
     internal protected int GetUnlockedLvlNum()
     {

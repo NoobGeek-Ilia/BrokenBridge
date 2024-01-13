@@ -4,17 +4,14 @@ using UnityEngine;
 public class SCoins : MonoBehaviour
 {
     public List<GameObject> allCoins = new List<GameObject>();
-    public GameObject coinPrefab; // ссылка на префаб
+    public GameObject coinPrefab;
     public SPlatform platform;
-    public Transform coins; // ссылка на родительский объект
+    public Transform coins;
     public SBridgeSpawner bridgeSpawner;
     public SRoad road;
-    int groupNum;
-    float startPosY;
 
     internal protected void CreateCoinWay()
     {
-
         for (int i = 0; i < platform.copyPlatform.Count - 1; i++)
         {
             groupNum = Random.Range(0, 3);
@@ -26,16 +23,18 @@ public class SCoins : MonoBehaviour
         }
     }
 
-    void SelectCoinGroup(int groupNum, float firstCoinPosX)
+    private int groupNum;
+    private float startPosY;
+
+    private void SelectCoinGroup(int groupNum, float firstCoinPosX)
     {
-        
-        int numCoins; // количество монет
+        int numCoins;
         int rowsCons;
-        float distBetweenCoins; // рассто€ние между монетами
-        float distBetweeRows; // рассто€ние между р€дами
-        startPosY = platform.GetPlatformTop + 0.5f; //рассто€ние между платформой и монетами
+        float distBetweenCoins;
+        float distBetweeRows;
+        startPosY = platform.GetPlatformTop + 0.5f;
         float startPosZ = platform.copyPlatform[0].transform.position.z;
-        Vector3 spawnPosition = new Vector3(firstCoinPosX, startPosY, startPosZ);// начальна€ позици€ дл€ первой монеты
+        Vector3 spawnPosition = new Vector3(firstCoinPosX, startPosY, startPosZ);
 
         switch (groupNum)
         {
@@ -91,7 +90,6 @@ public class SCoins : MonoBehaviour
     }
     internal protected void ResetCoinsWay()
     {
-        
         foreach (GameObject go in allCoins)
         {
             if (go != null)

@@ -6,17 +6,10 @@ using System.Collections.Generic;
 
 public class SBoxPanel : MonoBehaviour
 {
-    const string GameScene = "Game";
+    
     public Transform[] panel;
+    public TextMeshProUGUI starsCountToUnblock;
     public GameObject ButtonTemplate;
-    List<GameObject> allLevelButtons = new List<GameObject>();
-    Color[] colorArray = new Color[]
-    {
-            new Color(0.90f, 0.70f, 1f), // Светло коричнивый
-            new Color(0.5f, 0.7f, 1f),     // Светло голубой
-            new Color(0.5f, 0.5f, 0.5f),   // Серый
-            new Color(0f, 1f, 0.5f),
-    };
 
     internal protected static int SelectedLevel 
     { get; private set; }
@@ -26,12 +19,21 @@ public class SBoxPanel : MonoBehaviour
 
     internal protected const int levelNum = 36;
     internal protected const int cellNumInOneSet = 3;
-    private const int cellsPerSet = 9;
 
-    [SerializeField] private GameObject unblockMessageWindow;
-    public TextMeshProUGUI starsCountToUnblock;
+    private List<GameObject> allLevelButtons = new List<GameObject>();
+    private const string GameScene = "Game";
+    private const int cellsPerSet = 9;
     private SLockController lockController;
     private bool newSetUnlock;
+    private Color[] colorArray = new Color[]
+    {
+            new Color(0.90f, 0.70f, 1f), // Светло коричнивый
+            new Color(0.5f, 0.7f, 1f),     // Светло голубой
+            new Color(0.5f, 0.5f, 0.5f),   // Серый
+            new Color(0f, 1f, 0.5f),
+    };
+
+    [SerializeField] private GameObject unblockMessageWindow;
 
     private void Start()
     {

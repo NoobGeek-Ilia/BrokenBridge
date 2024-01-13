@@ -7,9 +7,10 @@ public class SPenguin : MonoBehaviour
     private Animator animator;
     private SPlayerMovement playerMovement;
     private Vector3 playerPosition;
+    private const int offset = 20;
+
     [SerializeField] private GameObject snowBallPrefab;
     [SerializeField] private ParticleSystem snowBallEffect;
-    private const int offset = 20;
 
     private void Start()
     {

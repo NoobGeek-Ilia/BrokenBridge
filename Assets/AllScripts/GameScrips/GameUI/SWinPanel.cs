@@ -5,26 +5,28 @@ using UnityEngine.SceneManagement;
 
 public class SWinPanel : MonoBehaviour
 {
-    [SerializeField] SPlayerMovement playerMovement;
-    [SerializeField] InitRoadFilling initRoad;
-    [SerializeField] StateMonitor stateMonitor;
-    [SerializeField] GameObject HomeButton;
-    [SerializeField] GameObject HomeButtonReserve;
-    [SerializeField] SStarSoundController starSoundController;
-    
+    [SerializeField] private SPlayerMovement playerMovement;
+    [SerializeField] private InitRoadFilling initRoad;
+    [SerializeField] private StateMonitor stateMonitor;
+    [SerializeField] private GameObject HomeButton;
+    [SerializeField] private GameObject HomeButtonReserve;
+    [SerializeField] private SStarSoundController starSoundController;
+    [SerializeField] private TextMeshProUGUI[] statisticTxt;
 
-    [SerializeField] TextMeshProUGUI[] statisticTxt;
-
-    const int _maxStars = 3;
+    private const int _maxStars = 3;
     internal protected static bool[] starRecived = new bool[_maxStars];
     internal protected static int GetStarRecivedSum;
-    [SerializeField] GameObject[] Star;
+    [SerializeField] private GameObject[] Star;
 
 
-    const int maxValuePlayerFell = 6;
-    const int minValueKilledEnemiesPercent = 50;
-    const int maxValueBridgeBroke = 10;
-    int[] thresholdValue = { maxValuePlayerFell , minValueKilledEnemiesPercent, maxValueBridgeBroke };
+    private const int maxValuePlayerFell = 6;
+    private const int minValueKilledEnemiesPercent = 50;
+    private const int maxValueBridgeBroke = 10;
+    private int[] thresholdValue = { 
+        maxValuePlayerFell , 
+        minValueKilledEnemiesPercent, 
+        maxValueBridgeBroke 
+    };
 
 
     internal protected void OpenPanel()
@@ -32,7 +34,6 @@ public class SWinPanel : MonoBehaviour
         Time.timeScale = 0;
         gameObject.SetActive(true);
         HomeButtonReserve.SetActive(false);
-
         SWinStastistic statistic = new SWinStastistic(playerMovement.PlayerFellNum, initRoad.allEnemiesOnLvlNum,
         stateMonitor.KilledEnemyesNum, stateMonitor.BrokeBridgeNum);
         int[] statisticInfo = { statistic.playerFellSum, statistic.percentEnemiesSum, statistic.bridgeBrokeSum };
@@ -95,10 +96,11 @@ public class SWinPanel : MonoBehaviour
             starSoundController.PlaySound();
             yield return new WaitForSecondsRealtime(1f);
         }
+
         CheckStarResivedSum();
         HomeButton.SetActive(true);
     }
-    void CheckStarResivedSum()
+    private void CheckStarResivedSum()
     {
         GetStarRecivedSum = 0;
         for (int i = 0; i < _maxStars; i++)

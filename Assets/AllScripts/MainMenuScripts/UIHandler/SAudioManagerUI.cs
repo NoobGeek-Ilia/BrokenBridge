@@ -4,6 +4,7 @@ public class SAudioManagerUI : MonoBehaviour
 {
     public AudioSource clickSound;
     public AudioClip[] selectCharacterSound;
+
     private void Start()
     {
         clickSound = GetComponent<AudioSource>();

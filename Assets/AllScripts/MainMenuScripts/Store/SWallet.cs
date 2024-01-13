@@ -3,11 +3,14 @@ using UnityEngine;
 public class SWallet : MonoBehaviour
 {
     private static int coinValue;
+
+    internal protected static int CoinValue { get { return coinValue; } set { coinValue = value; } }
+
     private void Awake()
     {
         CoinValue = PlayerPrefs.GetInt("CoinValue");
     }
-    internal protected static int CoinValue { get { return coinValue; } set { coinValue = value; } }
+    
     public virtual void DoTransaction(int itemPrice)
     {
         if (itemPrice <= CoinValue)
@@ -16,6 +19,7 @@ public class SWallet : MonoBehaviour
             PlayerPrefs.SetInt("CoinValue", CoinValue);
         }
     }
+
     public static void AddCoins(int value)
     {
         CoinValue += value;

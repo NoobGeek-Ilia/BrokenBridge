@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SPlayerSoundController : MonoBehaviour
 {
-    [SerializeField] AudioSource[] charSound;
-    [SerializeField] AudioClip[] jumpClip;
-    [SerializeField] AudioClip[] gettingHitClip;
-    [SerializeField] AudioClip[] fallingClip;
+    [SerializeField] private AudioSource[] charSound;
+    [SerializeField] private AudioClip[] jumpClip;
+    [SerializeField] private AudioClip[] gettingHitClip;
+    [SerializeField] private AudioClip[] fallingClip;
+    [SerializeField] private AudioSource hitSource;
 
-
-    [SerializeField] AudioSource hitSource;
-
-    int selectedCharacter = SGlobalGameInfo.selectedCharacter;
+    private int selectedCharacter = SGlobalGameInfo.selectedCharacter;
 
     internal protected void PlayHitSound()
     {

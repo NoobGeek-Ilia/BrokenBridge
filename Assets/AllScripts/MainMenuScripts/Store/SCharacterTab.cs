@@ -1,33 +1,30 @@
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class SCharacterTab : SWallet
 {
-    private int currIndex;
-    internal protected static int maxCurrCharacterHp { get; private set; } = 30;
-    internal protected static int _characterNum = 3;
-    internal protected bool[] selectInfo = new bool[_characterNum];
-    private bool[] boughtInfo = new bool[_characterNum];
-    [SerializeField] GameObject[] Characters = new GameObject[_characterNum];
-    [SerializeField] GameObject selectBut;
-    [SerializeField] GameObject buyBut;
-    [SerializeField] GameObject priceUI;
-
-    [SerializeField] TextMeshProUGUI nameTxt;    
-    [SerializeField] TextMeshProUGUI hpTxt;    
-    [SerializeField] TextMeshProUGUI priceTxt;
-
-    [SerializeField] TextMeshProUGUI selectTxt;
-    public static SCharacterInfo[] characterInfo =
-    {
+    public static SCharacterInfo[] characterInfo = {
         new SCharacterInfo("Ninja boy", 30),
         new SCharacterInfo("Ninja girl", 40, 2200),
         new SCharacterInfo("Heir boy", 50, 3700)
     };
 
+    internal protected static int maxCurrCharacterHp { get; private set; } = 30;
+    internal protected static int _characterNum = 3;
+    internal protected bool[] selectInfo = new bool[_characterNum];
+
+    private bool[] boughtInfo = new bool[_characterNum];
+    private int currIndex;
+
+    [SerializeField] private GameObject[] Characters = new GameObject[_characterNum];
+    [SerializeField] private GameObject selectBut;
+    [SerializeField] private GameObject buyBut;
+    [SerializeField] private GameObject priceUI;
+    [SerializeField] private TextMeshProUGUI nameTxt;    
+    [SerializeField] private TextMeshProUGUI hpTxt;    
+    [SerializeField] private TextMeshProUGUI priceTxt;
+    [SerializeField] private TextMeshProUGUI selectTxt;
 
     private void Start()
     {
@@ -48,7 +45,7 @@ public class SCharacterTab : SWallet
     {
         CheckSelectedCharacter();
     }
-    int CheckSumBoughtChar()
+    private int CheckSumBoughtChar()
     {
         int sum = 0;
         for (int i = 0; i < _characterNum; i++)
@@ -58,7 +55,7 @@ public class SCharacterTab : SWallet
         }
         return sum;
     }
-    void SetCharacterInfo(SCharacterInfo character)
+    private void SetCharacterInfo(SCharacterInfo character)
     {
         nameTxt.text = character.name;
         hpTxt.text = character.hp.ToString();
@@ -78,7 +75,7 @@ public class SCharacterTab : SWallet
         SetActiveCharacter();
     }
 
-    void ShowActiveElements()
+    private void ShowActiveElements()
     {
         if (boughtInfo[currIndex])
         {
@@ -94,7 +91,7 @@ public class SCharacterTab : SWallet
         }
     }
 
-    void CheckSelectedCharacter()
+    private void CheckSelectedCharacter()
     {
         if (selectInfo[currIndex])
         {
@@ -109,7 +106,7 @@ public class SCharacterTab : SWallet
 
     }
 
-    void SetActiveCharacter()
+    private void SetActiveCharacter()
     {
         for (int i = 0; i < Characters.Length; i++)
         {

@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class SEnemyCollider : MonoBehaviour
 {
-    GameObject missMessagePrefab;
-    [SerializeField] ParticleSystem damageEffect;
+    [SerializeField] private ParticleSystem damageEffect;
+
     private StateMonitor stateMonitor;
     private SEnemySoundController soundController;
+    private GameObject missMessagePrefab;
 
     private void Start()
     {
@@ -28,6 +29,7 @@ public class SEnemyCollider : MonoBehaviour
         ParticleSystem newEffect = Instantiate(damageEffect, newPos, damageEffect.transform.rotation);
         ParticleSystem.MainModule main = newEffect.main;
         string objectName = gameObject.name;
+
         switch (objectName)
         {
             case "Slime":
@@ -75,7 +77,6 @@ public class SEnemyCollider : MonoBehaviour
         float offcet = transform.localScale.x / 2;
         Vector3 newPos = new Vector3(transform.position.x - offcet, transform.position.y, transform.position.z);
         Instantiate(missMessagePrefab, newPos, missMessagePrefab.transform.rotation, transform);
-
     }
 
     private IEnumerator DamageControll(int selectedWeapon)

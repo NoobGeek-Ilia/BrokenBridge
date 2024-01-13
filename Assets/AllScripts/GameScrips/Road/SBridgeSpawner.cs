@@ -1,30 +1,28 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SBridgeSpawner : MonoBehaviour
 {
     public SPlatform platform;
-    
     public bool brideComplite;
     public List<GameObject> bridges = new List<GameObject>();
-    Vector3 getBoundsPlatform;
-    GameObject lastBridge;
-    GameObject emptyObject;
+
     internal protected int currBridge;
-    bool newBridgeHasSet;
     internal protected Action onBridgeSet;
     internal protected GameObject bridgeParticlePrefab;
 
-    void Start()
+    private Vector3 getBoundsPlatform;
+    private GameObject emptyObject;
+    private bool newBridgeHasSet;
+
+    private void Start()
     {
         SetPrefab();
         SetNewPosBridgeBody();
     }
 
-    void Update()
+    private void Update()
     {
         emptyObject.GetComponent<SBridge>().onBridgeComplited += ResetVariable;
         if (!newBridgeHasSet)
@@ -46,17 +44,16 @@ public class SBridgeSpawner : MonoBehaviour
         bridgeParticlePrefab = Resources.Load<GameObject>($"Prefabs/BridgeParticles/Block_{model[SBoxPanel.SelectedSet]}");
     }
 
-    void ResetVariable()
+    private void ResetVariable()
     {
         newBridgeHasSet = false;
     }
 
-    void SetNewPosBridgeBody()
+    private void SetNewPosBridgeBody()
     {
         int numPlatform = platform.currentIndexPlatform;
         
         if (bridges.Count > 0)
-            //corutine
             numPlatform++;
         else
             currBridge = 0;

@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SRoad : MonoBehaviour
@@ -8,7 +6,7 @@ public class SRoad : MonoBehaviour
     public SPlatform platform;
     public SCamera cam;
     public bool roadComplite { get; private set;  }
-    // Start is called before the first frame update
+
     internal protected Action onRoadComplited;
     internal protected bool eventWasCalled;
 
@@ -19,7 +17,7 @@ public class SRoad : MonoBehaviour
         if (cam.cp == SCamera.CameraPosition.Run)
             roadComplite = false;
     }
-    void CheckCompliteRoad()
+    private void CheckCompliteRoad()
     {
         if (!eventWasCalled)
         {

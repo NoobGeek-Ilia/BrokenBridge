@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SCollideCoin : MonoBehaviour
 {
-    StateMonitor stateMonitor;
-    SCoinSoundController coinSoundController;
+    private StateMonitor stateMonitor;
+    private SCoinSoundController coinSoundController;
+
     private void Start()
     {
         coinSoundController = FindObjectOfType<SCoinSoundController>();

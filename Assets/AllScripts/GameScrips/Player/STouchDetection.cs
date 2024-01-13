@@ -4,13 +4,13 @@ public class STouchDetection : MonoBehaviour
 {
     public event OnTouchInput TouchEvent;
     public delegate void OnTouchInput(ActionTipe action);
-    private Vector2 tapPos;
-    private Vector2 swipeDelta;
 
-    private float deadZone = 5;
     internal protected bool isTouching { get; private set; }
     internal protected TouchPhase touchPhase { get; private set; }
 
+    private Vector2 tapPos;
+    private Vector2 swipeDelta;
+    private float deadZone = 5;
 
     private void Update()
     {
@@ -43,7 +43,6 @@ public class STouchDetection : MonoBehaviour
         {
             if (Input.touchCount > 0)
                 swipeDelta = Input.GetTouch(0).position - tapPos;
-
         }
         if (swipeDelta.magnitude > deadZone)
         {
@@ -59,7 +58,6 @@ public class STouchDetection : MonoBehaviour
         else
         {
             //одинарный и двойной тач
-
         }
     }
 
@@ -68,7 +66,6 @@ public class STouchDetection : MonoBehaviour
         isTouching = false;
         tapPos = Vector2.zero;
         swipeDelta = Vector2.zero;
-
     }
     public enum ActionTipe
     {

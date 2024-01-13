@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SSkyBackground : MonoBehaviour
 {
-    void Start()
+    private void Start()
     {
         SetBackground();
     }

@@ -5,29 +5,26 @@ using UnityEngine;
 
 public class SBridge : MonoBehaviour
 {
-
-    SAudioManager audioManager;
-
     public List<GameObject> copyBridgeParticle = new List<GameObject>();
     public List<GameObject> brokenBridgePart = new List<GameObject>();
     public List<GameObject> brokenBodyBridgePart = new List<GameObject>();
-    internal protected List<bool> CellIsEmpty = new List<bool>();
-
-
     public GameObject bridgeBody;
-    private StateMonitor stateMonitor;
     public SPlatform platform;
     public SBridgeSpawner bridgeSpawner;
     public Transform bridgeBodyTransform;
-    private int newTopBridge;
     public bool bridgeIsFalling;
-    internal protected const int widthBridge = 3;
-    const int heightBridge = 1;
 
+    internal protected List<bool> CellIsEmpty = new List<bool>();
+    internal protected const int widthBridge = 3;
+    internal protected Action onBridgeComplited;
+
+    private StateMonitor stateMonitor;
+    private int newTopBridge;
+    private const int heightBridge = 1;
     private float timerBuildBridge = 0f;
     private float intervalBuilding = 0.05f;
-    internal protected Action onBridgeComplited;
-    SBuildMaterialController buildMaterialController;
+    private SBuildMaterialController buildMaterialController;
+    private SAudioManager audioManager;
 
     private void Start()
     {
@@ -42,10 +39,7 @@ public class SBridge : MonoBehaviour
     private void Update()
     {
         LowerBridge();
-        
     }
-
-
 
     public void BuildBridge()
     {
@@ -56,6 +50,7 @@ public class SBridge : MonoBehaviour
             float bridgeParticleWidth = bridgeParticleSize.x;
             float bridgeParticleHeight = bridgeParticleSize.y;
             float bridgeParticleDepth = bridgeParticleSize.z;
+
             for (int i = newTopBridge; i < newTopBridge + heightBridge; i++)
             {
                 for (int j = 0; j < widthBridge; j++)
@@ -96,7 +91,7 @@ public class SBridge : MonoBehaviour
         }
     }
 
-    void LowerBridge()
+    private void LowerBridge()
     {
         const float speed = 150;
         if (bridgeIsFalling)
@@ -105,7 +100,7 @@ public class SBridge : MonoBehaviour
 
     internal protected float[] GetCellPosZ { get; private set; } = new float[widthBridge];
 
-    void SetCellPosZ()
+    private void SetCellPosZ()
     {
         for (int i = 0; i < widthBridge; i++)
         {
@@ -137,7 +132,6 @@ public class SBridge : MonoBehaviour
             CutBridgeResetList();
         }
         buildMaterialController.LoseMaterial();
-        //
     }
     internal protected void SplitBringe()
     {     
@@ -148,12 +142,12 @@ public class SBridge : MonoBehaviour
         copyBridgeParticle.Clear();
         ResetBridge();
     }
-    void ResetBridge()
+    private void ResetBridge()
     {
         newTopBridge = 0;
         bridgeBody.transform.localRotation = Quaternion.identity;
     }
-    void CutBridgeResetList()
+    private void CutBridgeResetList()
     {
         float nextPformMinPos_x = platform.GetRenderPlatformInfo(platform.currentIndexPlatform + 1).bounds.min.x;
         foreach (GameObject part in copyBridgeParticle)
@@ -183,7 +177,7 @@ public class SBridge : MonoBehaviour
         }
         brokenBridgePart.Clear();
     }
-    void BreakBodyClomplitedBridge(List<GameObject> cbp)
+    private void BreakBodyClomplitedBridge(List<GameObject> cbp)
     {
         for (int i = 0; i < cbp.Count;  i++)
             CellIsEmpty.Add(false);
@@ -224,7 +218,7 @@ public class SBridge : MonoBehaviour
             }
         }
     }
-    void PushBrokenBodyPartsDown()
+    private void PushBrokenBodyPartsDown()
     {
         foreach (GameObject obj in brokenBodyBridgePart)
         {

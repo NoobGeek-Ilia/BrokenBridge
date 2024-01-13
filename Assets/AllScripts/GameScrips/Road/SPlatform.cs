@@ -7,20 +7,21 @@ public class SPlatform : MonoBehaviour
 {
     public StateMonitor monitor;
     public SRoad road;
-    private GameObject platformPrefab;
-    private GameObject bridgeParticle;
+    public int currentIndexPlatform;
     public List<GameObject> copyPlatform = new List<GameObject>();
     public SBridgeSpawner bridgeSpawner;
     public TextMeshProUGUI materialsNumTxt;
 
-    private Renderer render;
-    public int currentIndexPlatform;
-    private readonly Vector3 firstPlatformCenterPos = new Vector3(-4, -20f, 0);
     protected internal int[] platforms = new int[36]; //количество платформ (не индексы)
     protected internal float GetPlatformTop { get; private set; }
     protected internal float GetMaxPlatformZ { get; private set; }
     protected internal int GetPlatformNum { get; private set; }
+
+    private readonly Vector3 firstPlatformCenterPos = new Vector3(-4, -20f, 0);
     private float stepSize;
+    private GameObject platformPrefab;
+    private GameObject bridgeParticle;
+    private Renderer render;
 
     private void Awake()
     {
@@ -32,14 +33,13 @@ public class SPlatform : MonoBehaviour
         GetPlatformTop = GetRenderPlatformInfo(0).bounds.max.y;
         GetMaxPlatformZ = GetRenderPlatformInfo(0).bounds.max.z;
     }
-    void Update()
+    private void Update()
     {
         if (currentIndexPlatform != platforms[SBoxPanel.SelectedLevel] && bridgeSpawner.brideComplite)
         {
             currentIndexPlatform++;
             bridgeSpawner.brideComplite = false;
         }
-        //Debug.Log($"curr platform:{currentIndexPlatform}");
     }
     private void SetPrefab()
     {
@@ -52,9 +52,8 @@ public class SPlatform : MonoBehaviour
         string[] model = { "Wood", "Ice", "Glass", "Leana" };
         bridgeParticle = Resources.Load<GameObject>($"Prefabs/BridgeParticles/Block_{model[SBoxPanel.SelectedSet]}");
     }
-    void FillPlatformArray()
+    private void FillPlatformArray()
     {
-        //int[] pattern = new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 2 };
         int[] pattern = new int[] { 3, 4, 4, 5, 6, 8, 4, 5, 4 };
         int patternLength = pattern.Length;
 

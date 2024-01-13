@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class SBuildMaterialSoundController : MonoBehaviour
 {
-    [SerializeField] AudioSource materialSound;
+    [SerializeField] private AudioSource materialSound;
 
-    internal protected void PlaySound()
-    {
+    internal protected void PlaySound() => 
         materialSound.PlayOneShot(materialSound.clip);
-    }
 }

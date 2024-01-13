@@ -5,8 +5,7 @@ public class SCrab : MonoBehaviour
     private SPlayerMovement playerMovement;
     private Vector3 playerPosition;
     private const int offset = 15;
-    float speed = 1f;
-
+    private float speed = 1f;
 
     private void Start()
     {
@@ -22,6 +21,7 @@ public class SCrab : MonoBehaviour
     {
         Vector3 startPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         Vector3 endPos = new Vector3(transform.position.x, transform.position.y, playerPosition.z);
+
         transform.position = Vector3.Lerp(startPos, endPos, Time.deltaTime * speed);
     }
 }

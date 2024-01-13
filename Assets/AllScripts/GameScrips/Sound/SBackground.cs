@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class SBackground : MonoBehaviour
 {
-    [SerializeField] AudioSource[] backSound;
+    [SerializeField] private AudioSource[] backSound;
+
     private void Awake()
     {
         ResetAudioSource();
@@ -16,5 +17,4 @@ public class SBackground : MonoBehaviour
         }
         backSound[SBoxPanel.SelectedSet].enabled = true;
     }
-
 }

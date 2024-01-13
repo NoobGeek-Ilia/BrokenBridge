@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class SGameState : MonoBehaviour
 {
+    internal protected static bool GameComplite { get; private set; }
 
     [SerializeField] private GameObject[] CompliteItem;
+
     private Action allSetsUnlockedHandler;
     private static int gameState;
-    internal protected static bool GameComplite 
-    { get; private set; }
 
     private void Start()
     {

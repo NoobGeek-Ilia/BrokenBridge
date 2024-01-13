@@ -1,15 +1,14 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SGameOverPanel : MonoBehaviour
 {
-    [SerializeField] SPlayerLifeController playerLifeController;
-    [SerializeField] SBuildMaterialController materialController;
-    [SerializeField] StateMonitor stateMonitor;
-    [SerializeField] GameObject HomeButtonReserve;
+    [SerializeField] private SPlayerLifeController playerLifeController;
+    [SerializeField] private SBuildMaterialController materialController;
+    [SerializeField] private StateMonitor stateMonitor;
+    [SerializeField] private GameObject HomeButtonReserve;
+    [SerializeField] private Animator animator;
 
-    [SerializeField] Animator animator;
     private void Awake()
     {
         playerLifeController.OnPlayerDied += OpenPanel;
@@ -25,14 +24,12 @@ public class SGameOverPanel : MonoBehaviour
         Time.timeScale = 0;
         gameObject.SetActive(true);
         HomeButtonReserve.SetActive(false);
-
     }
     public void RestartLevel()
     {
         Time.timeScale = 1;
         gameObject.SetActive(false);
         stateMonitor.Reload(true);
-        
     }
     public void GoToMainScene()
     {

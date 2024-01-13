@@ -1,10 +1,11 @@
-using System;
 using UnityEngine;
 
 public class SBuildMaterialCollide : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem bonusEffect;
+
     private SBuildMaterialController materialController;
-    [SerializeField] ParticleSystem bonusEffect;
+
     private void Start()
     {
         materialController = FindObjectOfType<SBuildMaterialController>();

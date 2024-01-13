@@ -6,17 +6,19 @@ public class SLastElevator : MonoBehaviour
     public StateMonitor monitor;
     public SRoad road;
     public SPlayerMovement playerMovement;
-    bool isMoving = false;
-    float speed = 4f; // Скорость движения объекта
-    public SPlatform platform;
-    protected internal bool playerTakenToNextLevel;
     public Action onSwichedToNextStage;
+    public SPlatform platform;
+
+    protected internal bool playerTakenToNextLevel;
+
+    private bool isMoving = false;
+    private float speed = 4f;
 
     private void Start()
     {
         ResetElevatorPos();
     }
-    void Update()
+    private void Update()
     {
         if (playerTakenToNextLevel)
             isMoving = false;
@@ -36,7 +38,7 @@ public class SLastElevator : MonoBehaviour
             RisePlatform();
         }
     }
-    void RisePlatform()
+    private void RisePlatform()
     {
         transform.Translate(Vector3.up * speed * Time.deltaTime);
     }
@@ -45,6 +47,7 @@ public class SLastElevator : MonoBehaviour
         float lastPlatformPosX = platform.GetRenderPlatformInfo(platform.copyPlatform.Count - 1).bounds.max.x;
         float lastPlatformPosY = platform.GetRenderPlatformInfo(platform.copyPlatform.Count - 1).bounds.max.y;
         float lastPlatformPosZ = platform.GetRenderPlatformInfo(platform.copyPlatform.Count - 1).bounds.max.z;
+
         transform.position = new Vector3(lastPlatformPosX + (transform.localScale.x / 2),
     lastPlatformPosY, lastPlatformPosZ - (transform.localScale.z / 2));
         isMoving = false;

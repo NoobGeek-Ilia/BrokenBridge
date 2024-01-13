@@ -1,17 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class SGameUi : MonoBehaviour
 {
-    [SerializeField] SRoad road;
-    [SerializeField] TextMeshProUGUI coinsNumTxt;
-    [SerializeField] TextMeshProUGUI materialsNumTxt;
-    [SerializeField] StateMonitor monitor;
-    [SerializeField] GameObject StageCompliteWindow;
-    [SerializeField] SBuildMaterialController buildMaterialController;
-    [SerializeField] SWinPanel winPanel;
+    [SerializeField] private SRoad road;
+    [SerializeField] private TextMeshProUGUI coinsNumTxt;
+    [SerializeField] private TextMeshProUGUI materialsNumTxt;
+    [SerializeField] private StateMonitor monitor;
+    [SerializeField] private GameObject StageCompliteWindow;
+    [SerializeField] private SBuildMaterialController buildMaterialController;
+    [SerializeField] private SWinPanel winPanel;
+
     private void OnEnable()
     {
         road.onRoadComplited += () => StartCoroutine(RunTimer());
@@ -23,25 +23,22 @@ public class SGameUi : MonoBehaviour
         monitor.OnLevelComplited -= ShowLevelStatistic;
     }
 
-    void Update()
+    private void Update()
     {
         ShowCoinAndMaterialCounter();
     }
-    void ShowCoinAndMaterialCounter()
+    private void ShowCoinAndMaterialCounter()
     {
         coinsNumTxt.text = monitor.coinsNum.ToString();
         materialsNumTxt.text = buildMaterialController.MaterialsNum.ToString();
     }
 
-    void ShowLevelStatistic()
-    {
-        winPanel.OpenPanel();
-    }
+    private void ShowLevelStatistic() => winPanel.OpenPanel();
 
     internal protected int GetRunTimer { get; set; } = 2;
 
     public TextMeshProUGUI RunTimerTxt;
-    IEnumerator RunTimer()
+    private IEnumerator RunTimer()
     {
         int timeMax = 3;
         RunTimerTxt.gameObject.SetActive(true);
@@ -54,6 +51,5 @@ public class SGameUi : MonoBehaviour
         GetRunTimer = 0;
         RunTimerTxt.gameObject.SetActive(false);
         RunTimerTxt.text = timeMax.ToString();
-
     }
 }

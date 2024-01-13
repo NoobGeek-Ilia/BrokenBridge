@@ -4,10 +4,10 @@ public class SMonkey : MonoBehaviour
 {
     private Animator animator;
     private Rigidbody rb;
-    int timer;
-    const int maxTime = 500;
-    const int minTime = 100;
-    const int jumpForce = 10;
+    private int timer;
+    private const int maxTime = 500;
+    private const int minTime = 100;
+    private const int jumpForce = 10;
 
     private void Start()
     {

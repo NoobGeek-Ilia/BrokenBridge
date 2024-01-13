@@ -5,20 +5,15 @@ using UnityEngine;
 
 public class SBuildMaterialController : MonoBehaviour
 {
-    [SerializeField] StateMonitor stateMonitor;
-    [SerializeField] SGameOverPanel gameOverPanel;
-    [SerializeField] SPlatform platform;
-    [SerializeField] TextMeshProUGUI MaterialCounter;
-    [SerializeField] SBuildMaterialSoundController materialSoundController;
+    [SerializeField] private StateMonitor stateMonitor;
+    [SerializeField] private SGameOverPanel gameOverPanel;
+    [SerializeField] private SPlatform platform;
+    [SerializeField] private TextMeshProUGUI MaterialCounter;
+    [SerializeField] private SBuildMaterialSoundController materialSoundController;
 
     internal protected Action OnMaterialRunOut;
-    const int _materialBonusNum = 3;
-    int extraMaterial = 5;
-    private int currMaterialsNum;
-    private bool materialRunOut;
-
-    internal protected int MaterialsNum 
-    { 
+    internal protected int MaterialsNum
+    {
         get => currMaterialsNum;
         set
         {
@@ -27,11 +22,16 @@ public class SBuildMaterialController : MonoBehaviour
             currMaterialsNum = value;
         }
     }
+
+    private const int _materialBonusNum = 3;
+    private int extraMaterial = 5;
+    private int currMaterialsNum;
+    private bool materialRunOut;
+
     private void Start()
     {
         extraMaterial -= SBoxPanel.SelectedSet + 1;
         MaterialsNum = (platform.GetPlatformNum * stateMonitor.GetStageNum) + extraMaterial;
-
     }
 
     private void Update()
@@ -59,7 +59,7 @@ public class SBuildMaterialController : MonoBehaviour
         StartCoroutine(LoseEffect());
         MaterialsNum--;
     }
-    IEnumerator LoseEffect()
+    private IEnumerator LoseEffect()
     {
         MaterialCounter.color = Color.red;
         yield return new WaitForSeconds(0.5f);

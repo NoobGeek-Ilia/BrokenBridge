@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class SCheckWindow : MonoBehaviour
 {
-    private WindowName _winName;
-
     public WindowName winName
     {
         get { return _winName; }
@@ -17,14 +15,16 @@ public class SCheckWindow : MonoBehaviour
         }
     }
 
-    [SerializeField] GameObject[] mainElements;
-    [SerializeField] GameObject[] Panels;
+    private WindowName _winName;
+
+    [SerializeField] private GameObject[] mainElements;
+    [SerializeField] private GameObject[] Panels;
 
     private void Start()
     {
         CheckOpenedWindow(_winName);
     }
-    void CheckOpenedWindow(WindowName winName)
+    private void CheckOpenedWindow(WindowName winName)
     {
         CloseAllWindows();
         switch (winName)
@@ -32,7 +32,6 @@ public class SCheckWindow : MonoBehaviour
             case WindowName.None:
                 foreach (GameObject item in mainElements)
                 {
-                    // информация о том что уровень пройден поступает после перезагрузки поэтому кнопка скрывается пока не перезагрузишь
                     if (!SGameState.GameComplite && item == mainElements[4])
                       continue;
                     item.SetActive(true);

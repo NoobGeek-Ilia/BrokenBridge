@@ -23,7 +23,7 @@ public class SStarController
             }
         }
     }
-    void SaveStarsData()
+    private void SaveStarsData()
     {
         for (int i = 0; i < maxStarsInOnLvl; i++)
         {
@@ -56,7 +56,7 @@ public class SStarController
         return sum;
     }
 
-    int GetStarsSumInSelectedLvl()
+    private int GetStarsSumInSelectedLvl()
     {
         int sum = 0;
         for (int i = 0; i < maxStarsInOnLvl; i++)

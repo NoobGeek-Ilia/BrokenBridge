@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class SBuildMaterial : MonoBehaviour
 {
-    [SerializeField] InitRoadFilling roadFilling;
-    [SerializeField] GameObject materialPrefab;
-    [SerializeField] Transform materialContainer;
-    List<GameObject> allMaterials = new List<GameObject>();
+    [SerializeField] private InitRoadFilling roadFilling;
+    [SerializeField] private GameObject materialPrefab;
+    [SerializeField] private Transform materialContainer;
+
+    private List<GameObject> allMaterials = new List<GameObject>();
 
     private void FixedUpdate()
     {
@@ -27,6 +28,7 @@ public class SBuildMaterial : MonoBehaviour
                 int randCell = Random.Range(0, probCellFill);
                 bool cellIsEmpty = bridge.CellIsEmpty[currCell];
                 bool cellIsNone = randCell < 1;
+
                 if (cellIsEmpty || !cellIsNone) //continue if cell is empty or none
                     continue;
                 else
@@ -34,16 +36,17 @@ public class SBuildMaterial : MonoBehaviour
             }
         }
     }
-    void SetPosAndInst(int currCell, SBridge bridge)
+    private void SetPosAndInst(int currCell, SBridge bridge)
     {
         float distanceToBridge = 2;
         float spawnX = bridge.copyBridgeParticle[currCell].transform.position.x;
         float spawnY = bridge.copyBridgeParticle[currCell].transform.position.y + distanceToBridge;
         float spawnZ = bridge.copyBridgeParticle[currCell].transform.position.z;
         Vector3 spawnPosition = new Vector3(spawnX, spawnY, spawnZ);
+
         allMaterials.Add(Instantiate(materialPrefab, spawnPosition, materialPrefab.transform.rotation, materialContainer));
     }
-    void RotateMaterial()
+    private void RotateMaterial()
     {
         int rotateSpeed = 2;
         foreach (GameObject go in allMaterials)
@@ -53,13 +56,11 @@ public class SBuildMaterial : MonoBehaviour
     }
     internal protected void ResetMaterialWay()
     {
-
         foreach (GameObject go in allMaterials)
         {
             if (go != null)
                 Destroy(go);
         }
-
         allMaterials.Clear();
     }
 }

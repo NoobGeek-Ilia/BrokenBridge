@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class SHeart : MonoBehaviour
 {
-    [SerializeField] GameObject heartPrefab;
-    [SerializeField] Transform heartContainer;
-    List<GameObject> allHearts = new List<GameObject>();
+    private List<GameObject> allHearts = new List<GameObject>();
+
+    [SerializeField] private GameObject heartPrefab;
+    [SerializeField] private Transform heartContainer;
 
     private void FixedUpdate()
     {
@@ -25,6 +26,7 @@ public class SHeart : MonoBehaviour
                 int randCell = Random.Range(0, probCellFill);
                 bool cellIsEmpty = bridge.CellIsEmpty[currCell];
                 bool cellIsNone = randCell < 1;
+
                 if (cellIsEmpty || !cellIsNone) //continue if cell is empty or none
                     continue;
                 else
@@ -32,16 +34,17 @@ public class SHeart : MonoBehaviour
             }
         }
     }
-    void SetPosAndInst(int currCell, SBridge bridge)
+    private void SetPosAndInst(int currCell, SBridge bridge)
     {
         float distanceToBridge = 2;
         float spawnX = bridge.copyBridgeParticle[currCell].transform.position.x;
         float spawnY = bridge.copyBridgeParticle[currCell].transform.position.y + distanceToBridge;
         float spawnZ = bridge.copyBridgeParticle[currCell].transform.position.z;
         Vector3 spawnPosition = new Vector3(spawnX, spawnY, spawnZ);
+
         allHearts.Add(Instantiate(heartPrefab, spawnPosition, heartPrefab.transform.rotation, heartContainer));
     }
-    void RotateHearts()
+    private void RotateHearts()
     {
         int rotateSpeed = 2;
         foreach (GameObject go in allHearts)
@@ -51,13 +54,11 @@ public class SHeart : MonoBehaviour
     }
     internal protected void ResetHeartsWay()
     {
-
         foreach (GameObject go in allHearts)
         {
             if (go != null)
                 Destroy(go);
         }
-
         allHearts.Clear();
     }
 }

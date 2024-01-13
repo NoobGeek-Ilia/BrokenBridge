@@ -1,11 +1,10 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class STutorialPages : MonoBehaviour
 {
-    Animator animator;
-    [SerializeField] GameObject[] buttons;
+    private Animator animator;
+
+    [SerializeField] private GameObject[] buttons;
 
     private void OnEnable()
     {

@@ -3,12 +3,11 @@ using UnityEngine.UI;
 
 public class SHomePanel : MonoBehaviour
 {
-    [SerializeField] Button yesBut;
-    [SerializeField] Button noBut;
-    [SerializeField] Button messageBut;
-
-    [SerializeField] GameObject messagePanel;
-    [SerializeField] SWinPanel winPanel;
+    [SerializeField] private Button yesBut;
+    [SerializeField] private Button noBut;
+    [SerializeField] private Button messageBut;
+    [SerializeField] private GameObject messagePanel;
+    [SerializeField] private SWinPanel winPanel;
 
     public void OpenMessageWindow()
     {

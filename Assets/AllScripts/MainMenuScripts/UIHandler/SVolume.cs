@@ -4,7 +4,9 @@ using UnityEngine.UI;
 public class SVolume : MonoBehaviour
 {
     private bool volume = true;
-    [SerializeField] Sprite[] pic;
+
+    [SerializeField] private Sprite[] pic;
+
     public void VolumeOnOff()
     {
         AudioListener.volume = volume ? 0f : 1.0f;

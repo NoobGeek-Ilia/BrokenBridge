@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +6,9 @@ public class SStageMonitor : MonoBehaviour
 {
     public TextMeshPro currStagesTxt;
     public GameObject[] StageCircles;
-    [SerializeField] StateMonitor stateMonitor;
+
+    [SerializeField] private StateMonitor stateMonitor;
+
     private void Start()
     {
         SetStageCircles();
@@ -27,7 +28,6 @@ public class SStageMonitor : MonoBehaviour
     }
     private void SetStageCircles()
     {
-        //stage cirles
         for (int i = 0; i < StateMonitor.stages[SBoxPanel.SelectedLevel]; i++)
         {
             StageCircles[i].SetActive(true);
