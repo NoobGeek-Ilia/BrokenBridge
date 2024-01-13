@@ -1,6 +1,8 @@
 # BrokenBridge
 >Mobile game
 
+>You can play in the browser [here](https://noobgeek.itch.io/broken-bridge)
+
 The game is a continuation of the game for Arduboy [Blade runner](https://github.com/NoobGeek-Ilya/BladeRunner)
 
 -------
@@ -42,6 +44,12 @@ Programs used:
 ## Platforms
 - Mobile
 >In version 2.0, the game is expected to be adapted for Android-based set-top boxes
+
+## Installation
+1. Download the Game folder
+2. Unzip the Broken Bridge_0.1.zip archive
+3. Download the APK file to your Android phone
+4. Install the game
 
 ## Updates
 No updates yet
